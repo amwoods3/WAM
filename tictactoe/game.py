@@ -115,6 +115,7 @@ class TicTacToeController:
                 exec("import %s; r, c = %s.get_move('%s')" % (ai, ai, ttt.get_state_str()))
             player = self.players[self.player]
             if ttt.insert(player, r, c):
+                self.history.append((player, r, c))
                 if ttt.check_win(player):
                     self.winner = player
                     return True
@@ -122,7 +123,6 @@ class TicTacToeController:
                     self.winner = '!'
                     return True
                 self.change_turn()
-                self.history.append((player, r, c))
                 self.winner = ' '
                 return True
     

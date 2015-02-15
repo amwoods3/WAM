@@ -6,8 +6,6 @@ from polls.models import Question
 # Create your views here.
 
 def index(request):
-    # temporary for tic-tac-toe thing
-    return HttpResponse("stuff")
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
     context = {'latest_question_list': latest_question_list}
     return render(request, 'polls/index.html', context)
