@@ -29,6 +29,12 @@ class TicTacToe:
                     s += '|'
             s += '\n'
         return s
+    def get_state_str(self):
+        s = ''
+        for row in self.state:
+            for col in row:
+                s += col + ','
+        return s[:-1]
     def insert(self, piece, r, c):
         if r >= self.n or c >= self.n:
             return False
@@ -68,29 +74,61 @@ class TicTacToe:
                self.match(self.build_up_diag(), piece):
             return True
         return False
+    def full(self):
+        for row in self.state:
+            for col in row:
+                if col == ' ':
+                    return False
+        return True
 
 class TicTacToeController:
     def __init__(self, player1='x', player2='o'):
         self.player = 0
         self.players = [player1, player2]
+        self.history = []
+        self.winner = ' '
+    def __str__(self):
+        s = ''
+        for i in self.history:
+            s += str(i) + '\n'
+        return s
     def change_turn(self):
         self.player = 1 - self.player
     def get_input(self):
         r = input()
         c = input()
         return (r, c)
-    def manage_turn(self, ttt):
+    def get_winner(self):
+        return self.winner
+    def manage_turn(self, ttt, ai=''):
         if type(ttt) != type(TicTacToe()):
             #throw some error
             return False
         while 1:
-            r, c = self.get_input()
-            if ttt.insert(self.players[self.player], r, c):
-               self.change_turn()
-               return
+            if ai == '':
+                r, c = self.get_input()
+            else:
+                exec("import %s; r, c = %s.get_move('%s')" % (ai, ai, ttt.get_state_str()))
+            player = self.players[self.player]
+            if ttt.insert(player, r, c):
+                if ttt.check_win(player):
+                    self.winner = player
+                    return True
+                elif ttt.full():
+                    self.winner '!'
+                    return True
+                self.change_turn()
+                self.history.append((player, r, c))
+                self.winner = ' '
+                return True
+    
 
 ttc = TicTacToeController()
 ttt = TicTacToe()
+while 1:
+    ttc.manage_turn(ttt, 'randai')
+    if ttc.get_winner() != ' ':
+        break
 print ttt
-ttc.manage_turn(ttt)
-print ttt
+print ttc.get_winner()
+print ttc
