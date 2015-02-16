@@ -88,9 +88,9 @@ class TicTacToeController:
         self.history = []
         self.winner = ' '
     def __str__(self):
-        s = ''
+        s = 'Move sequence:\n'
         for i in self.history:
-            s += str(i) + '\n'
+            s += str(i[0]) + ': ' + str(i[1:]) + '\n'
         return s
     def change_turn(self):
         self.player = 1 - self.player
@@ -100,6 +100,10 @@ class TicTacToeController:
         return (r, c)
     def get_winner(self):
         return self.winner
+    def win_statement(self):
+        if self.winner == ' ' or self.winner == '':
+            return "It's a draw!!"
+        return 'The winner is %s!' % self.winner
     def manage_turn(self, ttt, ai=''):
         if type(ttt) != type(TicTacToe()):
             #throw some error
@@ -130,5 +134,5 @@ while 1:
     if ttc.get_winner() != ' ':
         break
 print ttt
-print ttc.get_winner()
+print ttc.win_statement()
 print ttc
