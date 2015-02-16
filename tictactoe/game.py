@@ -133,6 +133,6 @@ while 1:
     ttc.manage_turn(ttt, 'randai')
     if ttc.get_winner() != ' ':
         break
-print ttt
-print ttc.win_statement()
-print ttc
+s = str(ttt) + '\n'
+s += ttc.win_statement()
+s += str(ttc)
