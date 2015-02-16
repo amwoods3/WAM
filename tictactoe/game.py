@@ -115,7 +115,7 @@ class TicTacToeController:
                     self.winner = player
                     return True
                 elif ttt.full():
-                    self.winner '!'
+                    self.winner = '!'
                     return True
                 self.change_turn()
                 self.history.append((player, r, c))
