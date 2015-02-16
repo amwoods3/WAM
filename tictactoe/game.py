@@ -101,7 +101,7 @@ class TicTacToeController:
     def get_winner(self):
         return self.winner
     def win_statement(self):
-        if self.winner == ' ' or self.winner == '':
+        if self.winner == '!':
             return "It's a draw!!"
         return 'The winner is %s!' % self.winner
     def manage_turn(self, ttt, ai=''):
@@ -127,12 +127,14 @@ class TicTacToeController:
                 return True
     
 
-ttc = TicTacToeController()
-ttt = TicTacToe()
-while 1:
-    ttc.manage_turn(ttt, 'randai')
-    if ttc.get_winner() != ' ':
-        break
-s = str(ttt) + '\n'
-s += ttc.win_statement()
-s += str(ttc)
+def play_game():
+    ttc = TicTacToeController()
+    ttt = TicTacToe()
+    while 1:
+        ttc.manage_turn(ttt, 'randai')
+        if ttc.get_winner() != ' ':
+            break
+    s = str(ttt) + '\n'
+    s += ttc.win_statement() + '\n'
+    s += str(ttc)
+    return s
