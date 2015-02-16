@@ -7,3 +7,4 @@ def change(s):
             k += '&nbsp;'
         else:
             k += i
+    return k
