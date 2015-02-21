@@ -31,4 +31,10 @@ def upload_file(request):
     return render_to_response('game/upload.html', c)
 
 def successful_upload(request):
-    return HttpResponse("stuff worked I guess")
+    import sys
+    sys.path.insert(0, 'ais')
+    sys.path.insert(0, '../tictactoe/')
+    import tictactoe
+    from html_change import *
+    s = tictactoe.play_game(ai=['ai1', 'randai'])
+    return HttpResponse(change(s))

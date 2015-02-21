@@ -1,3 +1,45 @@
+
+class GameController:
+    def __init__(self, player1='x', player2='o', name1='', name2=''):
+        self.player = 0
+        self.winner = ' '
+        self.players = [player1, player2]
+        self.history = []
+        self.player_names = [name1, name2]
+    def change_turn(self):
+        self.player = 1 - self.player
+    def get_input(self):
+        r = input()
+        c = input()
+        return (r, c)
+    def win_statement(self):
+        if self.winner == '!':
+            return "It's a draw!!"
+        return "The winner is %s!!" % self.winner
+    def manage_turn(self, game, ai=['','']):
+        while 1:
+            if ai[player] == '':
+                r, c = self.get_input()
+            else:
+                exec("import %s; r, c = %s.get_move('%s')" % (ai, ai, game.get_state_str()))
+            player = self.players[self.player]
+            if game.insert(player, r, c):
+                self.history.append((player, r, c))
+                if game.check_win(player):
+                    self.winner = player
+                    return True
+                elif game.full():
+                    self.winner = '!'
+                    return True
+                self.change_turn()
+                self.winner = ' '
+                return True
+        
+
+class GameRules:
+    def __init__(self):
+        pass
+    
 class TicTacToe:
     def __init__(self, n=3, s=''):
         self.state = []
@@ -104,15 +146,15 @@ class TicTacToeController:
         if self.winner == '!':
             return "It's a draw!!"
         return 'The winner is %s!' % self.winner
-    def manage_turn(self, ttt, ai=''):
+    def manage_turn(self, ttt, ai=['','']):
         if type(ttt) != type(TicTacToe()):
             #throw some error
             return False
         while 1:
-            if ai == '':
+            if ai[self.player] == '':
                 r, c = self.get_input()
             else:
-                exec("import %s; r, c = %s.get_move('%s')" % (ai, ai, ttt.get_state_str()))
+                exec("import %s; r, c = %s.get_move('%s')" % (ai[self.player], ai[self.player], ttt.get_state_str()))
             player = self.players[self.player]
             if ttt.insert(player, r, c):
                 self.history.append((player, r, c))
@@ -127,11 +169,11 @@ class TicTacToeController:
                 return True
     
 
-def play_game():
+def play_game(ai = ['','']):
     ttc = TicTacToeController()
     ttt = TicTacToe()
     while 1:
-        ttc.manage_turn(ttt, 'randai')
+        ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
     s = str(ttt) + '\n'
