@@ -2,10 +2,10 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
 
-from forms import UploadFileForm
+from forms import *#UploadFileForm
 
-def handle_uploaded_file(f):
-    with open(f.name, 'wb+') as destination:
+def handle_uploaded_file(f, n):
+    with open('ais/' + n + '.py', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 
@@ -17,9 +17,12 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            post = request.POST
             files = request.FILES
-            for f in files:
-                handle_uploaded_file(files[f])
+            handle_uploaded_file(files['player1_ai_code'],
+                                 post['player1_ai_title'])
+            handle_uploaded_file(files['player2_ai_code'],
+                                 post['player2_ai_title'])
             return HttpResponseRedirect('/game/successful_upload')
     else:
         form = UploadFileForm()
