@@ -1,5 +1,5 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<form action="/game/registration/" method="post">
+<form action="/game/login/" method="post">
 {% csrf_token %}
 <table border='0'>
 <div class="fieldWrapper"><tr><td>
@@ -8,20 +8,10 @@
         {{ form.user_name }}</td></tr>
     </div>
     <div class="fieldWrapper"><tr><td>
-        {{ form.email.errors }}</td><td></td><tr><td>
-        <label for="id_email">Email:</label></td><td>
-        {{ form.email }}</td></tr>
-    </div>
-    <div class="fieldWrapper"><tr><td>
         {{ form.password.errors }}</td><td></td><tr><td>
         <label for="id_password">Password:</label></td><td>
         {{ form.password }}</td></tr>
     </div>
-    <div class="fieldWrapper"><tr><td>
-        {{ form.re_password.errors }}</td><td></td><tr><td>
-        <label for="id_re_password">Re-password:</label></td><td>
-        {{ form.re_password }}</td></tr>
-    </div>
 </table>
-<input type="submit" value="Register" />
+<input type="submit" value="Login" />
 </form>
