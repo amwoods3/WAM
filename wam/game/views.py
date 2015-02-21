@@ -17,10 +17,15 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/')
+            files = request.FILES
+            for f in files:
+                handle_uploaded_file(files[f])
+            return HttpResponseRedirect('/game/successful_upload')
     else:
         form = UploadFileForm()
     c = {'form': form}
     c.update(csrf(request))
     return render_to_response('game/upload.html', c)
+
+def successful_upload(request):
+    return HttpResponse("stuff worked I guess")
