@@ -1,0 +1,7 @@
+<form enctype="multipart/form-data" method="post" action="/game/upload/">
+   {% csrf_token %}   
+   <table>
+       {{form.as_table}}
+    </table>
+    <input type="submit" value="Upload" id="Save"/>
+</form>

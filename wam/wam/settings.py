@@ -1,5 +1,5 @@
 """
-Django settings for WAM project.
+Django settings for wam project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8vm!4!kb9m47dkkw(z)7ogm07(^^kq7it7y+r%es$-k&=*+!^4'
+SECRET_KEY = 'xz6e)1=!%wma16h9$lt&gl8(96^(@1t2n)&lesteje_%x$+jn^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls'
+    'game',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -49,9 +49,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'src.urls'
+ROOT_URLCONF = 'wam.urls'
 
-WSGI_APPLICATION = 'src.wsgi.application'
+WSGI_APPLICATION = 'wam.wsgi.application'
 
 
 # Database
@@ -82,3 +82,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
