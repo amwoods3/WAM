@@ -1,6 +1,6 @@
 <h1> Which user do you want to challenge? </h1>
 <ul>
 {% for user in can_challenge %} 
-<li><a href = '/game/view_user/{user}'>{{ user }}</a></li>
+<li><a href = '/game/view_user/'+{{user}}>{{ user[0] }}</a></li>
 {% endfor %}
 </ul>
