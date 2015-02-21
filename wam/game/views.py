@@ -57,6 +57,18 @@ def register(request):
                      'error_message': "This user name already exists."}
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
+            # check size of user name
+            if len(post['user_name']) < 5:
+                c = {'form': form,
+                     'error_message': "Your username must be longer than 5 characters."}
+                c.update(csrf(request))
+                return render_to_response('game/register.html', c)
+            # check size of password
+            if len(post['password']) < 5:
+                c = {'form': form,
+                     'error_message': "Your password must be longer than 5 characters."}
+                c.update(csrf(request))
+                return render_to_response('game/register.html', c)
             # check if passwords match -- for the form
             if post['password'] != post['re_password']:
                 c = {'form': form,
