@@ -1,5 +1,12 @@
 import veiws
 
+def challenge_users_ai(request):
+    users = UserLogin.objects.all().values_list('user_name')
+    can_challenge = {'can_challenge': users}
+    return render(request, 'game/challenge_users_ai.html', can_challenge)
+
+def view_user(request):
+    pass
 def play(request):
     import sys
     sys.path.insert(0, 'ais')
