@@ -4,6 +4,7 @@ from game.models import UserLogin
 
 def challenge_users_ai(request):
     users = UserLogin.objects.all().values_list('user_name')
+    users = [x[0] for x in users]
     can_challenge = {'can_challenge': users}
     return render(request, 'game/challenge_users_ai.html', can_challenge)
 

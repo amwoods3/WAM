@@ -9,5 +9,5 @@ commit:
 	git commit
 push: fresh pull add commit
 	git push
-bilbo:
-	scp -r ./server/ ./src/ amwoods3@bilbo.ccis.edu:~/ciss465/
+run:
+	python wam/manage.py runserver
