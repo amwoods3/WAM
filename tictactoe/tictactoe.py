@@ -1,45 +1,3 @@
-
-class GameController:
-    def __init__(self, player1='x', player2='o', name1='', name2=''):
-        self.player = 0
-        self.winner = ' '
-        self.players = [player1, player2]
-        self.history = []
-        self.player_names = [name1, name2]
-    def change_turn(self):
-        self.player = 1 - self.player
-    def get_input(self):
-        r = input()
-        c = input()
-        return (r, c)
-    def win_statement(self):
-        if self.winner == '!':
-            return "It's a draw!!"
-        return "The winner is %s!!" % self.winner
-    def manage_turn(self, game, ai=['','']):
-        while 1:
-            if ai[player] == '':
-                r, c = self.get_input()
-            else:
-                exec("import %s; r, c = %s.get_move('%s')" % (ai, ai, game.get_state_str()))
-            player = self.players[self.player]
-            if game.insert(player, r, c):
-                self.history.append((player, r, c))
-                if game.check_win(player):
-                    self.winner = player
-                    return True
-                elif game.full():
-                    self.winner = '!'
-                    return True
-                self.change_turn()
-                self.winner = ' '
-                return True
-        
-
-class GameRules:
-    def __init__(self):
-        pass
-    
 class TicTacToe:
     def __init__(self, n=3, s=''):
         self.state = []
@@ -71,7 +29,8 @@ class TicTacToe:
                     s += '|'
             s += '\n'
         return s
-    def get_state_str(self):
+    def get_s
+    tate_str(self):
         s = ''
         for row in self.state:
             for col in row:
@@ -84,7 +43,7 @@ class TicTacToe:
             return False
         self.state[r][c] = piece
         return True
-    def match(self,line, piece):
+    def match(self, line, piece):
         c = piece
         win = [c == cp for cp in line]
         if False in win:
