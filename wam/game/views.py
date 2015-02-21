@@ -31,6 +31,9 @@ def upload_file(request):
     return render_to_response('game/upload.html', c)
 
 def successful_upload(request):
+    return HttpResponse("The two ai's were successfully upload")
+
+def play(request):
     import sys
     sys.path.insert(0, 'ais')
     sys.path.insert(0, '../tictactoe/')
