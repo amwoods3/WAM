@@ -35,7 +35,6 @@ def successful_upload(request):
     return HttpResponse("The two ai's were successfully upload.")
 
 def play(request):
-    import glob
     import sys
     sys.path.insert(0, 'ais')
     sys.path.insert(0, '../tictactoe/')
