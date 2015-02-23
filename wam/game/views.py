@@ -1,8 +1,9 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
+from django.http import Http404
 
-from forms import *#UploadFileForm
+from forms import UploadFileForm, RegisterUser
 
 def handle_uploaded_file(f, n):
     with open('ais/' + n + '.py', 'wb+') as destination:
@@ -31,7 +32,7 @@ def upload_file(request):
     return render_to_response('game/upload.html', c)
 
 def successful_upload(request):
-    return HttpResponse("The two ai's were successfully upload")
+    return HttpResponse("The two ai's were successfully upload.")
 
 def play(request):
     import sys
@@ -41,3 +42,36 @@ def play(request):
     from html_change import *
     s = tictactoe.play_game(ai=['ai1', 'randai'])
     return HttpResponse(change(s))
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterUser(request.POST)
+        if form.is_valid():
+            from game.models import UserLogin
+            post = request.POST
+            # check if the user exists in the database
+            check_user_exists = UserLogin.objects.filter(user_name=post['user_name'])
+            if check_user_exists:
+                c = {'form': form,
+                     'error_message': "This user name already exists."}
+                c.update(csrf(request))
+                return render_to_response('game/register.html', c)
+            # check if passwords match -- for the form
+            if post['password'] != post['re_password']:
+                c = {'form': form,
+                     'error_message': "Your passwords do not match"}
+                c.update(csrf(request))
+                return render_to_response('game/register.html', c)
+            # registeration successful
+            user = UserLogin(user_name=post['user_name'], password=post['password'])
+            user.save()
+            return HttpResponseRedirect('/game/successful_registeration')
+    else:
+        form = RegisterUser()
+    c = {'form': form}
+    c.update(csrf(request))
+    return render_to_response('game/register.html', c)
+
+def successful_registeration(request):
+    return HttpResponse("Your registration was successful.")
+    

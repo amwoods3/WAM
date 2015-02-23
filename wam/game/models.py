@@ -11,3 +11,8 @@ class Game(models.Model):
     is_player1_turn = models.BooleanField(default=True)
     player1_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
     player2_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
+
+class UserLogin(models.Model):
+    user_name = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)

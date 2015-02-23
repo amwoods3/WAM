@@ -1,7 +1,8 @@
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form enctype="multipart/form-data" method="post" action="/game/upload/">
    {% csrf_token %}   
    <table>
-       {{form.as_table}}
+       {{ form.as_table }}
     </table>
-    <input type="submit" value="Upload" id="Save"/>
+    <input type="submit" value="Upload"/>
 </form>

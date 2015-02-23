@@ -6,5 +6,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^upload/$', views.upload_file, name='upload'),
     url(r'^successful_upload/$', views.successful_upload, name='successful_upload'),
-    url(r'^play/$', views.play, name='play')
+    url(r'^play/$', views.play, name='play'),
+    url(r'^registration/$', views.register, name='register'),
+    url(r'^successful_registeration/$', views.successful_registeration, name='successful_registeration')
 )
