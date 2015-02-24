@@ -16,3 +16,7 @@ class UserLogin(models.Model):
     user_name = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
+
+class UserAiTable(models.Model):
+    user_id = models.ForeignKey(UserLogin)
+    user_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
