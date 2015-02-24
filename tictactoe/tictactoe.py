@@ -29,8 +29,7 @@ class TicTacToe:
                     s += '|'
             s += '\n'
         return s
-    def get_s
-    tate_str(self):
+    def get_state_str(self):
         s = ''
         for row in self.state:
             for col in row:
