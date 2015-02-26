@@ -25,7 +25,7 @@ def upload_file(request):
                                  post['player1_ai_title'])
             handle_uploaded_file(files['player2_ai_code'],
                                  post['player2_ai_title'])
-            return HttpResponseRedirect('/game/successful_upload')
+            return HttpResponseRedirect('/game/challenge_user')
     else:
         form = UploadFileForm()
     c = {'form': form}
