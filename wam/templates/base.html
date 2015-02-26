@@ -2,12 +2,12 @@
 <table border=0 cellpadding=7>
 <tr>
     <td><a href="/game">Home</a></td>
-    <td><a href="/game/upload">Upload</a></td>
-    <td><a href="/game/challenge_user">Challenge User</a></td>
-    <td><a href="/game/registration">Register</a></td>
 {% if user.is_authenticated %}
+      <td><a href="/game/upload">Upload</a></td>
+      <td><a href="/game/challenge_user">Challenge User</a></td>
       <td><a href="/game/logout">Logout</a></td>
 {% else %}
+      <td><a href="/game/registration">Register</a></td>
       <td><a href="/game/login">Login</a></td>
 {% endif %}
 </tr>
