@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 
 from game import views
+from game import play
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -10,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^registration/$', views.register, name='register'),
     url(r'^successful_registeration/$', views.successful_registeration, name='successful_registeration'),
     url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', views.logout, name='logout')
+    url(r'^logout/$', views.logout, name='logout'),
+    url(r'^view_user/$', play.challenge_users_ai, name ='view_user'),
 )

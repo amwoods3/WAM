@@ -1,4 +1,6 @@
-import veiws
+from django.shortcuts import render
+from django.http import HttpResponse
+from game.models import UserLogin
 
 def challenge_users_ai(request):
     users = UserLogin.objects.all().values_list('user_name')
