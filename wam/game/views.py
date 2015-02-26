@@ -13,7 +13,8 @@ def handle_uploaded_file(f, n):
 
 # Create your views here.
 def index(request):
-    return render(request, 'game/index.html')
+    c = {'user': request.user}
+    return render_to_response('game/index.html', c)
 
 def upload_file(request):
     if request.method == 'POST':
