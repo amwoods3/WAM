@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="/game/login/" method="post">
 {% csrf_token %}
@@ -15,3 +17,4 @@
 </table>
 <input type="submit" value="Login" />
 </form>
+{% endblock %}
