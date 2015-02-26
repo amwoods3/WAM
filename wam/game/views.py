@@ -13,7 +13,7 @@ def handle_uploaded_file(f, n):
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello, world. You're at the game index.")
+    return render(request, 'game/index.html')
 
 def upload_file(request):
     if request.method == 'POST':
@@ -31,9 +31,6 @@ def upload_file(request):
     c = {'form': form}
     c.update(csrf(request))
     return render_to_response('game/upload.html', c)
-
-def successful_upload(request):
-    return HttpResponse("The two ai's were successfully upload.")
 
 def play(request):
     import glob
@@ -78,15 +75,12 @@ def register(request):
             # registeration successful
             user = UserLogin(user_name=post['user_name'], password=post['password'])
             user.save()
-            return HttpResponseRedirect('/game/successful_registeration')
+            return HttpResponseRedirect('/game/login')
     else:
         form = UserRegisterForm()
     c = {'form': form}
     c.update(csrf(request))
     return render_to_response('game/register.html', c)
-
-def successful_registeration(request):
-    return HttpResponse("Your registration was successful")
     
 def login(request):
     if request.method == 'POST':
