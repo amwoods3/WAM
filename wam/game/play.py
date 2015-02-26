@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from game.models import UserLogin
 
+from game.views import logged_in
+
 def challenge_users_ai(request):
+    c = {'user_logged_in': logged_in(request)}
     users = UserLogin.objects.all().values_list('user_name')
     users = [x[0] for x in users]
-    can_challenge = {'can_challenge': users}
-    return render(request, 'game/challenge_users_ai.html', can_challenge)
+    c['can_challenge'] = users
+    return render_to_response('game/challenge_users_ai.html', c)
 
 def view_user(request):
     pass

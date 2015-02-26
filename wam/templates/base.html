@@ -1,8 +1,9 @@
+{% block navbar %}
 <div id="navigation">
 <table border=0 cellpadding=7>
 <tr>
     <td><a href="/game">Home</a></td>
-{% if user.is_authenticated %}
+{% if user_logged_in %}
       <td><a href="/game/upload">Upload</a></td>
       <td><a href="/game/challenge_user">Challenge User</a></td>
       <td><a href="/game/logout">Logout</a></td>
@@ -13,4 +14,5 @@
 </tr>
 </table>
 </div>
+{% endblock %}
 {% block content %}{% endblock %}

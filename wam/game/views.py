@@ -10,13 +10,18 @@ def handle_uploaded_file(f, n):
     with open('ais/' + n + '.py', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+def logged_in(request):
+    if 'member_id' in request.session:
+        return True
+    return False
 
 # Create your views here.
 def index(request):
-    c = {'user': request.user}
+    c = {'user_logged_in': logged_in(request)}
     return render_to_response('game/index.html', c)
 
 def upload_file(request):
+    c = {'user_logged_in': logged_in(request)}
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -29,11 +34,12 @@ def upload_file(request):
             return HttpResponseRedirect('/game/challenge_user')
     else:
         form = UploadFileForm()
-    c = {'form': form}
+    c['form'] = form
     c.update(csrf(request))
     return render_to_response('game/upload.html', c)
 
 def play(request):
+    c = {'user_logged_in': logged_in(request)}
     import glob
     import sys
     sys.path.insert(0, 'ais')
@@ -44,9 +50,10 @@ def play(request):
     return HttpResponse(change(s))
 
 def register(request):
+    c = {'user_logged_in': logged_in(request)}
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
-        c = {'form': form}
+        c['form'] = form
         if form.is_valid():
             post = request.POST
             # check if the user exists in the database
@@ -81,6 +88,7 @@ def register(request):
     return render_to_response('game/register.html', c)
     
 def login(request):
+    c = {'user_logged_in': logged_in(request)}
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -93,10 +101,10 @@ def login(request):
                 c = {'form': form,
                      'error_message': "Your username and password didn't match."}
                 c.update(csrf(request))
-                return render_to_respons('game/login.html', c)
+                return render_to_response('game/login.html', c)
     else:
         form = UserLoginForm()
-    c = {'form': form}
+    c['form'] = form
     c.update(csrf(request))
     return render_to_response('game/login.html', c)
 
