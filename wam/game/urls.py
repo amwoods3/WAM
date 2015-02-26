@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     url(r'^successful_registeration/$', views.successful_registeration, name='successful_registeration'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
-    url(r'^view_user/$', play.challenge_users_ai, name ='view_user'),
+    url(r'^challenge_user/$', play.challenge_users_ai, name ='challenge_user'),
 )
