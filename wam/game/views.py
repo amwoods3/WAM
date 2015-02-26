@@ -45,31 +45,28 @@ def play(request):
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+        c = {'form': form}
         if form.is_valid():
             post = request.POST
             # check if the user exists in the database
             check_user_exists = UserLogin.objects.filter(user_name=post['user_name'])
             if check_user_exists:
-                c = {'form': form,
-                     'error_message': "This user name already exists."}
+                c['error_message'] = "This user name already exists."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
             # check size of user name
             if len(post['user_name']) < 5:
-                c = {'form': form,
-                     'error_message': "Your username must be longer than 5 characters."}
+                c['error_message'] = "Your username must be longer than 5 characters."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
             # check size of password
             if len(post['password']) < 5:
-                c = {'form': form,
-                     'error_message': "Your password must be longer than 5 characters."}
+                c['error_message'] = "Your password must be longer than 5 characters."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
             # check if passwords match -- for the form
             if post['password'] != post['re_password']:
-                c = {'form': form,
-                     'error_message': "Your passwords do not match"}
+                c['error_message'] = "Your passwords do not match"
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
             # registeration successful
