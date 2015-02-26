@@ -15,6 +15,6 @@ def play(request):
     sys.path.insert(0, 'ais')
     sys.path.insert(0, '../tictactoe/')
     import tictactoe
-    from html_change import *
+    from html_change import change
     s = tictactoe.play_game(ai=['ai1', 'randai'])
     return HttpResponse(change(s))
