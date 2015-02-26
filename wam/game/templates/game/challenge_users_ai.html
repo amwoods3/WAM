@@ -1,6 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
 <h1> Which user do you want to challenge? </h1>
 <ul>
 {% for user in can_challenge %} 
 <li><a href = '/game/'+{user}>{{ user }}</a></li>
 {% endfor %}
 </ul>
+{% endblock %}
