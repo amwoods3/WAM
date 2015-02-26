@@ -87,6 +87,7 @@ def login(request):
             m = UserLogin.objects.get(user_name=request.POST['user_name'])
             if m.password == request.POST['password']:
                 request.session['member_id'] = m.id
+                request.session.set_expiry(0)
                 return  HttpResponseRedirect('/game')
             else:
                 c = {'form': form,
