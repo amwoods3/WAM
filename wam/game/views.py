@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.http import Http404
 
-from forms import UploadFileForm, RegisterUser
+from forms import UploadFileForm, UserRegisterForm, UserLoginForm
+from game.models import UserLogin
 
 def handle_uploaded_file(f, n):
     with open('ais/' + n + '.py', 'wb+') as destination:
@@ -45,9 +46,8 @@ def play(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegisterUser(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
-            from game.models import UserLogin
             post = request.POST
             # check if the user exists in the database
             check_user_exists = UserLogin.objects.filter(user_name=post['user_name'])
@@ -79,11 +79,36 @@ def register(request):
             user.save()
             return HttpResponseRedirect('/game/successful_registeration')
     else:
-        form = RegisterUser()
+        form = UserRegisterForm()
     c = {'form': form}
     c.update(csrf(request))
     return render_to_response('game/register.html', c)
 
 def successful_registeration(request):
-    return HttpResponse("Your registration was successful.")
+    return HttpResponse("Your registration was successful")
     
+def login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            m = UserLogin.objects.get(user_name=request.POST['user_name'])
+            if m.password == request.POST['password']:
+                request.session['member_id'] = m.id
+                return  HttpResponseRedirect('/game')
+            else:
+                c = {'form': form,
+                     'error_message': "Your username and password didn't match."}
+                c.update(csrf(request))
+                return render_to_respons('game/login.html', c)
+    else:
+        form = UserLoginForm()
+    c = {'form': form}
+    c.update(csrf(request))
+    return render_to_response('game/login.html', c)
+
+def logout(request):
+    try:
+        del request.session['member_id']
+    except KeyError:
+        pass
+    return HttpResponseRedirect("/game")
