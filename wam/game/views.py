@@ -4,12 +4,14 @@ from django.core.context_processors import csrf
 from django.http import Http404
 
 from forms import UploadFileForm, UserRegisterForm, UserLoginForm
-from game.models import UserLogin
+from game.models import UserLogin, UserAiTable
 
+# f is file object, n is user_name/title_of_file
 def handle_uploaded_file(f, n):
-    with open('ais/' + n + '.py', 'wb+') as destination:
+    with open('wam/ais/' + n + '.py', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+            
 def logged_in(request):
     if 'member_id' in request.session:
         return True
@@ -25,29 +27,22 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            # save the uploaded file
             post = request.POST
             files = request.FILES
-            handle_uploaded_file(files['player1_ai_code'],
-                                 post['player1_ai_title'])
-            handle_uploaded_file(files['player2_ai_code'],
-                                 post['player2_ai_title'])
+            get_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+            handle_uploaded_file(files['ai_code'],
+                                 get_user_name + '/' + post['ai_title'])
+
+            # save the file path into the database
+            ai = UserAiTable(user_id=request.session['member_id'], user_ai=get_user_name)
+            ai.save()
             return HttpResponseRedirect('/game/challenge_user')
     else:
         form = UploadFileForm()
     c['form'] = form
     c.update(csrf(request))
     return render_to_response('game/upload.html', c)
-
-def play(request):
-    c = {'user_logged_in': logged_in(request)}
-    import glob
-    import sys
-    sys.path.insert(0, 'ais')
-    sys.path.insert(0, '../tictactoe/')
-    import tictactoe
-    from html_change import *
-    s = tictactoe.play_game(ai=['ai1', 'randai'])
-    return HttpResponse(change(s))
 
 def register(request):
     c = {'user_logged_in': logged_in(request)}
@@ -62,22 +57,28 @@ def register(request):
                 c['error_message'] = "This user name already exists."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
+
             # check size of user name
             if len(post['user_name']) < 5:
                 c['error_message'] = "Your username must be longer than 5 characters."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
+
             # check size of password
             if len(post['password']) < 5:
                 c['error_message'] = "Your password must be longer than 5 characters."
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
+
             # check if passwords match -- for the form
             if post['password'] != post['re_password']:
                 c['error_message'] = "Your passwords do not match"
                 c.update(csrf(request))
                 return render_to_response('game/register.html', c)
+
             # registeration successful
+            import os
+            os.system('mkdir wam/ais/' + post['user_name'])
             user = UserLogin(user_name=post['user_name'], password=post['password'])
             user.save()
             return HttpResponseRedirect('/game/login')
