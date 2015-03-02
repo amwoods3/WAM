@@ -1,7 +1,7 @@
 fresh:
 	find -name '*~' -exec rm '{}' \;
 	find -name '*.pyc' -exec rm '{}' \;
-pull:
+pull: fresh
 	git pull
 add:
 	git add . -A

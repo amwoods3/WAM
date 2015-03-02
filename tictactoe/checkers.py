@@ -23,9 +23,11 @@ class CheckerPiece:
                 return 'o'
     
 class CheckerBoard(GameBoard):
-    def __init__(self):
+    def __init__(self, state):
         #super(CheckerBoard, self).__init__(8)
         GameBoard.__init__(self, 8)
+        black_pos = list(BLACK_STARTS)
+        red_pos = list(RED_STARTS)
         for pos in BLACK_STARTS:
             self.state[pos[0]][pos[1]] = CheckerPiece('Black')
         for pos in RED_STARTS:
@@ -42,7 +44,8 @@ class CheckerBoard(GameBoard):
         
 class CheckerRules(GameRules):
     def __init__(self):
-        pass
+        self.red_direction = -1
+        self.black_direction = 1
     def valid_move(self, board, source_r, source_c, dest_r, dest_c, turn):
         pass
 
