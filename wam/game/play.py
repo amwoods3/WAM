@@ -1,13 +1,14 @@
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from game.models import UserLogin
+from django.core.context_processors import csrf
 
 from game.views import logged_in
 from game.models import UserLogin
 
 def challenge_users_ai(request):
     c = {'user_logged_in': logged_in(request)}
-    if request.mothod == 'POST':
+    if request.method == 'POST':
         user_id = UserLogin.objects.get(user_name=request.POST['challenged_user'])
         request.session['challenged_user'] = user_id.id
         return HttpResponseRedirect('/game/view_user_ai')
@@ -15,6 +16,7 @@ def challenge_users_ai(request):
     users = UserLogin.objects.all().values_list('user_name')
     users = [x[0] for x in users]
     c['can_challenge'] = users
+    c.update(csrf(request))
     return render_to_response('game/challenge_users_ai.html', c)
 
 def view_user_ai(request):
@@ -28,7 +30,7 @@ def view_user_ai(request):
         del request.session['challenged_user']
     except KeyError:
         pass
-    
+    c.update(csrf(request))
     return render_to_response('game/view_user_ai.html', c)
 def play(request):
     import sys
