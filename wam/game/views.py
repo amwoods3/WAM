@@ -35,7 +35,7 @@ def upload_file(request):
                                  get_user_name + '/' + post['ai_title'])
 
             # save the file path into the database
-            ai = UserAiTable(user_id=request.session['member_id'], user_ai=get_user_name)
+            ai = UserAiTable(user_id=request.session['member_id'], user_ai=post['ai_title'])
             ai.save()
             return HttpResponseRedirect('/game/challenge_user')
     else:
@@ -93,6 +93,13 @@ def login(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
+            check_user_exists = UserLogin.objects.filter(user_name=request.POST['user_name'])
+            if not check_user_exists:
+                form = UserLoginForm()
+                c['form'] = form
+                c['error_message'] = "This user name does not exists."
+                c.update(csrf(request))
+                return render_to_response('game/login.html', c)
             m = UserLogin.objects.get(user_name=request.POST['user_name'])
             if m.password == request.POST['password']:
                 request.session['member_id'] = m.id
