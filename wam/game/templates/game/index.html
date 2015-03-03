@@ -2,35 +2,27 @@
 {% block navbar %}{{ block.super }}{% endblock %}
 {% block content %}
 <h2> Welcome to WAM board 2 player board games! </h2>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $("button").click(function(){
-        if ($("#test").is(":visible")) {
-        $("#test").hide();
-        $("#test2").show();
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
       }
-        else {
-        $("#test").show();
-        $("#test2").hide();
-        }
-    });
-});
-</script>
-</head>
-<body>
+    </style>
+  </head> 
+  <body>
+    <canvas id="myCanvas" width="578" height="200"></canvas>
+    <script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
 
-<h2>This is a heading</h2>
-
-<p id="test">This is a paragraph.</p>
-<p id="test2">This is another paragraph.</p>
-
-<button>Click me</button>
-
-</body>
-</html>
-
+      // do cool things with the context
+      context.font = '40pt Calibri';
+      context.fillStyle = 'blue';
+      context.fillText('Hello World!', 150, 100);
+    </script>
+  </body>
+</html>      
 {% endblock %}

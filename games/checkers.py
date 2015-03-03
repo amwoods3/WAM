@@ -47,7 +47,21 @@ class CheckerRules(GameRules):
         self.red_direction = -1
         self.black_direction = 1
     def valid_move(self, board, source_r, source_c, dest_r, dest_c, turn):
-        pass
-
+        if not super.valid_move(board, dest_r, dest_c):
+            return False
+    def valid_directions(self, direction):
+        return [(1 * direction, -1), (1 * direction, 1)]
+    def get_jump_loc(self, a, b):
+        
+    def can_jump(self, red_pos, black_pos, turn):
+        attack,defend = red_pos,black_pos if turn == 'Red' else black_pos,red_pos
+        direction = 1 if turn == 'Black' else -1
+        for a in attack:
+            for b in defend:
+                if a_can_attack_b(a, b, direction) and 
+    def a_can_attack_b(self, a, b, direction):
+        r = a[0] - b[0]
+        c = a[1] - b[1]
+        return r == direction and c in (1, -1)
 board = CheckerBoard()
 print board
