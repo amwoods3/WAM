@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.http import Http404
 
@@ -20,10 +20,16 @@ def logged_in(request):
 # Create your views here.
 def index(request):
     c = {'user_logged_in': logged_in(request)}
+    if logged_in(request):
+        loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+        c['user_name'] = loggin_user_name
     return render_to_response('game/index.html', c)
 
 def upload_file(request):
     c = {'user_logged_in': logged_in(request)}
+    if logged_in(request):
+        loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+        c['user_name'] = loggin_user_name
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():

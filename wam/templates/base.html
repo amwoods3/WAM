@@ -6,7 +6,7 @@
 {% if user_logged_in %}
       <td><a href="/game/upload">Upload</a></td>
       <td><a href="/game/challenge_user">Challenge User</a></td>
-      <td><a href="/game/logout">Logout</a></td>
+      <td><a href="/game/logout">Logout</a> of {{ user_name }}</td>
 {% else %}
       <td><a href="/game/registration">Register</a></td>
       <td><a href="/game/login">Login</a></td>
