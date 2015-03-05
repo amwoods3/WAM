@@ -21,11 +21,13 @@ class CheckerPiece:
                 return 'O'
             else:
                 return 'o'
+    def __eq__(self, b):
+        return self.color == b.color
     
 class CheckerBoard(GameBoard):
-    def __init__(self, state):
+    def __init__(self, state=''):
         #super(CheckerBoard, self).__init__(8)
-        GameBoard.__init__(self, 8)
+        GameBoard.__init__(self, 8, state)
         black_pos = list(BLACK_STARTS)
         red_pos = list(RED_STARTS)
         for pos in BLACK_STARTS:
@@ -41,6 +43,7 @@ class CheckerBoard(GameBoard):
             s += '|\n'
             s += '+-+-+-+-+-+-+-+-+\n'
         return s
+    def super_string(self):
         
 class CheckerRules(GameRules):
     def __init__(self):
@@ -49,19 +52,35 @@ class CheckerRules(GameRules):
     def valid_move(self, board, source_r, source_c, dest_r, dest_c, turn):
         if not super.valid_move(board, dest_r, dest_c):
             return False
+        jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
+        if jump_av:
+            if not is_jump(board, source_r, source_c, dest_r, dest_c, turn):
+                return False
+    def is_jump(self, board, source_r, source_c, dest_r, dest_c, turn):
+        d1 = dest_r - source_r
+        d2 = dest_c - source_c
+        if abs(d1) == 2 and abs(d2) == 2:
+            r = source_r + d1 / 2
+            c = source_c + d2 / 2
+            if board[r][c] not in (CheckerPiece(turn), ' '):
+                return True
+        return False
     def valid_directions(self, direction):
         return [(1 * direction, -1), (1 * direction, 1)]
-    def get_jump_loc(self, a, b):
-        
-    def can_jump(self, red_pos, black_pos, turn):
+    def jump_to_space(self, board, a, d1, d2):
+        return (board[a[0] + d1 * 2][a[1] + d2 * 2] == ' ')
+    def can_jump(self, red_pos, black_pos, turn, board):
         attack,defend = red_pos,black_pos if turn == 'Red' else black_pos,red_pos
         direction = 1 if turn == 'Black' else -1
         for a in attack:
             for b in defend:
-                if a_can_attack_b(a, b, direction) and 
+                if self.a_can_attack_b(a, b, direction) \
+                   and self.jump_to_space(board, a, direction, b[1] - a[1]):
+                    return True
+        return False
     def a_can_attack_b(self, a, b, direction):
         r = a[0] - b[0]
         c = a[1] - b[1]
         return r == direction and c in (1, -1)
 board = CheckerBoard()
-print board
+print board.super_string()
