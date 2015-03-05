@@ -23,4 +23,5 @@ class Game(models.Model):
 
 class UserAiTable(models.Model):
     user_id = models.PositiveIntegerField()
-    user_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
+    user_ai_gen_title = models.FilePathField(path="/scripts", match="*.py", recursive=True)
+    user_ai_title = models.CharField(max_length=100)

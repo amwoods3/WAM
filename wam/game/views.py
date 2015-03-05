@@ -37,11 +37,15 @@ def upload_file(request):
             post = request.POST
             files = request.FILES
             get_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+            
+            import string
+            import random; random.seed()
+            ai_title = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(30))
             handle_uploaded_file(files['ai_code'],
-                                 get_user_name + '/' + post['ai_title'])
+                                 get_user_name + '/' + ai_title)
 
             # save the file path into the database
-            ai = UserAiTable(user_id=request.session['member_id'], user_ai=post['ai_title'])
+            ai = UserAiTable(user_id=request.session['member_id'], user_ai_title=post['ai_title'], user_ai_gen_title=ai_title)
             ai.save()
             return HttpResponseRedirect('/game/challenge_user')
     else:
@@ -85,7 +89,7 @@ def register(request):
             # registeration successful
             import os
             os.system('mkdir wam/ais/' + post['user_name'])
-            user = UserLogin(user_name=post['user_name'], password=post['password'])
+            user = UserLogin(user_name=post['user_name'], password=post['password'], email=post['email'])
             user.save()
             return HttpResponseRedirect('/game/login')
     else:
@@ -109,7 +113,6 @@ def login(request):
             m = UserLogin.objects.get(user_name=request.POST['user_name'])
             if m.password == request.POST['password']:
                 request.session['member_id'] = m.id
-                request.session.set_expiry(0)
                 return  HttpResponseRedirect('/game')
             else:
                 c = {'form': form,
@@ -127,4 +130,5 @@ def logout(request):
         del request.session['member_id']
     except KeyError:
         pass
+    request.session.flush()
     return HttpResponseRedirect("/game")

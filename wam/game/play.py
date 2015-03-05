@@ -28,23 +28,26 @@ def view_user_ai(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
     if request.method == 'POST':
-        request.session['ch_user_ai'] = request.POST['ch_ai']
-        request.session['user_ai'] = request.POST['my_ai']
+        # get the generated string for the uploaded ai
+        user_ai = UserAiTable.objects.get(user_ai_title=request.POST['my_ai']).user_ai_gen_title
+        ch_ai = UserAiTable.objects.get(user_ai_title=request.POST['ch_ai']).user_ai_gen_title
+        request.session['ch_user_ai'] = user_ai
+        request.session['user_ai'] = ch_ai
         return HttpResponseRedirect('/game/play')
 
     # collect challenged users AI list
     ais = UserAiTable.objects.all().filter(user_id=request.session['challenged_user'])
-    ais = [x.user_ai for x in ais]
+    ais = [x.user_ai_title for x in ais]
     c['ai_list'] = ais
 
     # collect user logged in AI list
     ais = UserAiTable.objects.all().filter(user_id=request.session['member_id'])
-    ais = [x.user_ai for x in ais]
+    ais = [x.user_ai_title for x in ais]
     c['ai_list2'] = ais
 
     # collect challenged users user_name
     user = UserLogin.objects.get(pk=request.session['challenged_user'])
-    c['user_name'] = user.user_name
+    c['ch_user_name'] = user.user_name
     c.update(csrf(request))
     return render_to_response('game/view_user.html', c)
 
