@@ -7,6 +7,11 @@ from game.views import logged_in
 from game.models import UserLogin, UserAiTable
 
 def challenge_users_ai(request):
+    try:
+        del request.session['played']
+    except:
+        pass
+    
     c = {'user_logged_in': logged_in(request)}
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
@@ -19,8 +24,8 @@ def challenge_users_ai(request):
         request.session['challenged_user'] = user_id.id
         return HttpResponseRedirect('/game/view_user')
     
-    users = UserLogin.objects.all().values_list('user_name')
-    users = [x[0] for x in users]
+    users = UserLogin.objects.all()
+    users = [x.user_name for x in users if UserAiTable.objects.all().filter(user_id=x.id)]
     c['can_challenge'] = users
     c.update(csrf(request))
     return render(request, 'game/challenge_users_ai.html', c)
@@ -58,13 +63,14 @@ def view_user_ai(request):
 
 def play(request):
     c = {'user_logged_in': logged_in(request)}
-    c['wtf'] = request.session['member_id']
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
     else:
         return HttpResponseRedirect('/game')
-        
+    if request.session.get('played', False):
+        c['game'] = request.session['played']
+        return render(request, 'game/play.html', c)
     challenged_user_name = UserLogin.objects.get(pk=request.session['challenged_user']).user_name
     loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
     import sys
@@ -74,5 +80,6 @@ def play(request):
     import tictactoe
     from html_change import change
     s = tictactoe.play_game(ai=[request.session['ais'][0], request.session['ais'][1]])
+    request.session['played'] = s
     c['game'] = s
     return render(request, 'game/play.html', c)
