@@ -23,8 +23,6 @@ def index(request):
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
-    else:
-        return HttpResponseRedirect('/game')
     
     return render(request, 'game/index.html', c)
 
