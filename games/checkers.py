@@ -44,7 +44,7 @@ class CheckerBoard(GameBoard):
             s += '+-+-+-+-+-+-+-+-+\n'
         return s
     def super_string(self):
-        
+        return super.__str__(self)
 class CheckerRules(GameRules):
     def __init__(self):
         self.red_direction = -1

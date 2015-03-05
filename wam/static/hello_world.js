@@ -3,7 +3,7 @@ window.onload = function() {
     var context = canvas.getContext('2d');
     
     // do cool things with the context
-    context.font = '40pt Calibri';
-    context.fillStyle = 'blue';
-    context.fillText('Hello World!', 150, 100);
+    //context.font = '40pt Calibri';
+    //context.fillStyle = 'blue';
+    //context.fillText('Hello World!', 150, 100);
 }
