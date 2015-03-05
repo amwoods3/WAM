@@ -121,9 +121,11 @@ def login(request):
                 c['error_message'] = "This user name does not exists."
                 c.update(csrf(request))
                 return render(request, 'game/login.html', c)
+            
             m = UserLogin.objects.get(user_name=request.POST['user_name'])
             if m.password == request.POST['password']:
                 request.session['member_id'] = m.id
+                request.session.modified = True
                 return  HttpResponseRedirect('/game')
             else:
                 c = {'form': form,
