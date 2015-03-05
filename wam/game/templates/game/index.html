@@ -1,21 +1,6 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
 {% block content %}
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
-    </style>
-
-    <script source="hello_world.js"></script>
-  </head> 
-  <body>
-	<h2> Welcome to WAM's board 2 player board games! </h2>
+    <h2> Welcome to WAM's board 2 player board games! </h2>
     <canvas onload="entryPoint();" id="myCanvas" width="578" height="200"></canvas>
-  </body>
-</html>      
 {% endblock %}

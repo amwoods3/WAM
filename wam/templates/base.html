@@ -1,4 +1,17 @@
 {% block navbar %}
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+{% load staticfiles %}
+    <script type='text/javascript' src="{% static "helloworld.js" %}"></script>
+  </head> 
+  <body>
 <div id="navigation">
 <table border=0 cellpadding=7>
 <tr>
@@ -14,5 +27,9 @@
 </tr>
 </table>
 </div>
-{% endblock %}
+<div id="content">
 {% block content %}{% endblock %}
+</div>
+</body>
+</html>
+{% endblock %}
