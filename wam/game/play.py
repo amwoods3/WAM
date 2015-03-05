@@ -11,6 +11,9 @@ def challenge_users_ai(request):
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
+    else:
+        return HttpResponseRedirect('/game')
+    
     if request.method == 'POST':
         user_id = UserLogin.objects.get(user_name=request.POST['ch_user'])
         request.session['challenged_user'] = user_id.id
@@ -20,13 +23,16 @@ def challenge_users_ai(request):
     users = [x[0] for x in users]
     c['can_challenge'] = users
     c.update(csrf(request))
-    return render_to_response('game/challenge_users_ai.html', c)
+    return render(request, 'game/challenge_users_ai.html', c)
 
 def view_user_ai(request):
     c = {'user_logged_in': logged_in(request)}
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
+    else:
+        return HttpResponseRedirect('/game')
+    
     if request.method == 'POST':
         # get the generated string for the uploaded ai
         user_ai = UserAiTable.objects.get(user_ai_title=request.POST['my_ai']).user_ai_gen_title
@@ -49,13 +55,15 @@ def view_user_ai(request):
     user = UserLogin.objects.get(pk=request.session['challenged_user'])
     c['ch_user_name'] = user.user_name
     c.update(csrf(request))
-    return render_to_response('game/view_user.html', c)
+    return render(request, 'game/view_user.html', c)
 
 def play(request):
     c = {'user_logged_in': logged_in(request)}
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
+    else:
+        return HttpResponseRedirect('/game')
         
     challenged_user_name = UserLogin.objects.get(pk=request.session['challenged_user']).user_name
     loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
@@ -67,4 +75,4 @@ def play(request):
     from html_change import change
     s = tictactoe.play_game(ai=[request.session['user_ai'], request.session['ch_user_ai']])
     c = {'game': s}
-    return render_to_response('game/play.html', c)
+    return render(request, 'game/play.html', c)

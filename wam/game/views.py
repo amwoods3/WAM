@@ -23,13 +23,20 @@ def index(request):
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
-    return render_to_response('game/index.html', c)
+    else:
+        return HttpResponseRedirect('/game')
+    
+    return render(request, 'game/index.html', c)
 
 def upload_file(request):
     c = {'user_logged_in': logged_in(request)}
     if logged_in(request):
         loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
         c['user_name'] = loggin_user_name
+        
+    else:
+        return HttpResponseRedirect('/game')
+    
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -52,10 +59,13 @@ def upload_file(request):
         form = UploadFileForm()
     c['form'] = form
     c.update(csrf(request))
-    return render_to_response('game/upload.html', c)
+    return render(request, 'game/upload.html', c)
 
 def register(request):
     c = {'user_logged_in': logged_in(request)}
+    if logged_in(request):
+         return HttpResponseRedirect('/game/logout')
+     
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         c['form'] = form
@@ -66,25 +76,25 @@ def register(request):
             if check_user_exists:
                 c['error_message'] = "This user name already exists."
                 c.update(csrf(request))
-                return render_to_response('game/register.html', c)
+                return render(request, 'game/register.html', c)
 
             # check size of user name
             if len(post['user_name']) < 5:
                 c['error_message'] = "Your username must be longer than 5 characters."
                 c.update(csrf(request))
-                return render_to_response('game/register.html', c)
+                return render(request, 'game/register.html', c)
 
             # check size of password
             if len(post['password']) < 5:
                 c['error_message'] = "Your password must be longer than 5 characters."
                 c.update(csrf(request))
-                return render_to_response('game/register.html', c)
+                return render(request, 'game/register.html', c)
 
             # check if passwords match -- for the form
             if post['password'] != post['re_password']:
                 c['error_message'] = "Your passwords do not match"
                 c.update(csrf(request))
-                return render_to_response('game/register.html', c)
+                return render(request, 'game/register.html', c)
 
             # registeration successful
             import os
@@ -96,10 +106,13 @@ def register(request):
         form = UserRegisterForm()
     c = {'form': form}
     c.update(csrf(request))
-    return render_to_response('game/register.html', c)
+    return render(request, 'game/register.html', c)
     
 def login(request):
     c = {'user_logged_in': logged_in(request)}
+    if logged_in(request):
+         return HttpResponseRedirect('/game/logout')
+     
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -109,7 +122,7 @@ def login(request):
                 c['form'] = form
                 c['error_message'] = "This user name does not exists."
                 c.update(csrf(request))
-                return render_to_response('game/login.html', c)
+                return render(request, 'game/login.html', c)
             m = UserLogin.objects.get(user_name=request.POST['user_name'])
             if m.password == request.POST['password']:
                 request.session['member_id'] = m.id
@@ -123,7 +136,7 @@ def login(request):
         form = UserLoginForm()
     c['form'] = form
     c.update(csrf(request))
-    return render_to_response('game/login.html', c)
+    return render(request, 'game/login.html', c)
 
 def logout(request):
     try:
