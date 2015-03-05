@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-{% block navbar %}{{ block.super }}{% endblock %}
 {% block content %}
-<h2> Welcome to WAM board 2 player board games! </h2>
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -11,18 +9,14 @@
         padding: 0px;
       }
     </style>
+
+    <script source="hello_world.js"></script>
   </head> 
   <body>
-    <canvas id="myCanvas" width="578" height="200"></canvas>
-    <script>
-      var canvas = document.getElementById('myCanvas');
-      var context = canvas.getContext('2d');
-
-      // do cool things with the context
-      context.font = '40pt Calibri';
-      context.fillStyle = 'blue';
-      context.fillText('Hello World!', 150, 100);
-    </script>
+{% block navbar %}{{ block.super }}{% endblock %}
+	<h2> Welcome to WAM board 2 player board games! </h2>
+    <canvas onload="entryPoint();" id="myCanvas" width="578" height="200"></canvas>
+    
   </body>
 </html>      
 {% endblock %}
