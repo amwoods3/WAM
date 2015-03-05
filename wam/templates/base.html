@@ -1,6 +1,6 @@
-{% block navbar %}
-<!DOCTYPE HTML>
+{% block doctype %}<!DOCTYPE HTML> {% endblock %}
 <html>
+{% block head %}
   <head>
     <style>
       body {
@@ -9,9 +9,11 @@
       }
     </style>
 {% load staticfiles %}
-    <script type='text/javascript' src="{% static "helloworld.js" %}"></script>
+    <script type='text/javascript' src="{% static "hello_world.js" %}"></script>
   </head> 
+{% endblock %}
   <body>
+{% block navbar %}
 <div id="navigation">
 <table border=0 cellpadding=7>
 <tr>
@@ -27,9 +29,10 @@
 </tr>
 </table>
 </div>
+
+{% endblock %}
 <div id="content">
 {% block content %}{% endblock %}
 </div>
 </body>
 </html>
-{% endblock %}
