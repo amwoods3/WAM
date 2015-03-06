@@ -112,8 +112,7 @@ class TicTacToeController:
             if ai[self.player] == '':
                 r, c = self.get_input()
             else:
-                exec("""import %s
-r, c = %s.get_move('%s') """% (ai[self.player], ai[self.player], ttt.get_state_str()))
+                exec("import %s; r, c = %s.get_move('%s') "% (ai[self.player], ai[self.player], ttt.get_state_str()))
             player = self.players[self.player]
             if ttt.insert(player, r, c):
                 self.history.append((player, r, c))
