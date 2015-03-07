@@ -146,7 +146,6 @@ def play_game(ai = ['',''], history=''):
             break
     s = str(ttt) + '\n'
     s += ttc.win_statement() + '\n'
-    s += str(ttc)
-    s += ai[0] + '\n'
-    s += ai[1] + '\n'
-    return s
+    k = str(ttc)
+    l = ttc.winner
+    return (s, k, l)
