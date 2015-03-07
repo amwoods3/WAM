@@ -118,6 +118,7 @@ class TicTacToeController:
                     exec("import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str()))
                 except:
                     self.winner = self.players[1 - self.player]
+                    return False
             player = self.players[self.player]
             if ttt.insert(player, r, c):
                 self.history.append((player, r, c))
@@ -132,6 +133,7 @@ class TicTacToeController:
                 return True
             else:
                 self.winner = self.players[1-self.player]
+                return False
     
 
 def play_game(ai = ['',''], history=''):
