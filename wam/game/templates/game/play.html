@@ -12,6 +12,14 @@
 <tr><td>{{ ch_user_name }}:</td><td> x</td></tr>
 </table></pre>
 <pre>The winner is: {{ winner }}!</pre>
-<pre>{{ game }}</pre>
+<pre><font size="10"><table border="1" width="140px">
+		{% for row in game %}
+		<tr>
+			{% for col in row %}
+				<td align="center">{{ col }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+</table></font></pre>
 <pre>{{ history }}</pre>
 {% endblock %}
