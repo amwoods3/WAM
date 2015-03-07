@@ -144,7 +144,6 @@ def play_game(ai = ['',''], history=''):
         ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
-    s = str(ttt) + '\n'
     k = str(ttc)
     l = ttc.winner
-    return (s, k, l)
+    return (ttt.state, k, l)
