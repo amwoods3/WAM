@@ -36,6 +36,8 @@ class TicTacToe:
                 s += col + ','
         return s[:-1]
     def insert(self, piece, r, c):
+        if type(r) is not int or type(c) is not int:
+            return False
         if r >= self.n or c >= self.n:
             return False
         if self.state[r][c] != ' ':
@@ -112,7 +114,10 @@ class TicTacToeController:
             if ai[self.player] == '':
                 r, c = self.get_input()
             else:
-                exec("import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str()))
+                try:
+                    exec("import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str()))
+                except:
+                    self.winner = self.players[1 - self.player]
             player = self.players[self.player]
             if ttt.insert(player, r, c):
                 self.history.append((player, r, c))
@@ -125,9 +130,11 @@ class TicTacToeController:
                 self.change_turn()
                 self.winner = ' '
                 return True
+            else:
+                self.winner = self.players[1-self.player]
     
 
-def play_game(ai = ['','']):
+def play_game(ai = ['',''], history=''):
     ttc = TicTacToeController()
     ttt = TicTacToe()
     while 1:
