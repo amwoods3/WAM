@@ -9,10 +9,10 @@
 <tr> <td> Ai </td> <td> wins </td> <td> losses </td> <td> draws </td></tr>
 {% for score in score_list %}
    <tr>
-      <td>{{ score.user_ai_title }}</td> 
-      <td>{{ score.user_ai_wins }} </td>
-      <td>{{ score.user_ai_losses }} </td>
-      <td>{{ score.user_ai_draws }} </td>
+      <td> {{ score.user_ai_title }} </td> 
+      <td> {{ score.user_ai_wins }} </td>
+      <td> {{ score.user_ai_losses }} </td>
+      <td> {{ score.user_ai_draws }} </td>
    </tr>
 {% endfor %}
 </table>
