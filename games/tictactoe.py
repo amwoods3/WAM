@@ -132,7 +132,8 @@ class TicTacToeController:
                 self.winner = ' '
                 return True
             else:
-                self.winner = self.players[1-self.player]
+                self.change_turn()
+                self.winner = self.players[self.player]
                 return False
     
 
@@ -146,4 +147,6 @@ def play_game(ai = ['',''], history=''):
     s = str(ttt) + '\n'
     s += ttc.win_statement() + '\n'
     s += str(ttc)
+    s += ai[0] + '\n'
+    s += ai[1] + '\n'
     return s
