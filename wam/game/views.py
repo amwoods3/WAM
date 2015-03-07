@@ -61,6 +61,10 @@ def upload_file(request):
             ai = UserAiTable(user_id=request.session['member_id'], user_ai_title=post['ai_title'], user_ai_gen_title=ai_title)
             ai.save()
             c['error_message'] = 'File uploaded successfuly'
+
+            # save the stats table with 0
+            stats = UserStats(user_id=request.session['member_id'], user_ai_title=post['ai_title'], user_ai_wins = 0, user_ai_losses = 0, user_ai_draws = 0)
+            stats.save()
             return render(request, 'game/upload.html', c)
     else:
         form = UploadFileForm()
