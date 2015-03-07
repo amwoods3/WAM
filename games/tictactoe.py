@@ -1,5 +1,5 @@
 class TicTacToe:
-    def __init__(self, n=3, s=''):
+    def __init__(self, n=3, s='', history=[]):
         self.state = []
         if s != '':
             s = s.split(',')
@@ -14,6 +14,9 @@ class TicTacToe:
                     k.append(' ')
                 index += 1
             self.state.append(k)
+        if len(history) > 0:
+            for move in history:
+                self.state[move[1]][move[2]] = move[0]
     def __str__(self):
         s = ''
         for i in range(self.n):
@@ -84,10 +87,10 @@ class TicTacToe:
         return True
 
 class TicTacToeController:
-    def __init__(self, player1='x', player2='o'):
-        self.player = 0
+    def __init__(self, player1='x', player2='o', history=[]):
+        self.player = len(history) % 2
         self.players = [player1, player2]
-        self.history = []
+        self.history = history
         self.winner = ' '
     def __str__(self):
         s = 'Move sequence:\n'
@@ -137,13 +140,17 @@ class TicTacToeController:
                 return False
     
 
-def play_game(ai = ['',''], history=''):
-    ttc = TicTacToeController()
-    ttt = TicTacToe()
-    while 1:
+def play_game(ai = ['',''], hist=[], turns=-1):
+    ttc = TicTacToeController(history=hist)
+    ttt = TicTacToe(history=hist)
+    while turns is not 0:
         ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
+        if turns is not -1:
+            turns -= 1
     k = str(ttc)
     l = ttc.winner
     return (ttt.state, k, l)
+
+
