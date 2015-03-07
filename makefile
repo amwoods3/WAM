@@ -11,3 +11,7 @@ push: fresh pull add commit
 	git push
 run:
 	python wam/manage.py runserver
+flush:
+	python wam/manage.py flush
+migrate:
+	python wam/manage.py migrate
