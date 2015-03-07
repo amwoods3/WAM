@@ -100,8 +100,8 @@ class TicTacToeController:
     def change_turn(self):
         self.player = 1 - self.player
     def get_input(self):
-        r = input()
-        c = input()
+        r = input("Enter row\n")
+        c = input("Enter col\n")
         return (r, c)
     def get_winner(self):
         return self.winner
@@ -149,8 +149,7 @@ def play_game(ai = ['',''], hist=[], turns=-1):
             break
         if turns is not -1:
             turns -= 1
+        print ttt
     k = str(ttc)
     l = ttc.winner
     return (ttt.state, k, l)
-
-

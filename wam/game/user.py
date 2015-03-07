@@ -12,9 +12,8 @@ def view_user_profile(request):
     else:
         return HttpResponseRedirect('/game')
 
-    ais = UserAiTable.objects.all().filter(user_id=request.session['member_id'])
-    ais = [x.user_ai_title for x in ais]
-    c['ai_list'] = ais
+    scores = UserStats.objects.all().filter(user_id=request.session['member_id'])
+    c['score_list'] = scores
 
     return render(request, 'game/view_user_profile.html', c)
     
