@@ -8,7 +8,7 @@ class UserLogin(models.Model):
     email = models.CharField(max_length=100)
 
 # only for active games
-class Game(models.Model):
+class ActiveGame(models.Model):
     game_state = models.CharField(max_length=800)
     last_move = models.CharField(max_length=80)
     player1_id = models.PositiveIntegerField()
