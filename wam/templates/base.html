@@ -21,7 +21,8 @@
   </head> 
 {% endblock %}
   <body>
-{% block navbar %}<!-- Fixed navbar -->
+{% block navbar %}
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -50,7 +51,10 @@ role="button" aria-expanded="false"> Challenge User <span class="caret"></span><
             <li><a href="/game/registration">Register</a></li>
             <li><a href="/game/login">Login</a></li>
             {% endif %}
-          </ul>
+           </ul>
+           <ul class="nav navbar-nav navbar-right">
+             <li><a href="#">{{ user_name }}</a></li>
+           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
