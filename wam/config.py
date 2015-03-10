@@ -2,7 +2,7 @@
 
 
 FILE_PATH = ''  # default -- local
-#FILE_PATH = '/home/agraham3/WAM' # for pythonanywhere
+#FILE_PATH = '/home/abrokencupcake/WAM' # for pythonanywhere
 
 # default -- local
 DB_name = 'emporia'
