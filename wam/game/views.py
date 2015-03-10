@@ -9,7 +9,7 @@ from config import FILE_PATH
 
 # f is file object, n is user_name/title_of_file
 def handle_uploaded_file(f, n):
-    with open(FILE_PATH + 'wam/ais/' + n + '.py', 'wb+') as destination:
+    with open(FILE_PATH + '/wam/ais/' + n + '.py', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
             
@@ -97,7 +97,7 @@ def register(request):
 
             # registeration successful
             import os
-            os.system('mkdir %swam/ais/' % (FILE_PATH) + post['user_name'])
+            os.system('mkdir %s/wam/ais/' % (FILE_PATH) + post['user_name'])
             user = UserLogin(user_name=post['user_name'], password=post['password'], email=post['email'])
             user.save()
             return HttpResponseRedirect('/game/login')
