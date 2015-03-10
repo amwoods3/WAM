@@ -79,9 +79,9 @@ def play(request):
         return render(request, 'game/play.html', c)
     
     import sys
-    sys.path.insert(0, '%s/wam/ais/' % (FILE_PATH)+challenged_user_name+'/')
-    sys.path.insert(0, '%s/wam/ais/' % (FILE_PATH)+loggin_user_name+'/')
-    sys.path.insert(0, '%s/games/'  % (FILE_PATH))
+    sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+challenged_user_name+'/')
+    sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
+    sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import tictactoe
     from html_change import change
     s = tictactoe.play_game(ai=[request.session['ais'][0], request.session['ais'][1]])

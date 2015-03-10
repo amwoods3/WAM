@@ -9,7 +9,7 @@ from config import FILE_PATH
 
 # f is file object, n is user_name/title_of_file
 def handle_uploaded_file(f, n):
-    with open(FILE_PATH + '/wam/ais/' + n + '.py', 'wb+') as destination:
+    with open(FILE_PATH + 'wam/ais/' + n + '.py', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
             
@@ -39,11 +39,11 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            c['form'] = form
             # check to see if the ai title exists
             check_ai_title = UserAiTable.objects.filter(user_ai_title=request.POST['ai_title'])
             if check_ai_title:
                 c['error_message'] = 'This ai title already exists'
-                c['form'] = form
                 c.update(csrf(request))
                 return render(request, 'game/upload.html', c)
             
@@ -61,7 +61,8 @@ def upload_file(request):
             # save the file path into the database
             ai = UserAiTable(user_id=request.session['member_id'], user_ai_title=post['ai_title'], user_ai_gen_title=ai_title)
             ai.save()
-            return HttpResponseRedirect('/game/upload')
+            c['error_message'] = 'File uploaded successfuly'
+            return render(request, 'game/upload.html', c)
     else:
         form = UploadFileForm()
     c['form'] = form
@@ -105,7 +106,7 @@ def register(request):
 
             # registeration successful
             import os
-            os.system('mkdir %s/wam/ais/' % (FILE_PATH) + post['user_name'])
+            os.system('mkdir %swam/ais/' % (FILE_PATH) + post['user_name'])
             user = UserLogin(user_name=post['user_name'], password=post['password'], email=post['email'])
             user.save()
             return HttpResponseRedirect('/game/login')
