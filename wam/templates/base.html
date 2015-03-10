@@ -50,6 +50,7 @@ role="button" aria-expanded="false"> Challenge User <span class="caret"></span><
             <li><a href="/game/login">Login</a></li>
             {% endif %}
            </ul>
+           {% if user_logged_in %}
            <ul class="nav navbar-nav navbar-right">
              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -60,6 +61,7 @@ role="button" aria-expanded="false"> Hello, {{ user_name }}! <span class="caret"
                </ul>
              </li>
            </ul>
+          {% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </nav>
