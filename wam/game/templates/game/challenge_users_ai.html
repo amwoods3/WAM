@@ -4,7 +4,7 @@
     <h2> Which user do you want to challenge? </h2>
 {% endblock %}
 {% block content %}
-<form action="/game/challenge_user/" method="post">
+<form action="/game/challenge_user_ai/" method="post">
 {% csrf_token %}
    <select name='ch_user'>
 {% for user in can_challenge %} 
