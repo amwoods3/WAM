@@ -1,38 +1,75 @@
 {% block doctype %}<!DOCTYPE HTML> {% endblock %}
-<html>
+{% load staticfiles %}
 {% block head %}
   <head>
-    <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
-    </style>
-{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static "favicon.ico" %}">
+
+    <title>Project WAM</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "sticky-footer-navbar.css" %}" rel="stylesheet">
+
+
     <script type='text/javascript' src="{% static "hello_world.js" %}"></script>
   </head> 
 {% endblock %}
   <body>
-{% block navbar %}
-<div id="navigation">
-<table border=0 cellpadding=7>
-<tr>
-    <td><a href="/game">Home</a></td>
-{% if user_logged_in %}
-      <td><a href="/game/upload">Upload</a></td>
-      <td><a href="/game/challenge_user">Challenge User</a></td>
-      <td><a href="/game/logout">Logout</a> of {{ user_name }}</td>
-{% else %}
-      <td><a href="/game/registration">Register</a></td>
-      <td><a href="/game/login">Login</a></td>
-{% endif %}
-</tr>
-</table>
-</div>
+{% block navbar %}<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/game">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/game">Home</a></li>
+            {% if user_logged_in %}
+            <li><a href="/game/upload">Upload</a></li>
+            <li><a href="/game/challenge_user">Challenge User</a></li>
+            <li><a href="/game/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/game/registration">Register</a></li>
+            <li><a href="/game/login">Login</a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
 {% endblock %}
-<div id="content">
-{% block content %}{% endblock %}
-</div>
+<!-- Begin page content -->
+    <div class="container">
+      <div class="page-header">
+     {% block content_header %}<h1>Sticky footer with fixed navbar</h1> {% endblock %}
+      </div>
+{% block content %}
+{% endblock %}
+
+ <footer class="footer">
+      <div class="container">
+        <p class="text-muted"> Created by: Andrew Graham and Andrew Woods.</p>
+      </div>
+    </footer>
+
+ <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{% static "dist/js/bootstrap.min.js" %}"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{% static "ie10-viewport-bug-workaround.js" %}"></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
-{% block content %}
+{% block content_header %} 
     <h2> Welcome to WAM's board 2 player board games! </h2>
+{% endblock %}
+{% block content %}
     <canvas onload="entryPoint();" id="myCanvas" width="578" height="200"></canvas>
 {% endblock %}

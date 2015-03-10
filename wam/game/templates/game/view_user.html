@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
+{% block content_header %} 
+    <h2> Which of {{ ch_user_name }}'s AIs do you want to challenge? </h2>
+{% endblock %}
 {% block content %}
 <form action="/game/view_user/" method="post">
 {% csrf_token %}
-<h2> Which of {{ ch_user_name }}'s AIs do you want to challenge? </h2>
    <select name='ch_ai'>
 {% for ai in ai_list %}
 	  <option value="{{ ai }}"> {{ ai }} </option>

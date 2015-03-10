@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
+{% block content_header %} 
+    <h2> Which user do you want to challenge? </h2>
+{% endblock %}
 {% block content %}
-<h2> Which user do you want to challenge? </h2>
 <form action="/game/challenge_user/" method="post">
 {% csrf_token %}
    <select name='ch_user'>
