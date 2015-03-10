@@ -39,6 +39,14 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            # check to see if the ai title exists
+            check_ai_title = UserAiTable.objects.filter(user_ai_title=request.POST['ai_title'])
+            if check_ai_title:
+                c['error_message'] = 'This ai title already exists'
+                c['form'] = form
+                c.update(csrf(request))
+                return render(request, 'game/upload.html', c)
+            
             # save the uploaded file
             post = request.POST
             files = request.FILES
