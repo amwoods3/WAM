@@ -57,7 +57,7 @@ WSGI_APPLICATION = 'wam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-from config import DB_name, DB_user, DB_pass
+from config import DB_name, DB_user, DB_pass, DB_host
 
 DATABASES = {
     'default': {
