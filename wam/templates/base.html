@@ -38,22 +38,27 @@
 role="button" aria-expanded="false"> Challenge User <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="/game/challenge_user_ai">Challenge User's AI</a></li>
-                <li><a href="#">Challenge User ...</a></li>
-                <li><a href="#">...</a></li>
+                <li><a href="#">Challenge User</a></li>
                 <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+                <li class="dropdown-header">Rules for:</li>
+                <li><a href="#">Tic-Tac-Toe</a></li>
+                <li><a href="#">Checkers</a></li>
               </ul>
             </li>
-            <li><a href="/game/logout">Logout</a></li>
             {% else %}
             <li><a href="/game/registration">Register</a></li>
             <li><a href="/game/login">Login</a></li>
             {% endif %}
            </ul>
            <ul class="nav navbar-nav navbar-right">
-             <li><a href="#">Hello, {{ user_name }}!</a></li>
+             <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+role="button" aria-expanded="false"> Hello, {{ user_name }}! <span class="caret"></span></a>
+               <ul class="dropdown-menu" role="menu">
+                  <li><a href="#">View Profile</a></li>
+                  <li><a href="/game/logout">Logout</a></li>
+               </ul>
+             </li>
            </ul>
         </div><!--/.nav-collapse -->
       </div>
