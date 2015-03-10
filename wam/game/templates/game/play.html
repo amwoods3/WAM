@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
 {% block content_header %} 
-    <h2> The game.  </h2>
+    <h2> {{ user_name }} VS {{ ch_user_name }}  </h2>
 {% endblock %}
 {% block content %}
+<pre>
+<table>
+<tr><td>{{ user_name }}:</td><td> x</td></tr>
+<tr><td>{{ ch_user_name }}:</td><td> o</td></tr>
+</table></pre>
 <pre>{{ game }}</pre>
 {% endblock %}

@@ -4,7 +4,7 @@ from game.models import UserLogin
 from django.core.context_processors import csrf
 
 from game.views import logged_in
-from game.models import UserLogin, UserAiTable
+from game.models import UserLogin, UserAiTable, UserStats
 from config import FILE_PATH
 
 def challenge_users_ai(request):
@@ -64,16 +64,20 @@ def view_user_ai(request):
 
 def play(request):
     c = {'user_logged_in': logged_in(request)}
-    if logged_in(request):
-        loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
-        c['user_name'] = loggin_user_name
-    else:
+    
+    challenged_user_name = UserLogin.objects.get(pk=request.session['challenged_user']).user_name
+    loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+    c['user_name'] = loggin_user_name
+    c['ch_user_name'] = challenged_user_name
+     
+    if not logged_in(request):
         return HttpResponseRedirect('/game')
+
+    
     if request.session.get('played', False):
         c['game'] = request.session['played']
         return render(request, 'game/play.html', c)
-    challenged_user_name = UserLogin.objects.get(pk=request.session['challenged_user']).user_name
-    loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+    
     import sys
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+challenged_user_name+'/')
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
