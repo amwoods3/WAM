@@ -83,4 +83,4 @@ class CheckerRules(GameRules):
         c = a[1] - b[1]
         return r == direction and c in (1, -1)
 board = CheckerBoard()
-print board.super_string()
+print board
