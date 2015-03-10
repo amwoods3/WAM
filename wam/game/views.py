@@ -53,7 +53,7 @@ def upload_file(request):
             # save the file path into the database
             ai = UserAiTable(user_id=request.session['member_id'], user_ai_title=post['ai_title'], user_ai_gen_title=ai_title)
             ai.save()
-            return HttpResponseRedirect('/game/challenge_user')
+            return HttpResponseRedirect('/game/upload')
     else:
         form = UploadFileForm()
     c['form'] = form
