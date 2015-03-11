@@ -76,18 +76,22 @@ def play(request):
     if not logged_in(request):
         return HttpResponseRedirect('/game')
 
-    
+    # the game is already played
     if request.session.get('played', False):
         c['game'] = request.session['played']
         return render(request, 'game/play.html', c)
-    
+
+    # import files to play the game
     import sys
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+challenged_user_name+'/')
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import tictactoe
     from html_change import change
+
+    # play the game and create session to show that its already played
     s = tictactoe.play_game(ai=[request.session['ais'][1], request.session['ais'][0]])
     request.session['played'] = s
     c['game'] = s
+    
     return render(request, 'game/play.html', c)
