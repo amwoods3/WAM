@@ -41,9 +41,10 @@ def view_user_ai(request):
     
     if request.method == 'POST':
         # get the generated string for the uploaded ai
-        user_ai = UserAiTable.objects.get(user_ai_title=request.POST['my_ai']).user_ai_gen_title
-        ch_ai = UserAiTable.objects.get(user_ai_title=request.POST['ch_ai']).user_ai_gen_title
-        request.session['ais'] = (user_ai, ch_ai)
+        user = UserAiTable.objects.get(user_ai_title=request.POST['my_ai'])
+        ch = UserAiTable.objects.get(user_ai_title=request.POST['ch_ai'])
+        request.session['ais'] = (user.user_ai_gen_title, ch.user_ai_gen_title)
+        request.session['ai_title'] = (user.user_ai_title, ch.user_ai_title)
         return HttpResponseRedirect('/game/play')
 
     # collect challenged users AI list
@@ -69,6 +70,8 @@ def play(request):
     loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
     c['user_name'] = loggin_user_name
     c['ch_user_name'] = challenged_user_name
+    c['user_name_ai'] = request.session['ai_title'][0]
+    c['ch_name_ai'] = request.session['ai_title'][1]
      
     if not logged_in(request):
         return HttpResponseRedirect('/game')
@@ -84,7 +87,7 @@ def play(request):
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import tictactoe
     from html_change import change
-    s = tictactoe.play_game(ai=[request.session['ais'][0], request.session['ais'][1]])
+    s = tictactoe.play_game(ai=[request.session['ais'][1], request.session['ais'][0]])
     request.session['played'] = s
     c['game'] = s
     return render(request, 'game/play.html', c)
