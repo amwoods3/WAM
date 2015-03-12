@@ -25,7 +25,6 @@ class ActiveGame(models.Model):
 class PastGames(models.Model):
     player1_id = models.PositiveIntegerField()
     player2_id = models.PositiveIntegerField()
-    user_ai_title = models.CharField(max_length=100)
     game_history = models.CharField(max_length=300)
     did_player1_win = models.BooleanField(default=True)
     player1_ai_title = models.CharField(max_length=100)

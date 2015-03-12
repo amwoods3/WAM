@@ -4,7 +4,7 @@ from game.models import UserLogin
 from django.core.context_processors import csrf
 
 from game.views import logged_in
-from game.models import UserLogin, UserAiTable, UserStats
+from game.models import UserLogin, UserAiTable, UserStats, PastGames
 from config import FILE_PATH
 
 def challenge_users_ai(request):
@@ -122,5 +122,19 @@ def play(request):
     else:
         user_stats.user_ai_draws += 1
     user_stats.save()
+
+    # add the game played to the past games table
+    str_game_history = ''
+    for row in c['game']:
+        for col in row:
+            str_game_history += col + ','
+    str_game_history = str_game_history[:-1]
+    past_games = PastGames(player1_id = request.session['member_id'],
+                           player2_id = UserLogin.objects.get(user_name=c['ch_user_name']).id,
+                           player1_ai_title = c['user_name_ai'],
+                           player2_ai_title = c['ch_name_ai'],
+                           did_player1_win = user_won,
+                           game_history = str_game_history)
+    past_games.save()
 
     return render(request, 'game/play.html', c)
