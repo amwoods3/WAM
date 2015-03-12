@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 
 from forms import UploadFileForm, UserRegisterForm, UserLoginForm
-from game.models import UserLogin, UserAiTable
+from game.models import UserLogin, UserAiTable, UserStats
 from config import FILE_PATH
 
 # f is file object, n is user_name/title_of_file
