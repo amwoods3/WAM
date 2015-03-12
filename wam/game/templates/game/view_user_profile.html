@@ -5,8 +5,12 @@
 {% endblock %}
 {% block content %}
 <pre>List of Ais:
-<table>
-<tr> <td> Ai </td> <td> wins </td> <td> losses </td> <td> draws </td></tr>
+
+<table border="1" width="50%">
+<tr> <td> <font size="5px" style="bold">Ai title</font> </td> 
+<td> <font size="5px" style="bold">Wins</font> </td> 
+<td> <font size="5px" style="bold">Losses</font> </td> 
+<td> <font size="5px" style="bold">Draws</font> </td></tr>
 {% for score in score_list %}
    <tr>
       <td> {{ score.user_ai_title }} </td> 
@@ -15,6 +19,5 @@
       <td> {{ score.user_ai_draws }} </td>
    </tr>
 {% endfor %}
-</table>
-</pre>
+</table></pre>
 {% endblock %}
