@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content_header %} 
+    <h2> {{ user_name }}'s Profile Page </h2>
+{% endblock %}
+{% block content %}
+<pre>List of Ais:
+<table>
+{% for ai in ai_list %}
+   <tr>
+      <td>{{ ai }}</td>
+   </tr>
+{% endfor %}
+</pre>
+{% endblock %}

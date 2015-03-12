@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from game.models import UserLogin
 from django.core.context_processors import csrf
@@ -78,7 +78,9 @@ def play(request):
 
     # the game is already played
     if request.session.get('played', False):
-        c['game'] = request.session['played']
+        c['game'] = request.session['played'][0]
+        c['history'] = request.session['played'][1]
+        c['winner'] = request.session['played'][2]
         return render(request, 'game/play.html', c)
 
     # import files to play the game
@@ -87,11 +89,12 @@ def play(request):
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import tictactoe
-    from html_change import change
 
     # play the game and create session to show that its already played
     s = tictactoe.play_game(ai=[request.session['ais'][1], request.session['ais'][0]])
     request.session['played'] = s
-    c['game'] = s
+    c['game'] = s[0]
+    c['history'] = s[1]
+    c['winner'] = s[2]
     
     return render(request, 'game/play.html', c)

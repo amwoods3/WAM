@@ -1,7 +1,6 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
-from django.http import Http404
 
 from forms import UploadFileForm, UserRegisterForm, UserLoginForm
 from game.models import UserLogin, UserAiTable

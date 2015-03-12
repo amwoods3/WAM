@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 
 from game import views
 from game import play
+from game import user
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
@@ -13,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^challenge_user_ai/$', play.challenge_users_ai, name ='challenge_user_ai'),
     url(r'^play/$', play.play, name='play'),
     url(r'^view_user/$', play.view_user_ai, name='view_user'),
+    url(r'^view_user_profile/$', user.view_user_profile, name='view_user_profile'),                      
 )
