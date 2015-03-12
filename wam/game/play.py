@@ -96,5 +96,32 @@ def play(request):
     c['game'] = s[0]
     c['history'] = s[1]
     c['winner'] = s[2]
+
+    # find out who won
+    is_draw = (c['winner'] == '!')
+    user_won = (c['winner'] == 'o')
     
+    stats = UserStats.objects.all()
+
+    # update user stats
+    if (stats.filter(user_ai_title=request.session['ais'][0])):
+        user_stats = stats.get(user_ai_title=request.session['ais'][0])
+        if user_won:
+            user_stats.user_ai_wins += 1
+        elif not is_draw:
+            user_stats.user_ai_losses += 1
+        else:
+            user_stats.user_ai_draws += 1
+        user_stats.save()
+    
+    # update challened user stats 
+    if (stats.filter(user_ai_title=request.session['ais'][1])):
+        user_stats = stats.get(user_ai_title=request.session['ais'][1])
+        if not user_won:
+            user_stats.user_ai_wins += 1
+        elif not is_draw:
+            user_stats.user_ai_losses += 1
+        else:
+            user_stats.user_ai_draws += 1
+
     return render(request, 'game/play.html', c)
