@@ -1,3 +1,5 @@
+import multiprocessing
+import time as timer
 class TicTacToe:
     def __init__(self, n=3, s='', history=[]):
         self.state = []
@@ -86,6 +88,12 @@ class TicTacToe:
                     return False
         return True
 
+def something(s,move):
+    exec(s)
+    move[0] = r
+    move[1] = c
+    
+    
 class TicTacToeController:
     def __init__(self, player1='x', player2='o', history=[]):
         self.player = len(history) % 2
@@ -109,7 +117,7 @@ class TicTacToeController:
         if self.winner == '!':
             return "It's a draw!!"
         return 'The winner is %s!' % self.winner
-    def manage_turn(self, ttt, ai=['','']):
+    def manage_turn(self, ttt, ai=['',''], time=5000):
         if type(ttt) != type(TicTacToe()):
             #throw some error
             return False
@@ -118,33 +126,51 @@ class TicTacToeController:
                 r, c = self.get_input()
             else:
                 try:
-                    exec("import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str()))
-                except:
+                    mvv=[-1,-1]
+                    s = "import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str())
+                    p = multiprocessing.Process(target=something, name="ai", \
+                                                args=(s,mvv))
+                    p.start()
+                    start = timer.clock()
+                    while 1:
+                        end = timer.clock()
+                        if not p.is_alive:
+                            p.join()
+                            time -= (end-start)*1000.0
+                            r,c = mvv
+                            return time
+                        if (end - start)*1000.0 > time and time > 0:
+                            p.terminate()
+                            p.join()
+                            self.winner = self.players[self.player]
+                            return 0
+                except SyntaxError as inst:
+                    print inst
                     self.winner = self.players[1 - self.player]
-                    return False
+                    return 0
             player = self.players[self.player]
             if ttt.insert(player, r, c):
                 self.history.append((player, r, c))
                 if ttt.check_win(player):
                     self.winner = player
-                    return True
+                    return time
                 elif ttt.full():
                     self.winner = '!'
-                    return True
+                    return time
                 self.change_turn()
                 self.winner = ' '
-                return True
+                return time
             else:
                 self.change_turn()
                 self.winner = self.players[self.player]
-                return False
+                return 0
     
 
-def play_game(ai = ['',''], hist=[], turns=-1):
+def play_game(ai = ['',''], hist=[], turns=-1,time=5000):
     ttc = TicTacToeController(history=hist)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
-        ttc.manage_turn(ttt, ai)
+        ttc.manage_turn(ttt, ai, time)
         if ttc.get_winner() != ' ':
             break
         if turns is not -1:
