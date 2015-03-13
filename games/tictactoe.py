@@ -90,6 +90,7 @@ class TicTacToe:
 
 def something(s,move):
     exec(s)
+    return (end - start)
     move[0] = r
     move[1] = c
     
@@ -145,7 +146,7 @@ class TicTacToeController:
                                and self.timers[self.player] > 0:
                             p.terminate()
                             p.join()
-                            self.winner = self.players[self.player]
+                            self.winner = self.players[1 - self.player]
                             return 0
                 except SyntaxError as inst:
                     print inst
