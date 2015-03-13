@@ -95,8 +95,9 @@ def something(s,move):
     
     
 class TicTacToeController:
-    def __init__(self, player1='x', player2='o', history=[]):
+    def __init__(self, player1='x', player2='o', history=[], time=0):
         self.player = len(history) % 2
+        self.timers = [time, time]
         self.players = [player1, player2]
         self.history = history
         self.winner = ' '
@@ -127,7 +128,8 @@ class TicTacToeController:
             else:
                 try:
                     mvv=[-1,-1]
-                    s = "import %s;r, c = %s.get_move('%s')"% (ai[self.player], ai[self.player], ttt.get_state_str())
+                    s = "import %s;r, c = %s.get_move('%s')"\
+                        % (ai[self.player], ai[self.player], ttt.get_state_str())
                     p = multiprocessing.Process(target=something, name="ai", \
                                                 args=(s,mvv))
                     p.start()
@@ -136,10 +138,11 @@ class TicTacToeController:
                         end = timer.clock()
                         if not p.is_alive:
                             p.join()
-                            time -= (end-start)*1000.0
+                            self.timers[self.player] -= (end-start)*1000.0
                             r,c = mvv
-                            return time
-                        if (end - start)*1000.0 > time and time > 0:
+                            return self.timers[self.player]
+                        if (end - start)*1000.0 > self.timers[self.player] \
+                               and self.timers[self.player] > 0:
                             p.terminate()
                             p.join()
                             self.winner = self.players[self.player]
@@ -166,11 +169,11 @@ class TicTacToeController:
                 return 0
     
 
-def play_game(ai = ['',''], hist=[], turns=-1,time=5000):
-    ttc = TicTacToeController(history=hist)
+def play_game(ai = ['',''], hist=[], turns=-1,time=0):
+    ttc = TicTacToeController(history=hist,time=time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
-        ttc.manage_turn(ttt, ai, time)
+        ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
         if turns is not -1:
@@ -178,4 +181,4 @@ def play_game(ai = ['',''], hist=[], turns=-1,time=5000):
         print ttt
     k = str(ttc)
     l = ttc.winner
-    return (ttt.state, k, l)
+    return (ttt.state, k, l, time)
