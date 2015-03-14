@@ -11,6 +11,7 @@ class UserAiTable(models.Model):
     user_id = models.PositiveIntegerField()
     user_ai_gen_title = models.FilePathField(path="/scripts", match="*.py", recursive=True)
     user_ai_title = models.CharField(max_length=100)
+    user_ai_game_name = models.CharField(max_length=50)
 
 class ActiveGame(models.Model):
     game_state = models.CharField(max_length=800)
