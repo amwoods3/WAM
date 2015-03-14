@@ -4,7 +4,7 @@
     <h2> Which of {{ ch_user_name }}'s Ais do you want to challenge? </h2>
 {% endblock %}
 {% block content %}
-<form action="/game/view_user/" method="post">
+<form action="/game/view_user_ai/" method="post">
 {% csrf_token %}
    <select name='ch_ai'>
 {% for ai in ai_list %}
@@ -17,6 +17,6 @@
 	  <option value="{{ ai }}"> {{ ai }} </option>
 {% endfor %}
 </select><br/><br/>
-<input type="submit" value="Challenge AI" />
+<input type="submit" value="Challenge Ai" />
 </form>
 {% endblock %}

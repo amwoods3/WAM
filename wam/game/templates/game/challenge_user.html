@@ -4,12 +4,21 @@
     <h2> Which user do you want to challenge? </h2>
 {% endblock %}
 {% block content %}
-<form action="/game/challenge_user_ai/" method="post">
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="/game/challenge_user/" method="post">
 {% csrf_token %}
    <select name='ch_user'>
 {% for user in can_challenge %} 
 	<option value={{user}}> {{ user }} </option>
 {% endfor %}
+    </select>
+
+    <h2> Game type: </h2>
+    <select name='game_type'>
+    <option value='AivAi'>Ai v Ai</option>
+    <option value="AivHuman">Ai v Human</option>
+    <option value="HumanvAi">Human v Ai</option>
+    <option value="HumanvHuman">Human v Human</option>
     </select>
 <input type="submit" value="Challenge" />
 </form>

@@ -4,15 +4,15 @@
     <h2> {{ user_name }} VS {{ ch_user_name }}  </h2>
 {% endblock %}
 {% block content %}
-<pre>{{ user_name }}'s Ai: {{ user_name_ai }}
-{{ ch_user_name }}'s Ai: {{ ch_name_ai }} </pre>
 <pre>
-<table>
-<tr><td>{{ user_name }}:</td><td> o</td></tr>
-<tr><td>{{ ch_user_name }}:</td><td> x</td></tr>
+<table width='400'>
+<tr><td>User name</td><td>Ai title</td><td>Game piece</td>
+<tr><td>{{ user_name }}</td><td>{{ user_name_ai }}</td><td>o</td></tr>
+<tr><td>{{ ch_user_name }}</td><td>{{ ch_name_ai }}</td><td>x</td></tr>
 </table></pre>
-<pre>The winner is: {{ winner }}!</pre>
-<pre><font size="10"><table border="1" width="140px">
+<pre>
+The winner is: {{ winner }}!
+<font size="10"><table border="1" width="140px">
 		{% for row in game %}
 		<tr>
 			{% for col in row %}
