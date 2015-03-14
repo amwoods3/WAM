@@ -8,7 +8,7 @@
 <form action="/game/login/" method="post">
 {% csrf_token %}
 <table border='0'>
-<div class="fieldWrapper"><tr><td>
+    <div class="fieldWrapper"><tr><td>
         {{ form.user_name.errors }}</td><td></td></tr><tr><td>
         <label for="id_user_name">User Name:</label></td><td>
         {{ form.user_name }}</td></tr>
@@ -20,5 +20,6 @@
     </div>
 </table>
 <input type="submit" value="Login" />
-</form>
+</form><br />
+<a href="/game/forgot_password">Forgot your password?</a>
 {% endblock %}

@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     url(r'^challenge_user/$', play.challenge_user, name ='challenge_user'),
     url(r'^play/$', play.play, name='play'),
     url(r'^view_user_ai/$', play.view_user_ai, name='view_user_ai'),
-    url(r'^view_user_profile/$', user.view_user_profile, name='view_user_profile'),                      
+    url(r'^view_user_profile/$', user.view_user_profile, name='view_user_profile'),  
+    url(r'^forgot_password/$', user.forgot_password, name='forgot_password'),                   
 )
