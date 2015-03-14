@@ -40,7 +40,8 @@ def forgot_password(request):
 				c['error_message'] = 'The username entered does not go with this email'
 			else:
 				from django.core.mail import send_mail
-				c['error_message'] = 'stuff is going to happend soon.'
+				send_mail('Password Recovery for project WAM', user.password,
+						  'ciss438projectwam@google.com', [user_email], fail_silently=False)
 		else:
 			c['error_message'] = 'The email you have entered does not exist in the database.'
 

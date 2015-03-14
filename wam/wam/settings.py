@@ -92,3 +92,8 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ciss438projectwam@gmail.com'
+EMAIL_HOST_PASSWORD = 'ciss438p4ssw4m'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
