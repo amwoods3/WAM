@@ -51,7 +51,12 @@ def view_user_ai(request):
         ch = UserAiTable.objects.get(user_ai_title=request.POST['ch_ai'])
         request.session['ais'] = (user.user_ai_gen_title, ch.user_ai_gen_title)
         request.session['ai_title'] = (user.user_ai_title, ch.user_ai_title)
-        return HttpResponseRedirect('/game/play')
+        try:
+            if request.POST['game_time'] is not u"" or None:
+                game_time = int(request.POST['game_time'])
+            return HttpResponseRedirect('/game/play')
+        except:
+            c['error_message'] = 'Game timer must be an integer'
 
     # collect challenged users AI list
     ais = UserAiTable.objects.all().filter(user_id=request.session['challenged_user'])

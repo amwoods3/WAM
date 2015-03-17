@@ -4,6 +4,7 @@
     <h2> Which of {{ ch_user_name }}'s Ais do you want to challenge? </h2>
 {% endblock %}
 {% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <form action="/game/view_user_ai/" method="post">
 {% csrf_token %}
    <select name='ch_ai'>
