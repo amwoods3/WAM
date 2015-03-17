@@ -54,6 +54,10 @@ def view_user_ai(request):
         try:
             if request.POST['game_time'] is not u"" or None:
                 game_time = int(request.POST['game_time'])
+            else:
+                game_time = 0
+
+            request.session['game_timer'] = game_time
             return HttpResponseRedirect('/game/play')
         except:
             c['error_message'] = 'Game timer must be an integer'
@@ -95,6 +99,7 @@ def play(request):
         return render(request, 'game/play.html', c)
 
     # import files to play the game
+    game_time = request.session['game_timer']
     import sys
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+challenged_user_name+'/')
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
@@ -102,7 +107,8 @@ def play(request):
     import tictactoe
 
     # play the game and create session to show that its already played
-    s = tictactoe.play_game(ai=[request.session['ais'][1], request.session['ais'][0]])
+    s = tictactoe.play_game(ai=[request.session['ais'][1], 
+                            request.session['ais'][0]], time=game_time)
     request.session['played'] = s
     c['game'] = s[0]
     c['history'] = s[1]
