@@ -94,6 +94,7 @@ def something(s,move):
     move[1] = c
     
     
+    
 class TicTacToeController:
     def __init__(self, player1='x', player2='o', history=[], time=0):
         self.player = len(history) % 2
@@ -151,7 +152,7 @@ class TicTacToeController:
                 except SyntaxError as inst:
                     print inst
                     self.change_turn()
-                    self.winner = self.players[1 - self.player]
+                    self.winner = self.players[self.player]
                     return 0
             player = self.players[self.player]
             if ttt.insert(player, r, c):
@@ -171,11 +172,10 @@ class TicTacToeController:
                 return 0
     
 
-def play_game(ai = ['',''], hist=[], turns=-1,time=0):
+def play_game(ai, hist=[], turns=-1,time=0):
     ttc = TicTacToeController(history=hist,time=time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
-        print ai
         ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
