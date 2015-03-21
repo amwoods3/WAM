@@ -184,4 +184,5 @@ def play_game(ai, hist=[], turns=-1,time=0):
         print ttt
     k = str(ttc)
     l = ttc.winner
+    print (ttt.state, k, l, time)
     return (ttt.state, k, l, time)
