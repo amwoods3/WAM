@@ -141,16 +141,19 @@ class TicTacToeController:
                             p.join()
                             self.timers[self.player] -= (end-start)
                             r,c = mvv
+                            print "Selected move!"
                             return self.timers[self.player]
                         if (end - start) > self.timers[self.player] \
                                and self.timers[self.player] > 0:
                             p.terminate()
                             p.join()
+                            print "Ran out of time!!"
                             self.change_turn()
                             self.winner = self.players[self.player]
                             return 0
                 except SyntaxError as inst:
                     print inst
+                    print "Error in syntax!"
                     self.change_turn()
                     self.winner = self.players[self.player]
                     return 0
@@ -159,6 +162,7 @@ class TicTacToeController:
                 self.history.append((player, r, c))
                 if ttt.check_win(player):
                     self.winner = player
+                    print "success"
                     return self.timers[self.player]
                 elif ttt.full():
                     self.winner = '!'
@@ -168,6 +172,7 @@ class TicTacToeController:
                 return self.timers[self.player]
             else:
                 self.change_turn()
+                print "picked a spot that cannot be chosen!!"
                 self.winner = self.players[self.player]
                 return 0
     
@@ -176,6 +181,7 @@ def play_game(ai, hist=[], turns=-1,time=0):
     ttc = TicTacToeController(history=hist,time=time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
+        print ttc.players[ttc.player]
         ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
@@ -184,5 +190,5 @@ def play_game(ai, hist=[], turns=-1,time=0):
         print ttt
     k = str(ttc)
     l = ttc.winner
-    print (ttt.state, k, l, time)
-    return (ttt.state, k, l, time)
+    print (ttt.state, k, l)
+    return (ttt.state, k, l)
