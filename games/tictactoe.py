@@ -90,7 +90,6 @@ class TicTacToe:
 
 def something(s,move):
     exec(s)
-    return (end - start)
     move[0] = r
     move[1] = c
     
@@ -119,7 +118,7 @@ class TicTacToeController:
         if self.winner == '!':
             return "It's a draw!!"
         return 'The winner is %s!' % self.winner
-    def manage_turn(self, ttt, ai=['',''], time=5000):
+    def manage_turn(self, ttt, ai=['','']):
         if type(ttt) != type(TicTacToe()):
             #throw some error
             return False
@@ -139,17 +138,19 @@ class TicTacToeController:
                         end = timer.clock()
                         if not p.is_alive:
                             p.join()
-                            self.timers[self.player] -= (end-start)*1000.0
+                            self.timers[self.player] -= (end-start)
                             r,c = mvv
                             return self.timers[self.player]
-                        if (end - start)*1000.0 > self.timers[self.player] \
+                        if (end - start) > self.timers[self.player] \
                                and self.timers[self.player] > 0:
                             p.terminate()
                             p.join()
-                            self.winner = self.players[1 - self.player]
+                            self.change_turn()
+                            self.winner = self.players[self.player]
                             return 0
                 except SyntaxError as inst:
                     print inst
+                    self.change_turn()
                     self.winner = self.players[1 - self.player]
                     return 0
             player = self.players[self.player]
@@ -157,13 +158,13 @@ class TicTacToeController:
                 self.history.append((player, r, c))
                 if ttt.check_win(player):
                     self.winner = player
-                    return time
+                    return self.timers[self.player]
                 elif ttt.full():
                     self.winner = '!'
-                    return time
+                    return self.timers[self.player]
                 self.change_turn()
                 self.winner = ' '
-                return time
+                return self.timers[self.player]
             else:
                 self.change_turn()
                 self.winner = self.players[self.player]
@@ -174,6 +175,7 @@ def play_game(ai = ['',''], hist=[], turns=-1,time=0):
     ttc = TicTacToeController(history=hist,time=time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
+        print ai
         ttc.manage_turn(ttt, ai)
         if ttc.get_winner() != ' ':
             break
@@ -183,3 +185,6 @@ def play_game(ai = ['',''], hist=[], turns=-1,time=0):
     k = str(ttc)
     l = ttc.winner
     return (ttt.state, k, l, time)
+
+
+play_game()
