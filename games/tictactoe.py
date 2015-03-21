@@ -185,6 +185,3 @@ def play_game(ai, hist=[], turns=-1,time=0):
     k = str(ttc)
     l = ttc.winner
     return (ttt.state, k, l, time)
-
-
-play_game()
