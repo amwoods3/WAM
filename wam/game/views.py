@@ -40,7 +40,8 @@ def upload_file(request):
         if form.is_valid():
             c['form'] = form
             # check to see if the ai title exists
-            check_ai_title = UserAiTable.objects.filter(user_ai_title=request.POST['ai_title'])
+            check_ai_title = UserAiTable.objects.filter(user_ai_title=request.POST['ai_title'],
+                                                        user_id=request.session['member_id'])
             if check_ai_title:
                 c['error_message'] = 'This ai title already exists'
                 c.update(csrf(request))

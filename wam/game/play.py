@@ -107,8 +107,8 @@ def play(request):
     import tictactoe
 
     # play the game and create session to show that its already played
-    s = tictactoe.play_game(ai=[request.session['ais'][1], 
-                            request.session['ais'][0]], time=game_time)
+    s = tictactoe.play_game(ai=[request.session['ais'][0], 
+                            request.session['ais'][1]], time=game_time)
     request.session['played'] = s
     c['game'] = s[0]
     c['history'] = s[1]
