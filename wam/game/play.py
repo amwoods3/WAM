@@ -122,23 +122,18 @@ def play(request):
 
     # update user stats
     user_stats = stats.get(user_ai_title=c['user_name_ai'])
+    ch_user_stats = stats.get(user_ai_title=c['ch_name_ai'])
     if user_won:
         user_stats.user_ai_wins += 1
+        ch_user_stats.user_ai_losses += 1
     elif not is_draw:
         user_stats.user_ai_losses += 1
+        ch_user_stats.user_ai_wins += 1
     else:
         user_stats.user_ai_draws += 1
+        ch_user_stats.user_ai_draws += 1
     user_stats.save()
-
-    # update challened user stats 
-    user_stats = stats.get(user_ai_title=c['ch_name_ai'])
-    if not user_won:
-        user_stats.user_ai_wins += 1
-    elif not is_draw:
-        user_stats.user_ai_losses += 1
-    else:
-        user_stats.user_ai_draws += 1
-    user_stats.save()
+    ch_user_stats.save()
 
     # add the game played to the past games table
     str_game_history = ''

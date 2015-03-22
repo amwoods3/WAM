@@ -61,7 +61,7 @@ def upload_file(request):
             ai = UserAiTable(user_id=request.session['member_id'], 
                              user_ai_title=post['ai_title'], 
                              user_ai_gen_title=ai_title,
-                             user_ai_game_name=requst.post['name_of_game'])
+                             user_ai_game_name=post['name_of_game'])
             ai.save()
             c['error_message'] = 'File uploaded successfuly'
 
