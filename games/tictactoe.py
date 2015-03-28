@@ -1,5 +1,9 @@
 import multiprocessing
+import subprocess
+import resource
+import signal
 import time as timer
+
 class TicTacToe:
     def __init__(self, n=3, s='', history=[]):
         self.state = []
@@ -92,18 +96,22 @@ def something(s,move):
     exec(s)
     move[0] = r
     move[1] = c
+    return
     
-    
-    
+class TimeOutException(Exception): pass
+def time_out(signum, frame):
+    raise TimeOutException, "Time Out!!"
 class TicTacToeController:
-    def __init__(self, player1='x', player2='o', history=[], time=0):
+    def __init__(self, player1='x', player2='o', history=[], time=0, \
+                 p1t=0, p2t=0):
         self.player = len(history) % 2
-        self.timers = [time, time]
+        self.timers = [p1t, p2t]
+        self.max_time = time
         self.players = [player1, player2]
         self.history = history
         self.winner = ' '
     def __str__(self):
-        s = 'Move sequence:\n'
+        s = ''
         for i in self.history:
             s += str(i[0]) + ': ' + str(i[1:]) + '\n'
         return s
@@ -129,28 +137,28 @@ class TicTacToeController:
             else:
                 try:
                     mvv=[-1,-1]
-                    s = "import %s;r, c = %s.get_move('%s')"\
-                        % (ai[self.player], ai[self.player], ttt.get_state_str())
-                    p = multiprocessing.Process(target=something, name="ai", \
-                                                args=(s,mvv))
-                    p.start()
-                    start = timer.clock()
-                    while 1:
-                        end = timer.clock()
-                        if not p.is_alive:
-                            p.join()
-                            self.timers[self.player] -= (end-start)
-                            r,c = mvv
-                            print "Selected move!"
-                            return self.timers[self.player]
-                        if (end - start) > self.timers[self.player] \
-                               and self.timers[self.player] > 0:
-                            p.terminate()
-                            p.join()
-                            print "Ran out of time!!"
+                    s = "import %s as ai\nr, c = ai.get_move('%s')"\
+                        % (ai[self.player], ttt.get_state_str())
+                    soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
+                    resource.setrlimit(resource.RLIMIT_CPU,
+                                       (self.max_time, hard))
+                    #signal.signal(signal.SIGXCPU, time_out)
+                    try:
+                        t0 = resource.getrusage(resource.RUSAGE_SELF)
+                        something(s, mvv)
+                        t1 = resource.getrusage(resource.RUSAGE_SELF)
+                        self.timers[self.player] += t1.ru_utime - t0.ru_utime
+                        if self.timers[self.player] > self.max_time:
+                            print "Took too long!!"
                             self.change_turn()
-                            self.winner = self.players[self.player]
+                            self.winner = self.players[self.players]
                             return 0
+                        r, c = mvv[0], mvv[1]
+                    except TimeOutException, msg:
+                        print "Ran out of time!!"
+                        self.change_turn()
+                        self.winner = self.players[self.player]
+                        return 0
                 except SyntaxError as inst:
                     print inst
                     print "Error in syntax!"
@@ -162,14 +170,13 @@ class TicTacToeController:
                 self.history.append((player, r, c))
                 if ttt.check_win(player):
                     self.winner = player
-                    print "success"
-                    return self.timers[self.player]
+                    return self.max_time
                 elif ttt.full():
                     self.winner = '!'
-                    return self.timers[self.player]
+                    return self.max_time
                 self.change_turn()
                 self.winner = ' '
-                return self.timers[self.player]
+                return self.max_time
             else:
                 self.change_turn()
                 print "picked a spot that cannot be chosen!!"
@@ -177,18 +184,21 @@ class TicTacToeController:
                 return 0
     
 
-def play_game(ai, hist=[], turns=-1,time=0):
-    ttc = TicTacToeController(history=hist,time=time)
+def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
+    ttc = TicTacToeController(history=hist,time=time,p1t=p1time,p2t=p2time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
-        print ttc.players[ttc.player]
-        ttc.manage_turn(ttt, ai)
+        if ttc.manage_turn(ttt, ai) == 0:
+            break
         if ttc.get_winner() != ' ':
             break
         if turns is not -1:
             turns -= 1
-        print ttt
     k = str(ttc)
     l = ttc.winner
-    print (ttt.state, k, l)
-    return (ttt.state, k, l)
+    p1t = ttc.timers[0]
+    p2t = ttc.timers[1]
+    return (ttt.state, k, l, p1t, p2t)
+
+if __name__ == "__main__":
+    print play_game(['randai', 'randai2'], time=3)
