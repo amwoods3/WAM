@@ -21,6 +21,7 @@ print ai.get_move('%s', %s, '%s')
     try:
         result = json.JSONDecoder().decode(p.communicate()[0])
     except ValueError:
+        print "Time out!!"
         result = [9999, 9999]
     return (result, time_taken)
     

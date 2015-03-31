@@ -172,8 +172,10 @@ class TicTacToeController:
                 return self.max_time
             else:
                 self.change_turn()
-                print "picked a spot that cannot be chosen!!"
-                print r, c
+                if r == 9999 and c == 9999:
+                    print "ran out of time!"
+                else:
+                    print "picked a spot that cannot be chosen!!"
                 self.winner = self.players[self.player]
                 return 0
     
