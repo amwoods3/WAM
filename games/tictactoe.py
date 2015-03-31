@@ -173,6 +173,7 @@ class TicTacToeController:
             else:
                 self.change_turn()
                 print "picked a spot that cannot be chosen!!"
+                print r, c
                 self.winner = self.players[self.player]
                 return 0
     
