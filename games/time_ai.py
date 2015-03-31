@@ -21,15 +21,13 @@ print ai.get_move('%s', %s, '%s')
     p.wait()
     t1 = resource.getrusage(resource.RUSAGE_CHILDREN)
     time_taken = ((t1.ru_utime + t1.ru_stime) - (t0.ru_utime + t0.ru_stime)) * 1000 # need time_taken in miliseconds, we want to use for ai records
-    print "Time left: ", time_limit
-    print "Time taken: ", time_taken
     result_tuple = p.communicate()
     result_str = result_tuple[0]
     try:
+        print result_tuple
         result = json.loads(result_str)
-        print result
-    except ValueError: # will happen if AI doesn't have enough time to return value
-        print "Time out!!"
+    except ValueError ,msg: # will happen if AI doesn't have enough time to return value
+        print "Time out!!!!!"
         result = [9999, 9999]
     os.system("rm run_ai.py")
     return (result, time_taken)
