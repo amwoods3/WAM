@@ -15,3 +15,6 @@ DB_host = ''
 #DB_user= 'abrokencupcake'
 #DB_pass = 'p4ssw4m'
 #DB_host = 'mysql.server'
+
+# test code
+AI_PATH = 'wam.testai'
