@@ -1,9 +1,8 @@
-def get_move(state):
+import json
+def get_move(state, time_limit, turn):
     import random
-    state = state.split(',')
-    choices = [i for i in range(len(state)) if state[i] == ' ']
-    choose = random.choice(choices)
-    row = choose / 3
-    col = choose % 3
-    return (row, col)
+    state = json.JSONDecoder().decode(state)
+    choices = [(i,j) for i in range(len(state)) for j in range(len(state[i])) if state[i][j] == ' ']
+    row, col = random.choice(choices)
+    return json.JSONEncoder().encode((row, col))
 

@@ -1,6 +1,5 @@
 import multiprocessing
-import subprocess
-import resource
+import time_ai
 import signal
 import time as timer
 
@@ -136,18 +135,12 @@ class TicTacToeController:
                 r, c = self.get_input()
             else:
                 try:
-                    mvv=[-1,-1]
                     s = "import %s as ai\nr, c = ai.get_move('%s')"\
                         % (ai[self.player], ttt.get_state_str())
-                    soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
-                    resource.setrlimit(resource.RLIMIT_CPU,
-                                       (self.max_time, hard))
                     #signal.signal(signal.SIGXCPU, time_out)
                     try:
-                        t0 = resource.getrusage(resource.RUSAGE_SELF)
-                        something(s, mvv)
-                        t1 = resource.getrusage(resource.RUSAGE_SELF)
-                        self.timers[self.player] += t1.ru_utime - t0.ru_utime
+                        mvv = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player])
+                        #self.timers[self.player] += t1.ru_utime - t0.ru_utime
                         if self.timers[self.player] > self.max_time:
                             print "Took too long!!"
                             self.change_turn()
@@ -201,4 +194,4 @@ def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
     return (ttt.state, k, l, p1t, p2t)
 
 if __name__ == "__main__":
-    print play_game(['randai', 'randai2'], time=3)
+    print play_game(['randai', 'randai'], time=3)
