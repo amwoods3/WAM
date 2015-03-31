@@ -1,6 +1,8 @@
 import subprocess
 import resource
 import json
+import os
+
 def set_limit(seconds):
     soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
     resource.setrlimit(resource.RLIMIT_CPU,
@@ -29,6 +31,7 @@ print ai.get_move('%s', %s, '%s')
     except ValueError: # will happen if AI doesn't have enough time to return value
         print "Time out!!"
         result = [9999, 9999]
+    os.system("rm run_ai.py")
     return (result, time_taken)
     
     
