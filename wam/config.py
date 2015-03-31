@@ -11,13 +11,13 @@ DB_name = 'emporia'
 DB_user = 'root'
 DB_pass = ''
 DB_host = ''
-
+AI_PATH = 'wam.ais'
 # pythonanywhere
 #DB_name = 'abrokencupcake$emporia'
 #DB_user= 'abrokencupcake'
 #DB_pass = 'p4ssw4m'
 #DB_host = 'mysql.server'
-AI_PATH = 'wam.ais'
+#AI_PATH = 'WAM.wam.ais'
 
 # test code
 #AI_PATH = 'testai'
