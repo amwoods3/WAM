@@ -122,7 +122,7 @@ def play(request):
 
     # find out who won
     is_draw = (c['winner'] == '!')
-    user_won = (c['winner'] == 'o')
+    user_won = (c['winner'] == 'x')
 
     # update stat table for user and challenged user
     user_stats = UserStats.objects.get(user_id=request.session['member_id'],
