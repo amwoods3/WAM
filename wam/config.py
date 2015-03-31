@@ -2,6 +2,8 @@
 
 
 FILE_PATH = ''  # default -- local
+TEST_PATH = '/home/student/ciss/ciss438/p/WAM/'
+#TEST_PATH = '/home/abrokencupcake/WAM/'
 #FILE_PATH = '/home/abrokencupcake/WAM/' # for pythonanywhere
 
 # default -- local
@@ -18,4 +20,4 @@ DB_host = ''
 AI_PATH = 'wam.ais'
 
 # test code
-#AI_PATH = 'wam.testai'
+#AI_PATH = 'testai'

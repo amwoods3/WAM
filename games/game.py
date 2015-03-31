@@ -1,4 +1,4 @@
-class GameBoard:
+class GameBoard(object):
     def __init__(self, n, s='', m=None):
         self.state = []
         if s != '':
@@ -31,7 +31,7 @@ class GameBoard:
               s += str(c) + ','  
         return s[:-1]
 
-class GameRules:
+class GameRules(object):
     def __init__(self):
         pass
     def valid_move(self, board, dest_r, dest_c):
@@ -40,7 +40,7 @@ class GameRules:
         return board[dest_r][dest_c] == ' '
 
 
-class GameController:
+class GameController(object):
     def __init__(self, player1='x', player2='o', name1='', name2=''):
         self.player = 0
         self.winner = ' '

@@ -27,8 +27,8 @@ class CheckerPiece:
     
 class CheckerBoard(GameBoard):
     def __init__(self, state=''):
-        #super(CheckerBoard, self).__init__(8)
-        GameBoard.__init__(self, 8, state)
+        super(CheckerBoard, self).__init__(8)
+        #GameBoard.__init__(self, 8, state)
         black_pos = list(BLACK_STARTS)
         red_pos = list(RED_STARTS)
         for pos in BLACK_STARTS:
