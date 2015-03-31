@@ -139,8 +139,8 @@ class TicTacToeController:
                         % (ai[self.player], ttt.get_state_str())
                     #signal.signal(signal.SIGXCPU, time_out)
                     try:
-                        mvv = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player])
-                        #self.timers[self.player] += t1.ru_utime - t0.ru_utime
+                        mvv, added_time = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player])
+                        self.timers[self.player] += added_time
                         if self.timers[self.player] > self.max_time:
                             print "Took too long!!"
                             self.change_turn()
@@ -194,4 +194,4 @@ def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
     return (ttt.state, k, l, p1t, p2t)
 
 if __name__ == "__main__":
-    print play_game(['randai', 'randai'], time=3)
+    print play_game(['randai', 'randai'], time=3000)
