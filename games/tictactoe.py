@@ -126,12 +126,14 @@ class TicTacToeController:
         if self.winner == '!':
             return "It's a draw!!"
         return 'The winner is %s!' % self.winner
+    
     def manage_turn(self, ttt, ai=['','']):
         if type(ttt) != type(TicTacToe()):
             #throw some error
             return False
+        
         while 1:
-            if ai[self.player] == '':
+            if ai[self.player]['ai'] == '':
                 r, c = self.get_input()
             else:
                 try:
@@ -180,8 +182,8 @@ class TicTacToeController:
                 return 0
     
 
-def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
-    print time
+def play_game(users, ais, hist=[], turns=-1,time=0,p1time=0,p2time=0):
+    ai = [{'user' : users[0], 'ai': ais[0]}, {'user' : users[1], 'ai' : ais[1]}]
     ttc = TicTacToeController(history=hist,time=time,p1t=p1time,p2t=p2time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
