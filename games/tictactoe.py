@@ -198,4 +198,4 @@ def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
     return (ttt.state, k, l, p1t, p2t)
 
 if __name__ == "__main__":
-    print play_game(['randai', 'randai'], time=3000)
+    print play_game(['v2_rand', 'v2_rand'], time=1000)

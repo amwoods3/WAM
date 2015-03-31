@@ -17,6 +17,7 @@ print ai.get_move('%s', %s, '%s')
     p.wait()
     t1 = resource.getrusage(resource.RUSAGE_CHILDREN)
     time_taken = ((t1.ru_utime + t1.ru_stime) - (t0.ru_utime + t0.ru_stime)) * 1000
+    print "time_limit:", time_limit
     print "time_taken:", time_taken
     try:
         result = json.JSONDecoder().decode(p.communicate()[0])
