@@ -47,8 +47,10 @@ def view_user_ai(request):
     
     if request.method == 'POST':
         # get the generated string for the uploaded ai
-        user = UserAiTable.objects.get(user_ai_title=request.POST['my_ai'])
-        ch = UserAiTable.objects.get(user_ai_title=request.POST['ch_ai'])
+        user = UserAiTable.objects.get(user_id = request.session['member_id'],
+                                       user_ai_title=request.POST['my_ai'])
+        ch = UserAiTable.objects.get(user_id = request.session['challenged_user'],
+                                     user_ai_title=request.POST['ch_ai'])
         request.session['ais'] = (user.user_ai_gen_title, ch.user_ai_gen_title)
         request.session['ai_title'] = (user.user_ai_title, ch.user_ai_title)
         try:
@@ -106,6 +108,10 @@ def play(request):
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import tictactoe
 
+    c['game'] = [[' ', ' ', ' '], 
+                 [' ', ' ', ' '], 
+                 [' ', ' ', ' ']]
+
     # play the game and create session to show that its already played
     s = tictactoe.play_game(ai=[request.session['ais'][0], 
                             request.session['ais'][1]], time=game_time)
@@ -117,12 +123,12 @@ def play(request):
     # find out who won
     is_draw = (c['winner'] == '!')
     user_won = (c['winner'] == 'o')
-    
-    stats = UserStats.objects.all()
 
-    # update user stats
-    user_stats = stats.get(user_ai_title=c['user_name_ai'])
-    ch_user_stats = stats.get(user_ai_title=c['ch_name_ai'])
+    # update stat table for user and challenged user
+    user_stats = UserStats.objects.get(user_id=request.session['member_id'],
+                               user_ai_title=c['user_name_ai'])
+    ch_user_stats = UserStats.objects.get(user_id=request.session['challenged_user'],
+                                  user_ai_title=c['ch_name_ai'])
     if user_won:
         user_stats.user_ai_wins += 1
         ch_user_stats.user_ai_losses += 1

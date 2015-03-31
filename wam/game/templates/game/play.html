@@ -10,8 +10,13 @@
 <tr><td>{{ user_name }}</td><td>{{ user_name_ai }}</td><td>x</td></tr>
 <tr><td>{{ ch_user_name }}</td><td>{{ ch_name_ai }}</td><td>o</td></tr>
 </table></pre>
+{% if winner %}
 <pre>
 The winner is: {{ winner }}!
+</pre>
+{% endif %}
+{% if game %}
+<pre>
 <font size="10"><table border="1" width="140px">
 		{% for row in game %}
 		<tr>
@@ -21,5 +26,10 @@ The winner is: {{ winner }}!
 		</tr>
 		{% endfor %}
 </table></font></pre>
-<pre>{{ history }}</pre>
+{% endif %}
+<pre>Move History:
+{% if history %}
+{{ history }}
+{% endif %}
+</pre>
 {% endblock %}
