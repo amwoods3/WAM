@@ -149,6 +149,7 @@ class TicTacToeController:
                             self.winner = self.players[self.players]
                             return 0
                         r, c = mvv[0], mvv[1]
+                        print mvv, r, c
                     except TimeOutException, msg:
                         print "Ran out of time!!"
                         self.change_turn()
