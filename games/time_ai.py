@@ -9,9 +9,9 @@ def set_limit(seconds):
 def run_ai(ai_info, board, time_limit, turn):
     cmd = "python run_ai.py"
     
-    file("run_ai.py", 'w').write("""import wam.ais.%(user)s.%(ai)s as ai
+    file("run_ai.py", 'w').write("""import wam.ais.%(user)s.%(ai)s as ai""" % ai_info + """
 print ai.get_move('%s', %s, '%s')
-    """ % (ai_info, json.JSONEncoder().encode(board), str(time_limit), turn))
+    """ % (json.JSONEncoder().encode(board), str(time_limit), turn))
     
     t0 = resource.getrusage(resource.RUSAGE_CHILDREN)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
