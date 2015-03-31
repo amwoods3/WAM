@@ -179,6 +179,7 @@ class TicTacToeController:
     
 
 def play_game(ai, hist=[], turns=-1,time=0,p1time=0,p2time=0):
+    print time
     ttc = TicTacToeController(history=hist,time=time,p1t=p1time,p2t=p2time)
     ttt = TicTacToe(history=hist)
     while turns is not 0:
