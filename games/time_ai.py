@@ -6,12 +6,12 @@ def set_limit(seconds):
     resource.setrlimit(resource.RLIMIT_CPU,
                        (seconds, soft))
 
-def run_ai(ai, board, time_limit, turn):
+def run_ai(ai_info, board, time_limit, turn):
     cmd = "python run_ai.py"
     
-    file("run_ai.py", 'w').write("""import %s as ai
+    file("run_ai.py", 'w').write("""import wam.ais.%(user)s.%(ai)s as ai
 print ai.get_move('%s', %s, '%s')
-    """ % (ai, json.JSONEncoder().encode(board), str(time_limit), turn))
+    """ % (ai_info, json.JSONEncoder().encode(board), str(time_limit), turn))
     
     t0 = resource.getrusage(resource.RUSAGE_CHILDREN)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
