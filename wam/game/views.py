@@ -118,6 +118,7 @@ def register(request):
             # registeration successful
             import os
             os.system('mkdir %swam/ais/' % (FILE_PATH) + post['user_name'])
+            os.system('touch %swam/ais/' % (FILE_PATH) + post['user_name'] +'/__init__.py')
             user = UserLogin(user_name=post['user_name'], password=post['password'], email=post['email'])
             user.save()
             return HttpResponseRedirect('/game/login')

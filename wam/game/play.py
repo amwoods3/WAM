@@ -102,7 +102,7 @@ def play(request):
     if request.session.get('played', False):
         c['game'] = request.session['played'][0]
         c['history'] = request.session['played'][1]
-        c['winner'] = request.session['played'][2]
+        c['winner'] = request.session['played'][2] if request.session['played'][2] != '!' else 'Draw'
         c['time1'] = request.session['played'][3]
         c['time2'] = request.session['played'][4]
         return render(request, 'game/play.html', c)
@@ -128,7 +128,7 @@ def play(request):
     request.session['played'] = s
     c['game'] = s[0]
     c['history'] = s[1]
-    c['winner'] = s[2]
+    c['winner'] = s[2] if s[2] != '!' else 'Draw'
     c['time1'] = s[3]
     c['time2'] = s[4]
 
@@ -137,7 +137,7 @@ def play(request):
     user_won = (c['winner'] == 'x')
 
     # update stat table for user and challenged user
-    user_stats = UserStats.objects.get(user_id=reqquest.session['member_id'],
+    user_stats = UserStats.objects.get(user_id=request.session['member_id'],
                                            user_ai_title=c['user_name_ai'])
     if 'same_file' in request.session:
         user_stats.user_ai_wins += 1
