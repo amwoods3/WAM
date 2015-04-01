@@ -120,8 +120,11 @@ def play(request):
                  [' ', ' ', ' ']]
 
     # play the game and create session to show that its already played
-    s = tictactoe.play_game(ai=[request.session['ais'][0], 
-                            request.session['ais'][1]], time=game_time)
+    s = tictactoe.play_game(users=[loggin_user_name, 
+                                   challenged_user_name],
+                            ais=[request.session['ais'][0], 
+                                request.session['ais'][1]], 
+                            time=game_time)
     request.session['played'] = s
     c['game'] = s[0]
     c['history'] = s[1]
@@ -134,7 +137,7 @@ def play(request):
     user_won = (c['winner'] == 'x')
 
     # update stat table for user and challenged user
-    user_stats = UserStats.objects.get(user_id=request.session['member_id'],
+    user_stats = UserStats.objects.get(user_id=reqquest.session['member_id'],
                                            user_ai_title=c['user_name_ai'])
     if 'same_file' in request.session:
         user_stats.user_ai_wins += 1
