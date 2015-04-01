@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content_header %} 
+    <h2> View Code </h2>
+{% endblock %}
+{% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<form action="/game/view_code/" method="post">
+{% csrf_token %}
+<select name='ai'>
+{% for ai in ai_list %}
+	  <option value="{{ ai }}"> {{ ai }} </option>
+{% endfor %}
+</select>
+<input type="submit" value="View Code" />
+</form><br />
+{% if code %}
+<h3>Script: {{ code_title }} </h3>
+<pre>
+{{ code }}
+</pre>
+{% endif %}
+{% endblock %}

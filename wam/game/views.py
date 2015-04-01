@@ -152,7 +152,7 @@ def login(request):
                 c = {'form': form,
                      'error_message': "Your username and password didn't match."}
                 c.update(csrf(request))
-                return render_to_response('game/login.html', c)
+                return render(request, 'game/login.html', c)
     else:
         form = UserLoginForm()
     c['form'] = form
@@ -160,9 +160,5 @@ def login(request):
     return render(request, 'game/login.html', c)
 
 def logout(request):
-    try:
-        del request.session['member_id']
-    except KeyError:
-        pass
     request.session.flush()
     return HttpResponseRedirect("/game")

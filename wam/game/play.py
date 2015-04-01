@@ -34,7 +34,7 @@ def challenge_user(request):
     users = UserLogin.objects.all()
     users = [x.user_name for x in users if UserAiTable.objects.all().filter(user_id=x.id)]
     c['can_challenge'] = users
-    c.update(csrf(request))
+    c.update(csrf(request)) 
     return render(request, 'game/challenge_user.html', c)
 
 def view_user_ai(request):
@@ -53,6 +53,11 @@ def view_user_ai(request):
                                      user_ai_title=request.POST['ch_ai'])
         request.session['ais'] = (user.user_ai_gen_title, ch.user_ai_gen_title)
         request.session['ai_title'] = (user.user_ai_title, ch.user_ai_title)
+
+        if (request.session['member_id'] == request.session['challenged_user'] and
+            request.POST['my_ai'] == request.POST['ch_ai']):
+            request.session['same_file'] = 1
+
         try:
             if request.POST['game_time'] is not u"" or None:
                 game_time = int(request.POST['game_time'])
@@ -98,6 +103,8 @@ def play(request):
         c['game'] = request.session['played'][0]
         c['history'] = request.session['played'][1]
         c['winner'] = request.session['played'][2]
+        c['time1'] = request.session['played'][3]
+        c['time2'] = request.session['played'][4]
         return render(request, 'game/play.html', c)
 
     # import files to play the game
@@ -119,6 +126,8 @@ def play(request):
     c['game'] = s[0]
     c['history'] = s[1]
     c['winner'] = s[2]
+    c['time1'] = s[3]
+    c['time2'] = s[4]
 
     # find out who won
     is_draw = (c['winner'] == '!')
@@ -126,20 +135,25 @@ def play(request):
 
     # update stat table for user and challenged user
     user_stats = UserStats.objects.get(user_id=request.session['member_id'],
-                               user_ai_title=c['user_name_ai'])
-    ch_user_stats = UserStats.objects.get(user_id=request.session['challenged_user'],
-                                  user_ai_title=c['ch_name_ai'])
-    if user_won:
+                                           user_ai_title=c['user_name_ai'])
+    if 'same_file' in request.session:
         user_stats.user_ai_wins += 1
-        ch_user_stats.user_ai_losses += 1
-    elif not is_draw:
         user_stats.user_ai_losses += 1
-        ch_user_stats.user_ai_wins += 1
+        del request.session['same_file']
     else:
-        user_stats.user_ai_draws += 1
-        ch_user_stats.user_ai_draws += 1
+        ch_user_stats = UserStats.objects.get(user_id=request.session['challenged_user'],
+                                          user_ai_title=c['ch_name_ai'])
+        if user_won:
+            user_stats.user_ai_wins += 1
+            ch_user_stats.user_ai_losses += 1
+        elif not is_draw:
+            user_stats.user_ai_losses += 1
+            ch_user_stats.user_ai_wins += 1
+        else:
+            user_stats.user_ai_draws += 1
+            ch_user_stats.user_ai_draws += 1
+        ch_user_stats.save()
     user_stats.save()
-    ch_user_stats.save()
 
     # add the game played to the past games table
     str_game_history = ''
