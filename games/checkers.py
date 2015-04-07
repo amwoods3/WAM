@@ -14,14 +14,14 @@ class CheckerPiece:
     def __str__(self):
         if self.color == 'Black':
             if self.level == 2:
-                return '#'
+                return 'B'
             else:
-                return '@'
+                return 'b'
         else:
             if self.level == 2:
-                return 'O'
+                return 'R'
             else:
-                return 'o'
+                return 'r'
     def __eq__(self, b):
         return self.color == b.color
     
@@ -46,6 +46,7 @@ class CheckerBoard(GameBoard):
         return s
     def super_string(self):
         return super.__str__(self)
+    
 class CheckerRules(GameRules):
     def __init__(self):
         self.red_direction = -1
