@@ -30,11 +30,11 @@ def play_game(users, ais, hist=[], turns=-1,time=0,p1time=0,p2time=0,
             break
         if turns is not -1:
             turns -= 1
-    k = str(ttc)
-    l = ttc.winner
+    k = str(controller)
+    l = controller.winner
     p1t = controller.timers[0]
     p2t = controller.timers[1]
-    return (ttt.state, k, l, p1t, p2t)
+    return (controller.state, k, l, p1t, p2t)
 
 if __name__ == "__main__":
     print play_game(['v2_rand', 'v2_rand'], time=1000)
