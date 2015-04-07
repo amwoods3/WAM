@@ -1,3 +1,8 @@
+import multiprocessing
+import time_ai
+import signal
+import time as timer
+
 class TicTacToe:
     def __init__(self, n=3, s='', history=[]):
         self.state = []
