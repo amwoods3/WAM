@@ -2,7 +2,7 @@ import multiprocessing
 import time_ai
 import signal
 import time as timer
-from game import *
+from boardgames import *
 
 class TicTacToe:
     def __init__(self, n=3, s='', history=[]):
