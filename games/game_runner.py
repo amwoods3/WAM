@@ -34,7 +34,7 @@ def play_game(users, ais, hist=[], turns=-1,time=0,p1time=0,p2time=0,
     l = controller.winner
     p1t = controller.timers[0]
     p2t = controller.timers[1]
-    return (controller.state, k, l, p1t, p2t)
+    return (game.state, k, l, p1t, p2t)
 
 if __name__ == "__main__":
     print play_game(['v2_rand', 'v2_rand'], time=1000)
