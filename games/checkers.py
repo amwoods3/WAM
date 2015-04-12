@@ -1,4 +1,4 @@
-from game import *
+from boardgames import GameBoard, GameRules, GameController
 
 BLACK_STARTS = [(1, 0), (0, 1), (2, 1), (1, 2), (0, 3), (2, 3),
                 (1, 4), (0, 5), (2, 5), (1, 6), (0, 7), (2, 7)]
@@ -58,6 +58,7 @@ class CheckerRules(GameRules):
         if jump_av:
             if not is_jump(board, source_r, source_c, dest_r, dest_c, turn):
                 return False
+    
     def is_jump(self, board, source_r, source_c, dest_r, dest_c, turn):
         d1 = dest_r - source_r
         d2 = dest_c - source_c
@@ -67,10 +68,13 @@ class CheckerRules(GameRules):
             if board[r][c] not in (CheckerPiece(turn), ' '):
                 return True
         return False
+    
     def valid_directions(self, direction):
         return [(1 * direction, -1), (1 * direction, 1)]
+    
     def jump_to_space(self, board, a, d1, d2):
         return (board[a[0] + d1 * 2][a[1] + d2 * 2] == ' ')
+    
     def can_jump(self, red_pos, black_pos, turn, board):
         attack,defend = red_pos,black_pos if turn == 'Red' else black_pos,red_pos
         direction = 1 if turn == 'Black' else -1

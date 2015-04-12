@@ -149,7 +149,7 @@ class GameController:
     def __str__(self):
         s = ''
         for i in self.history:
-            s += str(i[0]) + ': ' + str(i[1:]) + '\n'
+            s += str(i[0]) + ':' + str(i[1:]) + ' \n'
         return s
 
     
