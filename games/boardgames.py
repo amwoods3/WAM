@@ -43,7 +43,11 @@ class TicTacToe:
             for col in row:
                 s += col + ','
         return s[:-1]
-    def insert(self, piece, r, c):
+    def move(self, piece, move):
+        if len(move) != 2:
+            return False
+        r = move[0]
+        c = move[1]
         if type(r) is not int or type(c) is not int:
             return False
         if r >= self.n or c >= self.n:
@@ -115,9 +119,14 @@ class GameBoard(object):
             self.state.append(k)
     def insert(self, r, c, piece):
         self.state[r][c] = piece
-    def move(self, sr, sc, dr, dc):
-        self.insert(dr, dc, self.state[sr][sc])
-        self.insert(sr, sc, ' ')
+    def move(self, turn, mvv):#sr, sc, dr, dc):
+        for mv in mvv:
+            sr = mv[0]
+            sc = mv[1]
+            dr = mv[2]
+            dc = mv[3]
+            self.insert(dr, dc, self.state[sr][sc])
+            self.insert(sr, sc, ' ')
     def __str__(self):
         s = ''
         for r in self.state:
@@ -195,7 +204,7 @@ class GameController:
                         self.winner = self.players[self.players]
                         return 0
                     r, c = mvv[0], mvv[1]
-                    print mvv, r, c
+                    # print mvv, r, c
                         
                 except TimeOutException, msg:
                     print "Ran out of time!!"
@@ -211,8 +220,8 @@ class GameController:
                 return 0
             player = self.players[self.player]
             
-        if ttt.insert(player, r, c):
-            self.history.append((player, r, c))
+        if ttt.move(player, mvv):
+            self.history.append((player, mvv))
             if ttt.check_win(player):
                 self.winner = player
                 return self.max_time
