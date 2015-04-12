@@ -59,10 +59,15 @@ def upload_file(request):
                                  get_user_name + '/' + ai_title)
 
             # save the file path into the database
+            if post['name_of_game'] == 'Tic Tac Toe':
+                name_of_game = 'tic_tac_toe'
+            elif post['name_of_game'] == 'Checkers':
+                name_of_game = 'checkers'
+
             ai = UserAiTable(user_id=request.session['member_id'], 
                              user_ai_title=post['ai_title'], 
                              user_ai_gen_title=ai_title,
-                             user_ai_game_name=post['name_of_game'])
+                             user_ai_game_name=name_of_game)
             ai.save()
             c['error_message'] = 'File uploaded successfuly'
 

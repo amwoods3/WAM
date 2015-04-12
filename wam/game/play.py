@@ -10,6 +10,7 @@ from config import FILE_PATH
 def challenge_user(request):
     try:
         del request.session['played']
+        del request.session['game_type']
     except:
         pass
     
@@ -24,6 +25,12 @@ def challenge_user(request):
         # get the challenged user's username
         user_id = UserLogin.objects.get(user_name=request.POST['ch_user'])
         request.session['challenged_user'] = user_id.id
+
+        # get the game type
+        if request.POST['game'] == 'tic_tac_toe':
+            request.session['game_type'] = 'tic_tac_toe'
+        elif request.POST['game'] == 'checkers':
+            request.session['game_type'] = 'checkers'
 
         # Ai V Ai
         if request.POST['game_type'] == 'AivAi':
@@ -113,18 +120,19 @@ def play(request):
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+challenged_user_name+'/')
     sys.path.insert(0, '%swam/ais/' % (FILE_PATH)+loggin_user_name+'/')
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
-    import tictactoe
+    import game_runner
 
     c['game'] = [[' ', ' ', ' '], 
                  [' ', ' ', ' '], 
                  [' ', ' ', ' ']]
 
     # play the game and create session to show that its already played
-    s = tictactoe.play_game(users=[loggin_user_name, 
-                                   challenged_user_name],
-                            ais=[request.session['ais'][0], 
-                                request.session['ais'][1]], 
-                            time=game_time)
+    s = game_runner.play_game(users=[loggin_user_name, 
+                              challenged_user_name],
+                              ais=[request.session['ais'][0], 
+                              request.session['ais'][1]], 
+                              time=game_time,
+                              game_type=request.session['game_type'])
     request.session['played'] = s
     c['game'] = s[0]
     c['history'] = s[1]
@@ -159,17 +167,12 @@ def play(request):
     user_stats.save()
 
     # add the game played to the past games table
-    str_game_history = ''
-    for row in c['game']:
-        for col in row:
-            str_game_history += col + ','
-    str_game_history = str_game_history[:-1]
     past_games = PastGames(player1_id = request.session['member_id'],
                            player2_id = UserLogin.objects.get(user_name=c['ch_user_name']).id,
                            player1_ai_title = c['user_name_ai'],
                            player2_ai_title = c['ch_name_ai'],
                            did_player1_win = user_won,
-                           game_history = str_game_history)
+                           game_history = s[1])
     past_games.save()
 
     return render(request, 'game/play.html', c)

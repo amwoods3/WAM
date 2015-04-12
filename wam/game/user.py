@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 
-from game.models import UserAiTable, UserStats, UserLogin
+from game.models import UserAiTable, UserStats, UserLogin, PastGames, UserLogin
 from game.views import logged_in
 
 from config import FILE_PATH
@@ -17,6 +17,24 @@ def view_user_profile(request):
 
     scores = UserStats.objects.all().filter(user_id=request.session['member_id'])
     c['score_list'] = scores
+
+    games = PastGames.objects.all().filter(player1_id=request.session['member_id'])
+    game_list = []
+    for item in games:
+    	opponent_name = UserLogin.objects.all().filter(pk=games.player2_id)
+    	opponent_ai_title = games.player2_ai_title
+    	win_loss = (games.did_player1_win == 1)
+    	game_list.append((opponent_name, opponent_ai_title, win_loss))
+
+    games = PastGames.objects.all().filter(player2_id=request.session['member_id'])
+    for item in games:
+    	opponent_name = UserLogin.objects.all().filter(pk=games.player1_id)
+    	opponent_ai_title = games.player2_ai_title
+    	win_loss = (games.did_player1_win == 0)
+    	game_list.append((opponent_name, opponent_ai_title, win_loss))
+
+
+    c['past_games'] = game_list
 
     return render(request, 'game/view_user_profile.html', c)
 
