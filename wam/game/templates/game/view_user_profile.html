@@ -8,9 +8,10 @@
 
 <table border="1" width="50%">
 <tr> <td> <font size="5px" style="bold">Ai title</font> </td> 
-<td> <font size="5px" style="bold">Wins</font> </td> 
-<td> <font size="5px" style="bold">Losses</font> </td> 
-<td> <font size="5px" style="bold">Draws</font> </td></tr>
+	 <td> <font size="5px" style="bold">Wins</font> </td> 
+	 <td> <font size="5px" style="bold">Losses</font> </td> 
+	 <td> <font size="5px" style="bold">Draws</font> </td>
+</tr>
 {% for score in score_list %}
    <tr>
       <td> {{ score.user_ai_title }} </td> 
@@ -18,6 +19,22 @@
       <td> {{ score.user_ai_losses }} </td>
       <td> {{ score.user_ai_draws }} </td>
    </tr>
+{% endfor %}
+</table></pre>
+
+<pre>Past Games:
+
+<table border="1" width="50%">
+<tr><td><font size="5px" style="bold">User Played</font></td>
+	<td><font size="5px" style="bold">Ai Used</font></td>
+	<td><font size="5px" style="bold">Game Result</font></td>
+</tr>
+{% for game in past_games %}
+	<tr>
+		{% for item in game %}
+			<td>{{ item }}</td>
+		{% endfor %}
+	</tr>	
 {% endfor %}
 </table></pre>
 {% endblock %}
