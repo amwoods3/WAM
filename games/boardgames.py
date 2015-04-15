@@ -133,6 +133,8 @@ class GameBoard(object):
             for c in r:
               s += str(c) + ','  
         return s[:-1]
+    def __getitem__(self, x):
+        return self.state[x]
 
 class GameRules(object):
     def __init__(self):
@@ -141,6 +143,7 @@ class GameRules(object):
         if dest_r >= board.n or dest_c >= board.m:
             return False
         return board[dest_r][dest_c] == ' '
+    
 
 
 
