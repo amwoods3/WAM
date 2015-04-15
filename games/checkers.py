@@ -22,6 +22,8 @@ class CheckerPiece:
                 return 'R'
             else:
                 return 'r'
+    def __repr__(self):
+        return self.__str__()
     def __eq__(self, b):
         return self.color == b.color
     def __ne__(self, b):
