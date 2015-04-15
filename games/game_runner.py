@@ -12,9 +12,10 @@ def something(s,move):
 #    raise TimeOutException, "Time Out!!"
 
 
-def play_game(users, ais, hist=[], turns=-1,time=0,p1time=0,p2time=0,
+def play_game(users, ais, hist=None, turns=-1,time=0,p1time=0,p2time=0,
               game_type='tic_tac_toe'):
-    print "staring play_game, and the history is", hist
+    if hist is None:
+        hist = []
     ai = [{'user' : users[0], 'ai': ais[0]}, {'user' : users[1], 'ai' : ais[1]}]
     #ttc = GameController(history=hist,time=time,p1t=p1time,p2t=p2time)
     if game_type == 'tic_tac_toe':
