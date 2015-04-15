@@ -50,7 +50,7 @@ class CheckerBoard(GameBoard):
             r += 1
         return s
     def super_string(self):
-        return super(CheckerBoard, self).__str__(self)
+        return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
         super(CheckerBoard, self).move(p, movv)
         for mvv in movv:
