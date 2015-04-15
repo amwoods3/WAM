@@ -167,10 +167,8 @@ class Checkers:
         self.board = CheckerBoard(s)
         self.state = self.board.state
         if len(history) > 0:
-            pieces = ('b', 'r')
-            temp = 0
             for move in history:
-                self.board.move(pieces[temp], move)
+                self.board.move(move[0], move[1])
                 temp = 1 - temp
     def __str__(self):
         s = ''
