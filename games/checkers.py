@@ -183,7 +183,8 @@ class Checkers:
             s += '\n'
         return s
     def move(self, piece, mvv):
-        if not CheckerRules.valid_move(self.state, mvv, piece):
+        cr = CheckerRules()
+        if not cr.valid_move(self.state, mvv, piece):
             return False
         self.state.move(piece, mvv)
         return True
