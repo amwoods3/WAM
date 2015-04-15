@@ -1,4 +1,5 @@
 from boardgames import GameBoard, GameRules#, GameController
+import json
 
 BLACK_STARTS = [(1, 0), (0, 1), (2, 1), (1, 2), (0, 3), (2, 3),
                 (1, 4), (0, 5), (2, 5), (1, 6), (0, 7), (2, 7)]
@@ -23,7 +24,7 @@ class CheckerPiece:
             else:
                 return 'r'
     def __repr__(self):
-        return repr(self.__str__())
+        return json.dumps(repr(self.__str__()))
     def __eq__(self, b):
         return self.color == b.color
     def __ne__(self, b):
@@ -52,7 +53,7 @@ class CheckerBoard(GameBoard):
             r += 1
         return s
     def __repr__(self):
-        return repr(self.state)
+        return json.dumps(repr(self.state))
     def super_string(self):
         return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
