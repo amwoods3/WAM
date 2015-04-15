@@ -184,7 +184,10 @@ class Checkers:
         return s
     def move(self, piece, mvv):
         cr = CheckerRules()
-        if not cr.valid_move(self.state, mvv, piece):
+        try:
+            if not cr.valid_move(self.state, mvv, piece):
+                return False
+        except:
             return False
         self.state.move(piece, mvv)
         return True
