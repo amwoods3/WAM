@@ -23,7 +23,7 @@ class CheckerPiece:
             else:
                 return 'r'
     def __repr__(self):
-        return self.__str__()
+        return repr(self.__str__())
     def __eq__(self, b):
         return self.color == b.color
     def __ne__(self, b):
@@ -52,7 +52,7 @@ class CheckerBoard(GameBoard):
             r += 1
         return s
     def __repr__(self):
-        return str(self.state)
+        return repr(self.state)
     def super_string(self):
         return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
@@ -203,5 +203,5 @@ class Checkers:
 ##         except EOFError:
 ##             break
 ##     print board
-x = Checkers()
-print x
+#x = Checkers()
+#print x
