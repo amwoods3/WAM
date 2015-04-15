@@ -50,7 +50,7 @@ class CheckerBoard(GameBoard):
             r += 1
         return s
     def super_string(self):
-        return super.__str__(self)
+        return super(CheckerBoard, self).__str__(self)
     def move(self, p, movv):
         super(CheckerBoard, self).move(p, movv)
         for mvv in movv:
@@ -174,6 +174,8 @@ class Checkers:
         return True
     def check_win(self, piece, mvv):
         return False
+    def get_state_str(self):
+        return self.state.get_super_str()
     
     
 
