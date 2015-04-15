@@ -175,7 +175,7 @@ class Checkers:
     def check_win(self, piece, mvv):
         return False
     def get_state_str(self):
-        return self.state.get_super_str()
+        return self.state.super_string()
     
     
 
