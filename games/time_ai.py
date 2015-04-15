@@ -15,7 +15,7 @@ def run_ai(ai_info, board, time_limit, turn):
     print type(board)
     file("run_ai.py", 'w').write("""import %s.""" % AI_PATH +"""%(user)s.%(ai)s as ai""" % ai_info + """
 print ai.get_move('%s', %s, '%s')
-    """ % (json.dumps(board.state), str(time_limit), turn))
+    """ % (json.dumps(board), str(time_limit), turn))
     
     t0 = resource.getrusage(resource.RUSAGE_CHILDREN)
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
