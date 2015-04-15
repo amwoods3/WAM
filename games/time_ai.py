@@ -12,8 +12,7 @@ def set_limit(seconds):
 
 def run_ai(ai_info, board, time_limit, turn):
     cmd = "python run_ai.py"
-    print board.state
-    print type(board.state)
+    print type(board)
     file("run_ai.py", 'w').write("""import %s.""" % AI_PATH +"""%(user)s.%(ai)s as ai""" % ai_info + """
 print ai.get_move('%s', %s, '%s')
     """ % (json.dumps(board.state), str(time_limit), turn))
