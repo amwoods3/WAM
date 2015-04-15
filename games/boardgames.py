@@ -146,6 +146,8 @@ class GameRules(object):
     
 
 
+class TimeOutException(Exception):
+    pass
 
 class GameController:
     def __init__(self, player1='x', player2='o', history=[], time=0, \

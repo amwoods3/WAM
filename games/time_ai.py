@@ -3,7 +3,7 @@ import resource
 import json
 import os
 import sys
-#from wam.config import AI_PATH
+from config import AI_PATH
 
 def set_limit(seconds):
     soft, hard = resource.getrlimit(resource.RLIMIT_CPU)
