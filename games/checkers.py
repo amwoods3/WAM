@@ -34,12 +34,14 @@ def CheckerPiece(color):
         return 'b'
     elif color == "Red":
         return 'r'
+    
 def is_color(p, color):
     if color == "Black":
         return p == 'b' or p == 'B'
     elif color == "Red":
         return p == 'r' or p == 'R'
     return False
+
 class CheckerBoard(GameBoard):
     def __init__(self, state=''):
         super(CheckerBoard, self).__init__(8)
@@ -162,13 +164,14 @@ class CheckerRules(GameRules):
 
 class Checkers:
     def __init__(self, n=3, s='', history=[]):
-        self.state = CheckerBoard(s)
+        self.board = CheckerBoard(s)
+        self.state = self.board.state
         if len(history) > 0:
             for move in history:
                 self.state[move[1]][move[2]] = move[0]
     def __str__(self):
         s = ''
-        n = self.state.n
+        n = self.board.n
         for i in range(n):
             if i != 0 and i != n:
                 for j in range(n):
@@ -185,16 +188,16 @@ class Checkers:
     def move(self, piece, mvv):
         cr = CheckerRules()
         try:
-            if not cr.valid_move(self.state, mvv, piece):
+            if not cr.valid_move(self.board, mvv, piece):
                 return False
         except:
             return False
-        self.state.move(piece, mvv)
+        self.board.move(piece, mvv)
         return True
     def check_win(self, piece, mvv):
         return False
     def get_state_str(self):
-        return self.state.super_string()
+        return self.board.super_string()
     
     
 
