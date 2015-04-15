@@ -20,6 +20,7 @@ class TicTacToe:
                 index += 1
             self.state.append(k)
         if len(history) > 0:
+            print history
             for move in history:
                 self.state[move[1]][move[2]] = move[0]
     def __str__(self):
