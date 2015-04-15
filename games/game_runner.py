@@ -1,5 +1,5 @@
 from boardgames import *
-
+from checkers import *
 
 def something(s,move):
     exec(s)

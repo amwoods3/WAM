@@ -6,30 +6,40 @@ BLACK_STARTS = [(1, 0), (0, 1), (2, 1), (1, 2), (0, 3), (2, 3),
 RED_STARTS =   [(5, 0), (7, 0), (6, 1), (5, 2), (7, 2), (6, 3),
                 (5, 4), (7, 4), (6, 5), (5, 6), (7, 6), (6, 7)]
 
-class CheckerPiece:
-    def __init__(self, color):
-        self.color = color
-        self.level = 1
-    def king(self):
-        self.level = 2
-    def __str__(self):
-        if self.color == 'Black':
-            if self.level == 2:
-                return 'B'
-            else:
-                return 'b'
-        else:
-            if self.level == 2:
-                return 'R'
-            else:
-                return 'r'
-    def __repr__(self):
-        return json.dumps(repr(self.__str__()))
-    def __eq__(self, b):
-        return self.color == b.color
-    def __ne__(self, b):
-        return self.color != b.color
-    
+## class CheckerPiece:
+##     def __init__(self, color):
+##         self.color = color
+##         self.level = 1
+##     def king(self):
+##         self.level = 2
+##     def __str__(self):
+##         if self.color == 'Black':
+##             if self.level == 2:
+##                 return 'B'
+##             else:
+##                 return 'b'
+##         else:
+##             if self.level == 2:
+##                 return 'R'
+##             else:
+##                 return 'r'
+##     def __repr__(self):
+##         return repr(self.__str__())
+##     def __eq__(self, b):
+##         return self.color == b.color
+##     def __ne__(self, b):
+##         return self.color != b.color
+def CheckerPiece(color):
+    if color == "Black":
+        return 'b'
+    elif color == "Red":
+        return 'r'
+def is_color(p, color):
+    if color == "Black":
+        return p == 'b' or p == 'B'
+    elif color == "Red":
+        return p == 'r' or p == 'R'
+    return False
 class CheckerBoard(GameBoard):
     def __init__(self, state=''):
         super(CheckerBoard, self).__init__(8)
@@ -37,9 +47,9 @@ class CheckerBoard(GameBoard):
         self.black_pos = list(BLACK_STARTS)
         self.red_pos = list(RED_STARTS)
         for pos in BLACK_STARTS:
-            self.state[pos[0]][pos[1]] = CheckerPiece('Black')
+            self.state[pos[0]][pos[1]] = 'b'#CheckerPiece('Black')
         for pos in RED_STARTS:
-            self.state[pos[0]][pos[1]] = CheckerPiece('Red')
+            self.state[pos[0]][pos[1]] = 'r'#CheckerPiece('Red')
 
     def __str__(self):
         s = ' 0 1 2 3 4 5 6 7\n'
@@ -53,7 +63,7 @@ class CheckerBoard(GameBoard):
             r += 1
         return s
     def __repr__(self):
-        return json.dumps(repr(self.state))
+        return repr(self.state)
     def super_string(self):
         return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
@@ -95,11 +105,11 @@ class CheckerRules(GameRules):
             if not super(CheckerRules, self).valid_move(board, dest_r, dest_c):
                 return False
         
-            cp = CheckerPiece(turn)
+            #cp = CheckerPiece(turn)
             source = board[source_r][source_c]
-            if isinstance(source, str):
-                return False
-            if source != cp:
+            #if isinstance(source, str):
+            #    return False
+            if is_color(source, turn):#source != cp:
                 return False
             jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
             if jump_av:
@@ -125,8 +135,8 @@ class CheckerRules(GameRules):
             c = source_c + d2 / 2
             target = board[r][c]
             enemy = 'Black' if turn == 'Red' else 'Red'
-            enemy = CheckerPiece(enemy)
-            if target == enemy:
+            #enemy = CheckerPiece(enemy)
+            if is_color(target, enemy):#target == enemy:
                 return True
         return False
     
