@@ -49,6 +49,8 @@ class CheckerBoard(GameBoard):
             s += '+-+-+-+-+-+-+-+-+\n'
             r += 1
         return s
+    def __repr__(self):
+        return super(CheckerBoard, self).state
     def super_string(self):
         return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
