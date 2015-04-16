@@ -26,7 +26,7 @@ def view_user_profile(request):
     	win_loss = 'Win' if (item.did_player1_win == 1) else 'Lost'
     	your_time = item.player1_total_time
     	oppenent_time = item.player2_total_time
-    	game_list.append((opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
+    	game_list.append((item.pk, opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
 
     games = PastGames.objects.all().filter(player2_id=request.session['member_id'])
     for item in games:
@@ -35,7 +35,7 @@ def view_user_profile(request):
     	win_loss = 'Win' if (item.did_player1_win == 0) else 'Lost'
     	your_time = item.player2_total_time
     	oppenent_time = item.player1_total_time
-    	game_list.append((opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
+    	game_list.append((item.pk, opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
 
 
     c['past_games'] = game_list
@@ -97,3 +97,17 @@ def view_code(request):
 
 	c.update(csrf(request))
 	return render(request, 'game/view_code.html', c)
+
+def view_game(request, game_id):
+	c = {'user_logged_in': logged_in(request)}
+	if logged_in(request):
+		loggin_user_name = UserLogin.objects.get(pk=request.session['member_id']).user_name
+		c['user_name'] = loggin_user_name
+	else:
+		return HttpResponseRedirect('/game')
+
+	view_game = PastGames.objects.get(pk=game_id)
+	c['game_history'] = view_game.game_history
+	
+	c.update(csrf(request))
+	return render(request, 'game/view_game.html', c)

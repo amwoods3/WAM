@@ -25,16 +25,21 @@
 <pre>Past Games:
 
 <table border="1" width="100%">
-<tr><td> <font size="3px" style="bold">User Played</font></td>
-	<td> <font size="3px" style="bold">Ai Used</font></td>
-	<td> <font size="3px" style="bold">Game Result</font></td>
-	<td> <font size="3px" style="bold">Your AI's Run Time</font></td>
-	<td> <font size="3px" style="bold">Oppenents AI's Run Time</font></td>
+<tr> <td> <font size="3px" style="bold">Game ID</font> </td>
+     <td> <font size="3px" style="bold">User Played</font></td>
+	 <td> <font size="3px" style="bold">Ai Used</font></td>
+	 <td> <font size="3px" style="bold">Game Result</font></td>
+	 <td> <font size="3px" style="bold">Your AI's Run Time</font></td>
+	 <td> <font size="3px" style="bold">Oppenents AI's Run Time</font></td>
 </tr>
 {% for game in past_games %}
 	<tr>
 		{% for item in game %}
-			<td> {{ item }}</td>
+			{% ifequal forloop.counter 1 %}
+				<td> <a href="past_game/{{ item }}"> {{ item }} </a> </td>
+			{% else %}
+				<td> {{ item }} </td>
+			{% endifequal %}
 		{% endfor %}
 	</tr>	
 {% endfor %}

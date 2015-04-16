@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content_header %} 
+    <h2> {{ user_name }}'s Past Game </h2>
+{% endblock %}
+{% block content %}
+{{ game_history }}
+{% endblock %}

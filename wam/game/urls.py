@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^view_user_ai/$', play.view_user_ai, name='view_user_ai'),
     url(r'^view_user_profile/$', user.view_user_profile, name='view_user_profile'),  
     url(r'^forgot_password/$', user.forgot_password, name='forgot_password'),   
-    url(r'^view_code/$', user.view_code, name='view_code')                
+    url(r'^view_code/$', user.view_code, name='view_code'),
+    url(r'^view_user_profile/past_game/([0-9]+)', user.view_game, name='view_game'),                
 )
