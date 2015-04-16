@@ -122,6 +122,8 @@ class GameBoard(object):
         self.state[r][c] = piece
     def move(self, turn, mvv):#sr, sc, dr, dc):
         for mv in mvv:
+            if not isinstance(mv, list):
+                return
             sr = mv[0]
             sc = mv[1]
             dr = mv[2]
@@ -239,6 +241,7 @@ class GameController:
             return self.max_time
             
         else:
+            self.history.append((player, mvv))
             self.change_turn()
             if len(mvv) > 1:
                 if mvv[0] == 9999 and mvv[1] == 9999:

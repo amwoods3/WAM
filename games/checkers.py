@@ -71,6 +71,8 @@ class CheckerBoard(GameBoard):
     def move(self, p, movv):
         super(CheckerBoard, self).move(p, movv)
         for mvv in movv:
+            if not isinstance(mvv, list):
+                return
             turn = 'Black' if p == 'b' else 'Red'
             if CheckerRules().is_jump(self.state, mvv[0], mvv[1],
                                       mvv[2], mvv[3], turn):
@@ -109,10 +111,7 @@ class CheckerRules(GameRules):
             if not super(CheckerRules, self).valid_move(board, dest_r, dest_c):
                 return False
         
-            #cp = CheckerPiece(turn)
             source = board[source_r][source_c]
-            #if isinstance(source, str):
-            #    return False
             if not is_color(source, turn):#source != cp:
                 return False
             jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
@@ -138,9 +137,11 @@ class CheckerRules(GameRules):
         if abs(d1) == 2 and abs(d2) == 2:
             r = source_r + d1 / 2
             c = source_c + d2 / 2
+            
             target = board[r][c]
             enemy = 'Black' if turn == 'Red' else 'Red'
             #enemy = CheckerPiece(enemy)
+            
             if is_color(target, enemy):#target == enemy:
                 return True
         return False
@@ -149,6 +150,10 @@ class CheckerRules(GameRules):
         return [(1 * direction, -1), (1 * direction, 1)]
     
     def jump_to_space(self, board, a, d1, d2):
+        r = a[0] + d1 * 2
+        c = a[1] + d2 * 2
+        if r >= 8 or r < 0: return False
+        if c >= 8 or c < 0: return False
         return (board[a[0] + d1 * 2][a[1] + d2 * 2] == ' ')
     
     def can_jump(self, red_pos, black_pos, turn, board):
@@ -163,7 +168,46 @@ class CheckerRules(GameRules):
     def a_can_attack_b(self, a, b, direction):
         r = b[0] - a[0]
         c = b[1] - a[1]
+        if b[0] + 1 >= 8 or b[0] - 1 < 0:
+            return False
+        if b[1] + 1 >= 8 or b[1] - 1 < 0:
+            return False
         return r == direction and c in (1, -1)
+
+    def possible_moves(self, a, board):
+        d = (a[0] + 1, a[0] - 1)
+        f = (a[1] + 1, a[1] - 1)
+        pm = []
+        for r in d:
+            for c in f:
+                if r >= 8 or r < 0 or c >= 8 or c < 0:
+                    break
+                if board[r][c] == ' ':
+                    pm.append((r, c))
+                elif self.a_can_attack_b(a, (r, c), r - a[0]):
+                    r1 = r + (r - a[0])
+                    c1 = c + (c - a[1])
+                    if c1 >= 8 or c1 < 0 or r1 >= 8 or r1 < 0:
+                        break
+                    pm.append((r1, c1))
+        return pm
+    def a_can_move(self, a, board):
+        s = board[a[0]][a[1]]
+        c = (a[1] + 1, a[1] - 1)
+        if s == 'R' or s == 'B':
+            direction = 0
+        else:
+            direction = 1 if s == 'b' else -1
+        pm = self.possible_moves(a, board)
+        if not pm:
+            return False
+        if direction != 0:
+            for move in pm:
+                if a[0] + direction == move[0]:
+                    return True
+            return False
+        return True
+        
 
 class Checkers:
     def __init__(self, n=3, s='', history=[]):
@@ -192,13 +236,27 @@ class Checkers:
         cr = CheckerRules()
         try:
             if not cr.valid_move(self.board, mvv, piece):
+                self.board.move(piece, mvv)
                 return False
         except:
+            self.board.move(piece, mvv)
             return False
         self.board.move(piece, mvv)
         return True
+    
     def check_win(self, piece):
-        return False
+        cr = CheckerRules()
+        if piece == 'r':
+            for r in self.board.red_pos:
+                if cr.a_can_move(r, self.board):
+                    return False
+            return True
+        if piece == 'b':
+            for b in self.board.black_pos:
+                if cr.a_can_move(b, self.board):
+                    return False
+            print "game over"
+            return True
     def get_state_str(self):
         return self.board.super_string()
     
