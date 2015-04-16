@@ -50,7 +50,7 @@ def play_game(users, ais, hist=None, turns=-1,time=0,p1time=0,p2time=0,
     l = controller.winner
     p1t = controller.timers[0]
     p2t = controller.timers[1]
-    return (game.state, k, l, p1t, p2t, controller.history)
+    return (game.state, k, l, p1t, p2t, json.dumps(controller.history))
 
 if __name__ == "__main__":
     print play_game(['v2_rand', 'v2_rand'], time=1000, game_type='checkers')
