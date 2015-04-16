@@ -104,13 +104,13 @@ def register(request):
 
             # check size of user name
             if len(post['user_name']) < 5:
-                c['error_message'] = "Your username must be longer than 5 characters."
+                c['error_message'] = "Your username must be atleast 5 characters."
                 c.update(csrf(request))
                 return render(request, 'game/register.html', c)
 
             # check size of password
             if len(post['password']) < 5:
-                c['error_message'] = "Your password must be longer than 5 characters."
+                c['error_message'] = "Your password must be atleast 5 characters."
                 c.update(csrf(request))
                 return render(request, 'game/register.html', c)
 
