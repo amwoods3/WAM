@@ -7,10 +7,10 @@
 <pre>List of Ais:
 
 <table border="1" width="50%">
-<tr> <td> <font size="5px" style="bold">Ai title</font> </td> 
-	 <td> <font size="5px" style="bold">Wins</font> </td> 
-	 <td> <font size="5px" style="bold">Losses</font> </td> 
-	 <td> <font size="5px" style="bold">Draws</font> </td>
+<tr> <td> <font size="3px" style="bold">Ai title</font> </td> 
+	 <td> <font size="3px" style="bold">Wins</font> </td> 
+	 <td> <font size="3px" style="bold">Losses</font> </td> 
+	 <td> <font size="3px" style="bold">Draws</font> </td>
 </tr>
 {% for score in score_list %}
    <tr>
@@ -24,15 +24,17 @@
 
 <pre>Past Games:
 
-<table border="1" width="50%">
-<tr><td><font size="5px" style="bold">User Played</font></td>
-	<td><font size="5px" style="bold">Ai Used</font></td>
-	<td><font size="5px" style="bold">Game Result</font></td>
+<table border="1" width="100%">
+<tr><td> <font size="3px" style="bold">User Played</font></td>
+	<td> <font size="3px" style="bold">Ai Used</font></td>
+	<td> <font size="3px" style="bold">Game Result</font></td>
+	<td> <font size="3px" style="bold">Your AI's Run Time</font></td>
+	<td> <font size="3px" style="bold">Oppenents AI's Run Time</font></td>
 </tr>
 {% for game in past_games %}
 	<tr>
 		{% for item in game %}
-			<td>{{ item }}</td>
+			<td> {{ item }}</td>
 		{% endfor %}
 	</tr>	
 {% endfor %}

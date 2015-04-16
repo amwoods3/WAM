@@ -30,6 +30,8 @@ class PastGames(models.Model):
     did_player1_win = models.BooleanField(default=True)
     player1_ai_title = models.CharField(max_length=100)
     player2_ai_title = models.CharField(max_length=100)
+    player1_total_time = models.PositiveIntegerField(default=0)
+    player2_total_time = models.PositiveIntegerField(default=0)
 
 class UserStats(models.Model):
     user_id = models.PositiveIntegerField()

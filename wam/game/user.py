@@ -24,14 +24,18 @@ def view_user_profile(request):
     	opponent_name = UserLogin.objects.all().get(pk=item.player2_id).user_name
     	opponent_ai_title = item.player1_ai_title
     	win_loss = 'Win' if (item.did_player1_win == 1) else 'Lost'
-    	game_list.append((opponent_name, opponent_ai_title, win_loss))
+    	your_time = item.player1_total_time
+    	oppenent_time = item.player2_total_time
+    	game_list.append((opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
 
     games = PastGames.objects.all().filter(player2_id=request.session['member_id'])
     for item in games:
     	opponent_name = UserLogin.objects.all().get(pk=item.player1_id).user_name
     	opponent_ai_title = item.player2_ai_title
     	win_loss = 'Win' if (item.did_player1_win == 0) else 'Lost'
-    	game_list.append((opponent_name, opponent_ai_title, win_loss))
+    	your_time = item.player2_total_time
+    	oppenent_time = item.player1_total_time
+    	game_list.append((opponent_name, opponent_ai_title, win_loss, your_time, oppenent_time))
 
 
     c['past_games'] = game_list

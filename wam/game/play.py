@@ -172,7 +172,9 @@ def play(request):
                            player1_ai_title = c['user_name_ai'],
                            player2_ai_title = c['ch_name_ai'],
                            did_player1_win = user_won,
-                           game_history = s[1])
+                           game_history = s[1],
+                           player1_total_time = s[3],
+                           player2_total_time = s[4])
     past_games.save()
 
     return render(request, 'game/play.html', c)
