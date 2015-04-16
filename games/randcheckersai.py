@@ -1,7 +1,7 @@
 
 def get_move(state, time_limit, turn):
     import random, json
-    state = json
+    state = json.loads(state)
     pos = []
     # get position of all player pieces
     for row in range(len(state)):
