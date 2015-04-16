@@ -128,9 +128,9 @@ def play(request):
 
     # play the game and create session to show that its already played
     s = game_runner.play_game(users=[loggin_user_name, 
-                              challenged_user_name],
+                                     challenged_user_name],
                               ais=[request.session['ais'][0], 
-                              request.session['ais'][1]], 
+                                   request.session['ais'][1]], 
                               time=game_time,
                               game_type=request.session['game_type'])
     request.session['played'] = s
