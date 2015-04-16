@@ -190,9 +190,11 @@ class Checkers:
         cr = CheckerRules()
         try:
             if not cr.valid_move(self.board, mvv, piece):
+                print "Invalid move!"
                 return False
         except:
             return False
+        print "Okay, that's good."
         self.board.move(piece, mvv)
         return True
     def check_win(self, piece, mvv):
