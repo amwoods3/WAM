@@ -209,7 +209,7 @@ class GameController:
                         self.change_turn()
                         self.winner = self.players[self.players]
                         return 0
-                    r, c = mvv[0], mvv[1]
+                    #r, c = mvv[0], mvv[1]
                     # print mvv, r, c
                         
                 except TimeOutException, msg:
@@ -240,8 +240,9 @@ class GameController:
             
         else:
             self.change_turn()
-            if r == 9999 and c == 9999:
-                print "ran out of time!"
+            if len(mvv) > 1:
+                if mvv[0] == 9999 and mvv[1] == 9999:
+                    print "ran out of time!"
             else:
                 print "picked a spot that cannot be chosen!!"
             self.winner = self.players[self.player]
