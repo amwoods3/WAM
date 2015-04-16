@@ -34,7 +34,8 @@ def get_move(state, time_limit, turn):
         return json.dumps([random.choice(jumps)])
     moves = []
     for p in pos:
-        r = p[0], c = p[1]
+        r = p[0]
+        c = p[1]
         r += direction
         c1 = c + 1
         c2 = c - 1
