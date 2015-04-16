@@ -39,9 +39,11 @@ def get_move(state, time_limit, turn):
         r += direction
         c1 = c + 1
         c2 = c - 1
-        if r < 8 and r >= 0 and c1 < 8 and c2 >= 0:
-            if state[r][c1] == ' ':
-                moves.append((p[0], p[1], r, c1))
-            if state[r][c2] == ' ':
-                moves.append((p[0], p[1], r, c2))
+        if r < 8 and r >= 0:
+            if c1 >= 0 and c1 < 8:
+                if state[r][c1] == ' ':
+                    moves.append((p[0], p[1], r, c1))
+            if c2 >= 0 and c2 < 8:
+                if state[r][c2] == ' ':
+                    moves.append((p[0], p[1], r, c2))
     return json.dumps([random.choice(moves)])

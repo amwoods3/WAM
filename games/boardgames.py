@@ -231,9 +231,9 @@ class GameController:
             if ttt.check_win(player):
                 self.winner = player
                 return self.max_time
-            elif ttt.full():
-                self.winner = '!'
-                return self.max_time
+            #elif ttt.full():
+            #    self.winner = '!'
+            #    return self.max_time
             self.change_turn()
             self.winner = ' '
             return self.max_time

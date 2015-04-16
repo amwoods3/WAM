@@ -97,6 +97,8 @@ class CheckerRules(GameRules):
         
     def valid_move(self, board, mvv, turn):
         b = None
+        if turn in ('b', 'r', 'B', 'R'):
+            turn = "Black" if turn == "b" or turn == "B" else "Red"
         for mv in mvv:
             if b == None:
                 b = mv
@@ -111,7 +113,7 @@ class CheckerRules(GameRules):
             source = board[source_r][source_c]
             #if isinstance(source, str):
             #    return False
-            if is_color(source, turn):#source != cp:
+            if not is_color(source, turn):#source != cp:
                 return False
             jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
             if jump_av:
@@ -123,6 +125,7 @@ class CheckerRules(GameRules):
                             else self.red_direction
                 # don't forget to add king exception
                 if dest_r - source_r != direction:
+                    print direction
                     return False
                 if abs(dest_c - source_c) != 1:
                     return False
@@ -169,7 +172,6 @@ class Checkers:
         if len(history) > 0:
             for move in history:
                 self.board.move(move[0], move[1])
-                temp = 1 - temp
     def __str__(self):
         s = ''
         n = self.board.n
@@ -190,14 +192,12 @@ class Checkers:
         cr = CheckerRules()
         try:
             if not cr.valid_move(self.board, mvv, piece):
-                print "Invalid move!"
                 return False
         except:
             return False
-        print "Okay, that's good."
         self.board.move(piece, mvv)
         return True
-    def check_win(self, piece, mvv):
+    def check_win(self, piece):
         return False
     def get_state_str(self):
         return self.board.super_string()
