@@ -14,4 +14,5 @@ run:
 flush:
 	python wam/manage.py flush
 migrate:
+	python wam/manage.py makemigrations
 	python wam/manage.py migrate

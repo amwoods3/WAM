@@ -89,6 +89,12 @@ class CheckerBoard(GameBoard):
             elif p == 'b':
                 self.black_pos.remove((mvv[0], mvv[1]))
                 self.black_pos.append((mvv[2], mvv[3]))
+        for b in range(len(self.state[7])):
+            if self.state[7][b] == 'b':
+                self.state[7][b] = 'B'
+        for b in range(len(self.state[0])):
+            if self.state[0][b] == 'r':
+                self.state[0][b] = 'R'
             
             
     
@@ -129,8 +135,7 @@ class CheckerRules(GameRules):
                 if abs(dest_c - source_c) != 1:
                     return False
         return True
-            
-    
+        
     def is_jump(self, board, source_r, source_c, dest_r, dest_c, turn):
         d1 = dest_r - source_r
         d2 = dest_c - source_c

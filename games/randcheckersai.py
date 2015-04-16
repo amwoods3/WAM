@@ -19,12 +19,13 @@ def get_move(state, time_limit, turn):
         r1 = r + direction
         c1 = c + 1
         c2 = c - 1
-        if r < 8 and r >= 0 and c1 < 7:
-            if state[r][c1] in enemy:
-                c3 = c1 + 1
-                if r1 < 8 and c3 < 8 and r1 >= 0:
-                    if state[r1][c3] == ' ':
-                        jumps.append((p[0], p[1], r1, c3))
+        if r < 8 and r >= 0:
+            if c1 < 8:
+                if state[r][c1] in enemy:
+                    c3 = c1 + 1
+                    if r1 < 8 and c3 < 8 and r1 >= 0:
+                        if state[r1][c3] == ' ':
+                            jumps.append((p[0], p[1], r1, c3))
             if c2 >= 0:
                 if state[r][c2] in enemy:
                     c3 = c2 - 1

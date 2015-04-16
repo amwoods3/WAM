@@ -35,8 +35,7 @@ print move
         print "above is tuple, below is string"
         print result_str
         result = json.loads(result_str)
-    except ValueError as msg: # will happen if AI doesn't have enough time to return value
-        print msg
+    except: # will happen if AI doesn't have enough time to return value
         print "Time out!!!!!"
         result = [9999, 9999]
     os.system("rm run_ai.py")
