@@ -28,7 +28,7 @@ def play_game(users, ais, hist=None, turns=-1,time=0,p1time=0,p2time=0,
         controller = GameController(history=hist, time=time, p1t=p1time,p2t=p2time, player1='b', player2='r')
 
         # create a point in database for this game.
-    cur_game = ActiveGame(game_state=json.dumps(game.state), last_move= '', player1_id=p1id, player2_id=p2id, player1_timer=0, player2_timer=0, is_player1_turn = True, player1_ai=ais[0], player2_ai=ais[1])
+    cur_game = ActiveGame(game_state=json.dumps(game.state), last_move= '', player1_id=p1id, player2_id=p2id, player1_timer=0, player2_timer=0, is_player1_turn = True, player1_ai=ais[0], player2_ai=ais[1], game_type=game_type)
     cur_game.save()
 
     
