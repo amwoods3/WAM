@@ -1,9 +1,10 @@
 from boardgames import *
 from checkers import *
-import copy
+import json
 
 def parse_history(history, gametype):
     boards = []
+    history = json.loads(history)
     for a in range(len(history)):
         if gametype == 'checkers':
             boards.append(Checkers(history=history[:a]).state)
