@@ -3,21 +3,19 @@ def get_move(state, time_limit, turn):
     import random, json
     state = json.loads(state)
     pos = []
-    print "Turn is: ", turn
     # get position of all player pieces
     for row in range(len(state)):
         for col in range(row):
             s = state[row][col]
             if s == turn or s == turn.lower():
-                print "row, col:",row, col
                 pos.append((row, col))
     direction = 1 if turn == 'b' else -1
     enemy = ('r', 'R') if turn == 'b' else ('b', 'B')
     # check for possible jumps
     jumps = []
     for p in pos:
-        print p
-        r = p[0], c = p[1]
+        r = p[0]
+        c = p[1]
         r += direction
         r1 = r + direction
         c1 = c + 1
