@@ -1,6 +1,6 @@
 from boardgames import *
 from checkers import *
-from games.models import ActiveGame
+from wam.games.models import ActiveGame
 import json
 def something(s,move):
     exec(s)
