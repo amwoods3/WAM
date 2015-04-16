@@ -22,7 +22,7 @@ class TicTacToe:
         if len(history) > 0:
             print history
             for move in history:
-                self.state[move[1]][move[2]] = move[0]
+                self.state[move[1][0]][move[1][1]] = move[0]
     def __str__(self):
         s = ''
         for i in range(self.n):
