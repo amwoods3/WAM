@@ -110,7 +110,7 @@ def play(request):
     if c['game_type'] == 'tic_tac_toe':
         c['p}1'], c['p2'] = ('x', 'o')
     elif c['game_type'] == 'checkers':
-        c['p1'], c['p2'] = ('r', 'b')
+        c['p1'], c['p2'] = ('b', 'r')
 
 
     # the game is already played
