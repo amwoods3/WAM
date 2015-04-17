@@ -10,6 +10,16 @@ def set_limit(seconds):
     resource.setrlimit(resource.RLIMIT_CPU,
                        (seconds, hard))
 
+def convert_data_structure(d):
+    my_format = []
+    for l in d:
+        x = []
+        for mv in l:
+            x.append(mv[0])
+            x.append(mv[1])
+        my_format.append(x)
+    return my_format
+
 def run_ai(ai_info, board, time_limit, turn):
     cmd = "python run_ai.py"
     print type(board)
@@ -36,6 +46,7 @@ print move
         print result_tuple
         print result_str
         result = json.loads(result_str)
+        result = convert_data_structure(result)
     except:
         result = "Invalid return!!!"
     os.system("rm run_ai.py")
