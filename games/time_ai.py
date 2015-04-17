@@ -30,14 +30,14 @@ print move
         result_tuple = p.communicate()
         print result_tuple
         result_str = result_tuple[0].split('\n')[-2]
-        print "printing string to be loaded into JSON"
+    except:
+        result = "Time out!!!"
+    try:
         print result_tuple
-        print "above is tuple, below is string"
         print result_str
         result = json.loads(result_str)
-    except: # will happen if AI doesn't have enough time to return value
-        print "Time out!!!!!"
-        result = [9999, 9999]
+    except:
+        result = "Invalid return!!!"
     os.system("rm run_ai.py")
     return (result, time_taken)
     

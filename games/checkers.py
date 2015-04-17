@@ -166,8 +166,13 @@ class CheckerRules(GameRules):
         direction = self.black_direction if turn == 'Black' else self.red_direction
         for a in attack:
             for b in defend:
+                checking = board[a[0]][a[1]]
                 if self.a_can_attack_b(a, b, direction) \
-                   and self.jump_to_space(board, a, direction, b[1] - a[1]):
+                    and self.jump_to_space(board, a, direction, b[1] - a[1]):
+                    return True
+                if (checking == 'B' or checking == 'R') \
+                    and self.a_can_attack_b(a, b, -direction) \
+                    and self.jump_to_space(board, a, -direction, b[1] - a[1]):
                     return True
         return False
     def a_can_attack_b(self, a, b, direction):

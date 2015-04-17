@@ -161,7 +161,6 @@ class GameController:
         self.players = [player1, player2]
         self.history = history
         self.winner = ' '
-
         
     def __str__(self):
         s = ''
@@ -204,10 +203,16 @@ class GameController:
                     
                 try:
                     mvv, added_time = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player])
+                    if isinstance(mvv, str):
+                        self.history.append((self.players[self.player],mvv))
+                        self.change_turn()
+                        self.winner = self.players[self.player]
+                        return 0
+                    
                     self.timers[self.player] += added_time
                         
                     if self.timers[self.player] > self.max_time:
-                        print "Took too long!!"
+                        self.history.append((self.players[self.player], "Took too long!!"))
                         self.change_turn()
                         self.winner = self.players[self.players]
                         return 0
@@ -215,39 +220,41 @@ class GameController:
                     # print mvv, r, c
                         
                 except TimeOutException, msg:
-                    print "Ran out of time!!"
+                    self.history.append((self.players[self.player],"Ran out of time!!!"))
                     self.change_turn()
                     self.winner = self.players[self.player]
                     return 0
                     
             except SyntaxError as inst:
                 print inst
-                print "Error in syntax!"
+                self.history.append((self.players[self.player],"Error in syntax!"))
                 self.change_turn()
                 self.winner = self.players[self.player]
                 return 0
             player = self.players[self.player]
-            
-        if ttt.move(player, mvv):
-            self.history.append((player, mvv))
-            if ttt.check_win(player):
-                self.winner = player
+        try:
+            if ttt.move(player, mvv):
+                self.history.append((player, mvv))
+                if ttt.check_win(player):
+                    self.change_turn()
+                    self.winner = self.players[self.player]
+                    return self.max_time
+                self.change_turn()
+                self.winner = ' '
                 return self.max_time
-            #elif ttt.full():
-            #    self.winner = '!'
-            #    return self.max_time
-            self.change_turn()
-            self.winner = ' '
-            return self.max_time
             
-        else:
-            self.history.append((player, mvv))
-            self.change_turn()
-            if len(mvv) > 1:
-                if mvv[0] == 9999 and mvv[1] == 9999:
-                    print "ran out of time!"
             else:
-                print "picked a spot that cannot be chosen!!"
+                self.history.append((player, mvv))
+                if len(mvv) > 1:
+                    if mvv[0] == 9999 and mvv[1] == 9999:
+                        print "ran out of time!"
+                else:
+                    self.history.append((self.players[self.player], "Made an invalid move!!"))
+                self.change_turn()
+                self.winner = self.players[self.player]
+                return 0
+        except:
+            self.history.append((self.players[self.player], "Wrong format!!"))
+            self.change_turn()
             self.winner = self.players[self.player]
-            return 0
     
