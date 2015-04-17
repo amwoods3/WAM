@@ -69,6 +69,8 @@ class CheckerBoard(GameBoard):
     def super_string(self):
         return super(CheckerBoard, self).__str__()
     def move(self, p, movv):
+        is_jump = False
+        kinged = False
         super(CheckerBoard, self).move(p, movv)
         for mvv in movv:
             if not isinstance(mvv, list):
@@ -76,6 +78,7 @@ class CheckerBoard(GameBoard):
             turn = 'Black' if p == 'b' else 'Red'
             if CheckerRules().is_jump(self.state, mvv[0], mvv[1],
                                       mvv[2], mvv[3], turn):
+                is_jump = True
                 a = (mvv[0] + mvv[2]) / 2
                 b = (mvv[1] + mvv[3]) / 2
                 super(CheckerBoard, self).insert(a, b, ' ')
@@ -92,9 +95,12 @@ class CheckerBoard(GameBoard):
         for b in range(len(self.state[7])):
             if self.state[7][b] == 'b':
                 self.state[7][b] = 'B'
+                kinged = True
         for b in range(len(self.state[0])):
             if self.state[0][b] == 'r':
                 self.state[0][b] = 'R'
+                kinged = True
+        return (is_jump, kinged)
             
             
     
@@ -183,7 +189,23 @@ class CheckerRules(GameRules):
         if b[1] + 1 >= 8 or b[1] - 1 < 0:
             return False
         return r == direction and c in (1, -1)
-
+    def a_can_jump(self, a, board):
+        piece = board[a[0]][a[1]]
+        if piece == 'r':
+            defend = board.black_pos
+            direction = self.red_direction
+        elif piece == 'b':
+            defend = board.red_pos
+            direction = self.black_direction
+        for b in defend:
+            checking = board[a[0]][a[1]]
+            if self.a_can_attack_b(a, b, direction) \
+                   and self.jump_to_space(board, a, direction, b[1] - a[1]):
+                return True
+            if (checking == 'B' or checking == 'R') \
+                   and self.a_can_attack_b(a, b, -direction) \
+                   and self.jump_to_space(board, a, -direction, b[1] - a[1]):
+                return True
     def possible_moves(self, a, board):
         d = (a[0] + 1, a[0] - 1)
         f = (a[1] + 1, a[1] - 1)
@@ -251,7 +273,15 @@ class Checkers:
         except:
             self.board.move(piece, mvv)
             return False
-        self.board.move(piece, mvv)
+        jumped, kinged = self.board.move(piece, mvv)
+        last_m = len(mvv) - 1
+        
+        a = (mvv[last_m][2], mvv[last_m][3])
+        print a
+        if jumped:
+            if not kinged:
+                if cr.a_can_jump(a, self.board):
+                    return False
         return True
     
     def check_win(self, piece):
