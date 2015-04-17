@@ -113,13 +113,16 @@ class CheckerRules(GameRules):
         b = None
         if turn in ('b', 'r', 'B', 'R'):
             turn = "Black" if turn == "b" or turn == "B" else "Red"
-        for mv in mvv:
+        for index, mv in enumerate(mvv):
             if b == None:
                 b = mv
             else:
                 if b[2] != mv[0] or b[3] != mv[1]:
                     return False
             (source_r, source_c, dest_r, dest_c) = (mv[0], mv[1], mv[2], mv[3])
+            if index > 0:
+                if not self.is_jump(board, source_r, source_c, dest_r, dest_c, turn):
+                    return False
             if not super(CheckerRules, self).valid_move(board, dest_r, dest_c):
                 return False
         
