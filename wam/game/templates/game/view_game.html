@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
+
+{% block changebodytag %}
+  <body onload="draw_board('{{ pieces }}')">
+{% endblock %}
+
 {% block content_header %} 
     <h2> {{ user_name }}'s Past Game </h2>
 {% endblock %}

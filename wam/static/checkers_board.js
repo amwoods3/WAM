@@ -1,4 +1,9 @@
-window.onload = function() {
+//window.onload = function(event) {
+//	draw_board();
+//}
+
+
+function draw_board(pieces) {
     var canvas = document.getElementById("checkerboard");
 	var context2D = canvas.getContext("2d");
 
@@ -22,4 +27,10 @@ window.onload = function() {
 			context2D.fillRect(x, y, 50, 50);
 		}
 	}
+
+	draw_pieces(pieces, canvas, context2D);
+}
+
+function draw_pieces(pieces, canvas, context2D) {
+	var a = 0;
 }
