@@ -122,10 +122,6 @@ def play(request):
     sys.path.insert(0, '%sgames/'  % (FILE_PATH))
     import game_runner
 
-    c['game'] = [[' ', ' ', ' '], 
-                 [' ', ' ', ' '], 
-                 [' ', ' ', ' ']]
-
     # play the game and create session to show that its already played
     s = game_runner.play_game(users=[loggin_user_name, 
                                      challenged_user_name],
@@ -164,6 +160,7 @@ def play(request):
             user_stats.user_ai_draws += 1
             ch_user_stats.user_ai_draws += 1
         ch_user_stats.save()
+    user_stats.game_type = request.session['game_type']
     user_stats.save()
 
     # add the game played to the past games table
@@ -175,7 +172,8 @@ def play(request):
                            did_player1_win = user_won,
                            game_history = s[5],
                            player1_total_time = s[3],
-                           player2_total_time = s[4])
+                           player2_total_time = s[4],
+                           game_type= request.session['game_type'])
     past_games.save()
 
     return render(request, 'game/play.html', c)

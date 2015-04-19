@@ -23,6 +23,7 @@ class ActiveGame(models.Model):
     is_player1_turn = models.BooleanField(default=True)
     player1_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
     player2_ai = models.FilePathField(path="/scripts", match="*.py", recursive=True)
+    game_type = models.CharField(max_length=50, default='temp')
 
 class PastGames(models.Model):
     player1_id = models.PositiveIntegerField()
@@ -33,6 +34,8 @@ class PastGames(models.Model):
     player2_ai_title = models.CharField(max_length=100)
     player1_total_time = models.PositiveIntegerField(default=0)
     player2_total_time = models.PositiveIntegerField(default=0)
+    game_type = models.CharField(max_length=50, default='temp')
+
 
 class UserStats(models.Model):
     user_id = models.PositiveIntegerField()
@@ -40,4 +43,4 @@ class UserStats(models.Model):
     user_ai_wins = models.PositiveIntegerField()
     user_ai_losses = models.PositiveIntegerField()
     user_ai_draws = models.PositiveIntegerField()
-    
+    game_type = models.CharField(max_length=50, default='temp')

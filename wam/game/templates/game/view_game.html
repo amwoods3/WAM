@@ -2,7 +2,7 @@
 {% block navbar %}{{ block.super }}{% endblock %}
 
 {% block changebodytag %}
-  <body onload="draw_board('{{ pieces }}')">
+  <body onload='draw_board({{ pieces }})'>
 {% endblock %}
 
 {% block content_header %} 
@@ -11,7 +11,24 @@
 
 {% block content %}
 	<center>
-	<canvas id="checkerboard" width="400" height="400"></canvas>
+	<form enctype="multipart/form-data" method="post" 
+		  action="/game/view_user_profile/past_game/{{ game_id }}/">
+	   {% csrf_token %}
+	   <input type="submit" name="prev" value="<"/>
+	   <input type="submit" name="next" value=">"/>
+	</form>
+	{% ifequal game_type "checkers"%}
+		<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
+	{% else %}
+	<pre><font size="10"><table border="1" width="140px">
+			{% for row in pieces %}
+			<tr>
+				{% for col in row %}
+					<td align="center">{{ col }}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table></font></pre>
+{% endifequal %}
 	</center>
-	{{ game_history }}	
 {% endblock %}
