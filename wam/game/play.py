@@ -167,12 +167,13 @@ def play(request):
     user_stats.save()
 
     # add the game played to the past games table
+    #  s[5] -> history for viewing game history on history page
     past_games = PastGames(player1_id = request.session['member_id'],
                            player2_id = UserLogin.objects.get(user_name=c['ch_user_name']).id,
                            player1_ai_title = c['user_name_ai'],
                            player2_ai_title = c['ch_name_ai'],
                            did_player1_win = user_won,
-                           game_history = s[1],
+                           game_history = s[5],
                            player1_total_time = s[3],
                            player2_total_time = s[4])
     past_games.save()

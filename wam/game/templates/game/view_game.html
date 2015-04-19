@@ -3,6 +3,10 @@
 {% block content_header %} 
     <h2> {{ user_name }}'s Past Game </h2>
 {% endblock %}
+
 {% block content %}
-{{ game_history }}
+	<center>
+	<canvas id="checkerboard" width="400" height="400"></canvas>
+	</center>
+	{{ game_history }}	
 {% endblock %}
