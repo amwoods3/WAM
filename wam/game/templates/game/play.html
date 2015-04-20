@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block navbar %}{{ block.super }}{% endblock %}
+
+{% block changebodytag %}
+  <body onload='draw_board({{ game }})'>
+{% endblock %}
+
 {% block content_header %} 
     <h2> {{ user_name }} VS {{ ch_user_name }}  </h2>
 {% endblock %}
@@ -16,16 +21,21 @@ The winner is: {{ winner }}!
 </pre>
 {% endif %}
 {% if game %}
-<pre>
-<font size="10"><table border="1" width="140px">
-		{% for row in game %}
-		<tr>
-			{% for col in row %}
-				<td align="center">{{ col }}</td>
+<center>
+	{% ifequal game_type "checkers"%}
+		<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
+	{% else %}
+	<pre><font size="10"><table border="1" width="140px">
+			{% for row in game %}
+			<tr>
+				{% for col in row %}
+					<td align="center">{{ col }}</td>
+				{% endfor %}
+			</tr>
 			{% endfor %}
-		</tr>
-		{% endfor %}
-</table></font></pre>
+		</table></font></pre>
+{% endifequal %}
+	</center>
 {% endif %}
 <pre>Move History:
 {% if history %}

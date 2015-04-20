@@ -105,6 +105,8 @@ def play(request):
     if not logged_in(request):
         return HttpResponseRedirect('/game')
 
+    c['game_type'] = request.session['game_type']
+
     # the game is already played
     if request.session.get('played', False):
         c['game'] = request.session['played'][0]
@@ -112,6 +114,17 @@ def play(request):
         c['winner'] = request.session['played'][2] if request.session['played'][2] != '!' else 'Draw'
         c['time1'] = request.session['played'][3]
         c['time2'] = request.session['played'][4]
+
+        if isinstance(c['game'][0][0], unicode):
+            new_list = []
+            import unicodedata
+            for item in c['game']:
+                sub_list = []
+                for a in item:
+                    sub_list.append(unicodedata.normalize('NFKD', a).encode('ascii','ignore'))
+                new_list.append(sub_list)
+        c['game'] = new_list
+
         return render(request, 'game/play.html', c)
 
     # import files to play the game
@@ -149,7 +162,7 @@ def play(request):
         del request.session['same_file']
     else:
         ch_user_stats = UserStats.objects.get(user_id=request.session['challenged_user'],
-                                          user_ai_title=c['ch_name_ai'])
+                                              user_ai_title=c['ch_name_ai'])
         if user_won:
             user_stats.user_ai_wins += 1
             ch_user_stats.user_ai_losses += 1

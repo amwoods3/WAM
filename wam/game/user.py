@@ -147,6 +147,15 @@ def view_game(request, game_id):
 			request.session['game_index'] = 0
 
 		c['pieces'] = request.session['list_of_states'][request.session['game_index']]
+		if isinstance(c['pieces'][0][0], unicode):
+			new_list = []
+			import unicodedata
+			for item in c['pieces']:
+				sub_list = []
+				for a in item:
+					sub_list.append(unicodedata.normalize('NFKD', a).encode('ascii','ignore'))
+				new_list.append(sub_list)
+		c['pieces'] = new_list
 	else:
 		request.session['game_index'] = 0
 		import sys

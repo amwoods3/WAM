@@ -54,7 +54,8 @@ def upload_file(request):
             
             import string
             import random; random.seed()
-            ai_title = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(30))
+            ai_title = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase))
+            ai_title += ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(30))
             handle_uploaded_file(files['ai_code'],
                                  get_user_name + '/' + ai_title)
 
