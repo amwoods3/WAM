@@ -140,10 +140,16 @@ def view_game(request, game_id):
 			request.session['game_index'] += 1
 		elif request.POST.get('prev'):
 			request.session['game_index'] -= 1
+		elif request.POST.get('farnext'):
+			request.session['game_index'] = len(request.session['list_of_states'])-1
+		elif request.POST.get('farprev'):
+			request.session['game_index'] = 0
 
 		if request.session['game_index'] > len(request.session['list_of_states']) - 1:
 			request.session['game_index'] = len(request.session['list_of_states']) - 1
+			c['message'] = 'You are already at the last move in the game'
 		if request.session['game_index'] < 0:
+			c['message'] = 'You are already at the begining of the game'
 			request.session['game_index'] = 0
 
 		c['pieces'] = request.session['list_of_states'][request.session['game_index']]

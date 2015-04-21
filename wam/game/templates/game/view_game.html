@@ -11,11 +11,14 @@
 
 {% block content %}
 	<center>
+	{{ message }}
 	<form enctype="multipart/form-data" method="post" 
 		  action="/game/view_user_profile/past_game/{{ game_id }}/">
 	   {% csrf_token %}
+	   <input type="submit" name="farprev" value="<<"/>
 	   <input type="submit" name="prev" value="<"/>
 	   <input type="submit" name="next" value=">"/>
+	   <input type="submit" name="farnext" value=">>"/>
 	</form>
 	{% ifequal game_type "checkers"%}
 		<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
