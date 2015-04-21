@@ -106,6 +106,12 @@ def play(request):
         return HttpResponseRedirect('/game')
 
     c['game_type'] = request.session['game_type']
+    c['p1'], c['p2'] = ('-', '-')
+    if c['game_type'] == 'tic_tac_toe':
+        c['p}1'], c['p2'] = ('x', 'o')
+    elif c['game_type'] == 'checkers':
+        c['p1'], c['p2'] = ('r', 'b')
+
 
     # the game is already played
     if request.session.get('played', False):
