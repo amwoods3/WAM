@@ -10,20 +10,49 @@
 {% endblock %}
 
 {% block content %}
+<div class="col-md-8">
+	<pre><table width="80%">
+		<tr>
+			<td><font size="3px" style="bold">User Name</font></td>
+			<td><font size="3px" style="bold">AI Name</font></td>
+			<td><font size="3px" style="bold">Game Result</font></td>
+			<td><font size="3px" style="bold">Game Piece</font></td>
+		</tr>
+		<tr>
+			<td>{{ p1 }}</td>
+			<td>{{ p1_ai }}</td>
+			<td>{{ p1_result }}</td>
+			<td>{{ p1_piece }}</td>
+		</tr>
+		<tr>
+			<td>{{ p2 }}</td>
+			<td>{{ p2_ai }}</td>
+			<td>{{ p2_result }}</td>
+			<td>{{ p2_piece }}</td>
+		</tr>
+	</table></pre>
+</div>
+
+<div class="col-md-8">
 	<center>
 	{{ message }}
 	<form enctype="multipart/form-data" method="post" 
-		  action="/game/view_user_profile/past_game/{{ game_id }}/">
-	   {% csrf_token %}
-	   <input type="submit" name="farprev" value="<<"/>
-	   <input type="submit" name="prev" value="<"/>
-	   <input type="submit" name="next" value=">"/>
-	   <input type="submit" name="farnext" value=">>"/>
+	      action="/game/view_user_profile/past_game/{{ game_id }}/">
+		{% csrf_token %}
+		<input type="submit" name="farprev" value="<<"/>
+		<input type="submit" name="prev" value="<"/>
+		{{ game_index }}
+		<input type="submit" name="next" value=">"/>
+		<input type="submit" name="farnext" value=">>"/>
 	</form>
+	</center>
+</div>
+<div class="col-md-8">
+	<center>
 	{% ifequal game_type "checkers"%}
 		<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
 	{% else %}
-	<pre><font size="10"><table border="1" width="140px">
+		<pre><font size="10"><table border="1" width="140px">
 			{% for row in pieces %}
 			<tr>
 				{% for col in row %}
@@ -32,6 +61,10 @@
 			</tr>
 			{% endfor %}
 		</table></font></pre>
-{% endifequal %}
+	{% endifequal %}
 	</center>
+</div>
+<div class="col-md-4">
+	<pre>{{ game_history }}</pre>
+</div>
 {% endblock %}

@@ -117,9 +117,35 @@ def view_game(request, game_id):
 		return HttpResponseRedirect('/game')
 
 	view_game = PastGames.objects.get(pk=game_id)
-	c['game_history'] = view_game.game_history
+	import json
+	import unicodedata
+	game_history = unicodedata.normalize('NFKD', view_game.game_history).encode('ascii','ignore')
+
+	view_history = json.loads(game_history)
+	temp = ''
+	num = 0
+	for item in view_history:
+		s = unicodedata.normalize('NFKD', item[0]).encode('ascii','ignore')
+		temp += str(num) + ') ' + s + ': ' + str(item[1]) + '\n'
+		num += 1	
+	view_history = temp
+
+	c['game_history'] = view_history
 	c['game_id'] = game_id
 	c['game_type'] = view_game.game_type
+	c['p1'] = UserLogin.objects.get(pk=view_game.player1_id).user_name
+	c['p2'] = UserLogin.objects.get(pk=view_game.player2_id).user_name
+	c['p1_ai'] = view_game.player1_ai_title
+	c['p2_ai'] = view_game.player2_ai_title
+	c['p1_result'] = 'Win' if view_game.did_player1_win else 'Lost'
+	c['p2_result'] = 'Lost' if view_game.did_player1_win else 'Win'
+
+	if view_game.game_type == 'tic_tac_toe':
+		c['p1_piece'] = 'x'
+		c['p2_piece'] = 'y'
+	elif view_game.game_type == 'checkers':
+		c['p1_piece'] = 'r'
+		c['p2_piece'] = 'b'
 
 	if c['game_type'] == 'checkers':
 		c['pieces'] = [[' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'], 
@@ -155,7 +181,6 @@ def view_game(request, game_id):
 		c['pieces'] = request.session['list_of_states'][request.session['game_index']]
 		if isinstance(c['pieces'][0][0], unicode):
 			new_list = []
-			import unicodedata
 			for item in c['pieces']:
 				sub_list = []
 				for a in item:
@@ -167,10 +192,12 @@ def view_game(request, game_id):
 		import sys
 		sys.path.insert(0, '%sgames/'  % (FILE_PATH))
 		import historic_parser
-		request.session['list_of_states'] = historic_parser.parse_history(c['game_history'], 
+		request.session['list_of_states'] = historic_parser.parse_history(game_history, 
 																		  view_game.game_type)
 		if not request.session['list_of_states']:
 			request.session['list_of_states'] = c['pieces']
+
+	c['game_index'] = request.session['game_index']
 
 	c.update(csrf(request))
 	return render(request, 'game/view_game.html', c)

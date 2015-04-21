@@ -9,37 +9,58 @@
     <h2> {{ user_name }} VS {{ ch_user_name }}  </h2>
 {% endblock %}
 {% block content %}
-<pre>
-<table width='400'>
-<tr><td>User Name</td><td>Ai Title</td><td>Game Piece</td><td>Time</td>
-<tr><td>{{ user_name }}</td><td>{{ user_name_ai }}</td><td>{{p1}}</td><td>{{ time1 }}</td></tr>
-<tr><td>{{ ch_user_name }}</td><td>{{ ch_name_ai }}</td><td>{{p2}}</td><td>{{ time2 }} </td></tr>
-</table></pre>
-{% if winner %}
-<pre>
-The winner is: {{ winner }}!
-</pre>
-{% endif %}
+<div class="col-md-8">
+	<pre><table width='400'>
+		<tr>
+			<td><font size="3px" style="bold">User Name</font></td>
+			<td><font size="3px" style="bold">Ai Title</font></td>
+			<td><font size="3px" style="bold">Game Piece</font></td>
+			<td><font size="3px" style="bold">Time</font></td>
+		</tr>
+		<tr>
+			<td>{{ user_name }}</td>
+			<td>{{ user_name_ai }}</td>
+			<td>{{p1}}</td>
+			<td>{{ time1 }}</td>
+		</tr>
+		<tr>
+			<td>{{ ch_user_name }}</td>
+			<td>{{ ch_name_ai }}</td>
+			<td>{{p2}}</td>
+			<td>{{ time2 }} </td>
+		</tr>
+	</table></pre>
+</div>
+
+<div class="col-md-4">
+	{% if winner %}
+		<pre> The winner is: {{ winner }}! </pre>
+	{% endif %}
+</div>
+
 {% if game %}
-<center>
-	{% ifequal game_type "checkers"%}
-		<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
-	{% else %}
-	<pre><font size="10"><table border="1" width="140px">
-			{% for row in game %}
-			<tr>
-				{% for col in row %}
-					<td align="center">{{ col }}</td>
+<div class="col-md-8">
+	<center>
+		{% ifequal game_type "checkers"%}
+			<pre><canvas id="checkerboard" width="400" height="400"></canvas></pre>
+		{% else %}
+		<pre><font size="10"><table border="1" width="140px">
+				{% for row in game %}
+				<tr>
+					{% for col in row %}
+						<td align="center">{{ col }}</td>
+					{% endfor %}
+				</tr>
 				{% endfor %}
-			</tr>
-			{% endfor %}
-		</table></font></pre>
-{% endifequal %}
+			</table></font>
+		</pre>
+		{% endifequal %}
 	</center>
+</div>
 {% endif %}
-<pre>Move History:
-{% if history %}
-{{ history }}
-{% endif %}
-</pre>
+
+<div class="col-md-4">
+	<pre><b>Move History:</b><br /><br />{% if history %}{{ history }}{% endif %}</pre>
+</div>
+
 {% endblock %}
