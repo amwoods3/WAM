@@ -4,9 +4,8 @@
     <h2> {{ user_name }}'s Profile Page </h2>
 {% endblock %}
 {% block content %}
-<pre>List of Ais:
-
-<table border="1" width="50%">
+<pre>
+<table width="50%">
 <tr> <td> <font size="3px" style="bold">Ai title</font> </td> 
 	 <td> <font size="3px" style="bold">Wins</font> </td> 
 	 <td> <font size="3px" style="bold">Losses</font> </td> 
@@ -22,16 +21,15 @@
 {% endfor %}
 </table></pre>
 
-<pre>Past Games:
-
-<table border="1" width="100%">
+<pre>
+<table width="100%">
 <tr> <td> <font size="3px" style="bold">Game ID</font> </td>
-     <td> <font size="3px" style="bold">User Played</font></td>
-	 <td> <font size="3px" style="bold">Ai Used</font></td>
-	 <td> <font size="3px" style="bold">Game Result</font></td>
-	 <td> <font size="3px" style="bold">Your AI's Run Time</font></td>
-	 <td> <font size="3px" style="bold">Oppenents AI's Run Time</font></td>
-	 <td> <font size="3px" style="bold">Game Type</font></td>
+     <td> <font size="3px" style="bold">User Played</font> </td>
+	 <td> <font size="3px" style="bold">Ai Used</font> </td>
+	 <td> <font size="3px" style="bold">Game Result</font> </td>
+	 <td> <font size="3px" style="bold">Your AI's Run Time</font> </td>
+	 <td> <font size="3px" style="bold">Oppenents AI's Run Time</font> </td>
+	 <td> <font size="3px" style="bold">Game Type</font> </td>
 </tr>
 {% for game in past_games %}
 	<tr>
@@ -42,7 +40,7 @@
 				<td> {{ item }} </td>
 			{% endifequal %}
 		{% endfor %}
-	</tr>	
+	</tr>
 {% endfor %}
 </table></pre>
 {% endblock %}

@@ -122,8 +122,8 @@ def view_game(request, game_id):
 	game_history = unicodedata.normalize('NFKD', view_game.game_history).encode('ascii','ignore')
 
 	view_history = json.loads(game_history)
-	temp = ''
-	num = 0
+	temp = '0) Initial Game State\n'
+	num = 1
 	for item in view_history:
 		s = unicodedata.normalize('NFKD', item[0]).encode('ascii','ignore')
 		temp += str(num) + ') ' + s + ': ' + str(item[1]) + '\n'
