@@ -48,7 +48,7 @@ print move
         result = json.loads(result_str)
         result = convert_data_structure(result)
     except:
-        result = "Invalid return!!!"
+        result = "%s is an Invalid return!!!" % (result_str)
     os.system("rm run_ai.py")
     return (result, time_taken)
     
