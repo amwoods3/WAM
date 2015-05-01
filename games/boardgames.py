@@ -123,13 +123,14 @@ class GameBoard(object):
     def move(self, turn, mvv):#sr, sc, dr, dc):
         for mv in mvv:
             if not isinstance(mv, list):
-                return
+                return False
             try:
                 sr = mv[0]
                 sc = mv[1]
                 dr = mv[2]
                 dc = mv[3]
             except:
+                print "Index out of range"
                 return False
             self.insert(dr, dc, self.state[sr][sc])
             self.insert(sr, sc, ' ')
