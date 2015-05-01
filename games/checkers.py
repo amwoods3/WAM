@@ -133,7 +133,6 @@ class CheckerRules(GameRules):
             jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
             if jump_av:
                 if not self.is_jump(board, source_r, source_c, dest_r, dest_c, turn):
-                    print "That is not a jump!"
                     return False
             else:
                 direction = self.black_direction if turn == 'Black'\
