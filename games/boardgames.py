@@ -257,8 +257,8 @@ class GameController:
                 self.change_turn()
                 self.winner = self.players[self.player]
                 return 0
-        except:
-            self.history.append((self.players[self.player], "Something went wrong with evaluating %s!!" % (mvv)))
+        except Exception as e:
+            self.history.append((self.players[self.player], "Something went wrong with evaluating %s, Error message: %s!!" % (mvv, e)))
             self.change_turn()
             self.winner = self.players[self.player]
     
