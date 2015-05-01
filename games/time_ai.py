@@ -38,13 +38,13 @@ print move
     time_taken = ((t1.ru_utime + t1.ru_stime) - (t0.ru_utime + t0.ru_stime)) * 1000 # need time_taken in miliseconds, we want to use for ai records
     try:
         result_tuple = p.communicate()
-        print result_tuple
+        #print result_tuple
         result_str = result_tuple[0].split('\n')[-2]
     except:
         result = "Time out!!!"
     try:
-        print result_tuple
-        print result_str
+        #print result_tuple
+        #print result_str
         result = json.loads(result_str)
         result = convert_data_structure(result)
     except:
