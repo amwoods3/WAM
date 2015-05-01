@@ -119,6 +119,7 @@ class CheckerRules(GameRules):
             else:
                 if b[2] != mv[0] or b[3] != mv[1]:
                     return False
+                b = mv
             (source_r, source_c, dest_r, dest_c) = (mv[0], mv[1], mv[2], mv[3])
             if index > 0:
                 if not self.is_jump(board, source_r, source_c, dest_r, dest_c, turn):
@@ -127,7 +128,7 @@ class CheckerRules(GameRules):
                 return False
         
             source = board[source_r][source_c]
-            if not is_color(source, turn):#source != cp:
+            if not is_color(source, turn) and index == 0:#source != cp:
                 return False
             jump_av = self.can_jump(board.red_pos, board.black_pos, turn, board)
             if jump_av:
@@ -285,6 +286,7 @@ class Checkers:
         if jumped:
             if not kinged:
                 if cr.a_can_jump(a, self.board):
+                    print "You can make another jump!!"
                     return False
         return True
     
