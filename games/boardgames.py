@@ -258,7 +258,7 @@ class GameController:
                 self.winner = self.players[self.player]
                 return 0
         except:
-            self.history.append((self.players[self.player], "Wrong format!!"))
+            self.history.append((self.players[self.player], "%s is Wrong format!!" % (mvv)))
             self.change_turn()
             self.winner = self.players[self.player]
     
