@@ -257,7 +257,7 @@ class GameController:
                 self.change_turn()
                 self.winner = self.players[self.player]
                 return 0
-        except SyntaxError as e:
+        except:
             self.history.append((self.players[self.player], "Wrong format!!"))
             self.change_turn()
             self.winner = self.players[self.player]
