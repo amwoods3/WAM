@@ -20,7 +20,7 @@ def convert_data_structure(d):
         my_format.append(x)
     return my_format
 
-def run_ai(ai_info, board, time_limit, turn):
+def run_ai(ai_info, board, time_limit, turn, game_type):
     cmd = "python run_ai.py"
     print type(board)
     file("run_ai.py", 'w').write("""import %s.""" % AI_PATH +"""%(user)s.%(ai)s as ai""" % ai_info + """
@@ -51,7 +51,11 @@ print move
         result = "%s is not JSON serializable!!!" % (result_str)
         return (result, time_taken)
     try:
-        result = convert_data_structure(result)
+        if game_type == 'checkers':
+            print game_type
+            result = convert_data_structure(result)
+        else:
+            print "not checkers"
     except:
         result = "%s does not follow the format!!!" % (result)
     os.system("rm run_ai.py")

@@ -198,6 +198,7 @@ class GameController:
         #if type(ttt) != type(TicTacToe()):
             #throw some error
             #return False
+        game_type = 'checkers' if isinstance(ttt, TicTacToe) else 'tic_tac_toe'
         
         if ai[self.player]['ai'] == '':
             r, c = self.get_input()
@@ -207,7 +208,7 @@ class GameController:
                     % (ai[self.player], ttt.get_state_str())
                     
                 try:
-                    mvv, added_time = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player])
+                    mvv, added_time = time_ai.run_ai(ai[self.player], ttt.state, self.max_time - self.timers[self.player], self.players[self.player], game_type)
                     if isinstance(mvv, str):
                         self.history.append((self.players[self.player],mvv))
                         self.change_turn()
@@ -254,7 +255,7 @@ class GameController:
                     if mvv[0] == 9999 and mvv[1] == 9999:
                         print "ran out of time!"
                 else:
-                    self.history.append((self.players[self.player], "Made an invalid move!!"))
+                    self.history.append((self.players[self.player], "%s is an invalid move!!" % (mvv)))
                 self.change_turn()
                 self.winner = self.players[self.player]
                 return 0
