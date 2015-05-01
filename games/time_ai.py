@@ -42,13 +42,18 @@ print move
         result_str = result_tuple[0].split('\n')[-2]
     except:
         result = "Time out!!!"
+        return (result, time_taken)
     try:
         #print result_tuple
         #print result_str
         result = json.loads(result_str)
+    except:
+        result = "%s is not JSON serializable!!!" % (result_str)
+        return (result, time_taken)
+    try:
         result = convert_data_structure(result)
     except:
-        result = "%s is an Invalid return!!!" % (result_str)
+        result = "%s does not follow the format!!!" % (result)
     os.system("rm run_ai.py")
     return (result, time_taken)
     
