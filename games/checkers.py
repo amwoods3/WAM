@@ -141,7 +141,7 @@ class CheckerRules(GameRules):
                 if dest_r - source_r != direction:
                     if board[dest_r][dest_c] not in ('B', 'R'):
                         
-                        print direction
+                        print "You are heading in wrong direction with not a king"
                         return False
                 if abs(dest_c - source_c) != 1:
                     return False
