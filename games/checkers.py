@@ -137,8 +137,9 @@ class CheckerRules(GameRules):
             else:
                 direction = self.black_direction if turn == 'Black'\
                             else self.red_direction
-                # don't forget to add king exception
                 if dest_r - source_r != direction:
+                    if board[dest_r][dest_c] in ('B', 'R'):
+                        continue
                     print direction
                     return False
                 if abs(dest_c - source_c) != 1:
