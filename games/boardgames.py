@@ -124,12 +124,16 @@ class GameBoard(object):
         for mv in mvv:
             if not isinstance(mv, list):
                 return
-            sr = mv[0]
-            sc = mv[1]
-            dr = mv[2]
-            dc = mv[3]
+            try:
+                sr = mv[0]
+                sc = mv[1]
+                dr = mv[2]
+                dc = mv[3]
+            except:
+                return False
             self.insert(dr, dc, self.state[sr][sc])
             self.insert(sr, sc, ' ')
+            return True
     def __str__(self):
         s = ''
         for r in self.state:
