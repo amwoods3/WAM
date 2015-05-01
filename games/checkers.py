@@ -193,10 +193,10 @@ class CheckerRules(GameRules):
         return r == direction and c in (1, -1)
     def a_can_jump(self, a, board):
         piece = board[a[0]][a[1]]
-        if piece == 'r':
+        if piece in ('r', 'R'):
             defend = board.black_pos
             direction = self.red_direction
-        elif piece == 'b':
+        elif piece in ('b', 'B')
             defend = board.red_pos
             direction = self.black_direction
         for b in defend:
