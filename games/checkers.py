@@ -191,7 +191,7 @@ class CheckerRules(GameRules):
         if b[1] + 1 >= 8 or b[1] - 1 < 0:
             return False
         return r == direction and c in (1, -1)
-    def a_can_jump(self, a, board):
+    def a_can_jump(self, a, board, turn):
         piece = board[a[0]][a[1]]
         if piece in ('r', 'R'):
             defend = board.black_pos
@@ -199,6 +199,7 @@ class CheckerRules(GameRules):
         elif piece in ('b', 'B'):
             defend = board.red_pos
             direction = self.black_direction
+        print "Here is piece: '%s'" % piece
         for b in defend:
             checking = board[a[0]][a[1]]
             if self.a_can_attack_b(a, b, direction) \
