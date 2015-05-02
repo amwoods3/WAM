@@ -134,7 +134,7 @@ class GameBoard(object):
                 return False
             self.insert(dr, dc, self.state[sr][sc])
             self.insert(sr, sc, ' ')
-            return True
+        return True
     def __str__(self):
         s = ''
         for r in self.state:
