@@ -86,10 +86,10 @@ class CheckerBoard(GameBoard):
                     self.red_pos.remove((a, b))
                 else:
                     self.black_pos.remove((a, b))
-            if p == 'r':
+            if turn == 'Red':
                 self.red_pos.remove((mvv[0], mvv[1]))
                 self.red_pos.append((mvv[2], mvv[3]))
-            elif p == 'b':
+            elif turn == 'Black':
                 self.black_pos.remove((mvv[0], mvv[1]))
                 self.black_pos.append((mvv[2], mvv[3]))
         for b in range(len(self.state[7])):
