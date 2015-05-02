@@ -72,7 +72,7 @@ class CheckerBoard(GameBoard):
         is_jump = False
         kinged = False
         for mvv in movv:
-            super(CheckerBoard, self).move(p, movv)
+            super(CheckerBoard, self).move(p, mvv)
             if not isinstance(mvv, list):
                 return
             turn = 'Black' if p in ('b', 'B') else 'Red'
