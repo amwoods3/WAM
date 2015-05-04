@@ -144,8 +144,8 @@ def view_game(request, game_id):
 		c['p1_piece'] = 'x'
 		c['p2_piece'] = 'y'
 	elif view_game.game_type == 'checkers':
-		c['p1_piece'] = 'r'
-		c['p2_piece'] = 'b'
+		c['p1_piece'] = 'b'
+		c['p2_piece'] = 'r'
 
 	if c['game_type'] == 'checkers':
 		c['pieces'] = [[' ', 'b', ' ', 'b', ' ', 'b', ' ', 'b'], 
