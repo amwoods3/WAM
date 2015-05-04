@@ -92,6 +92,16 @@ def view_user_ai(request):
     c.update(csrf(request))
     return render(request, 'game/view_user_ai.html', c)
 
+def unicode_to_str(item):
+    new_list = []
+    import unicodedata
+    for item in c['game']:
+        sub_list = []
+        for a in item:
+            sub_list.append(unicodedata.normalize('NFKD', a).encode('ascii','ignore'))
+        new_list.append(sub_list)
+    return new_list
+
 def play(request):
     c = {'user_logged_in': logged_in(request)}
     
@@ -122,14 +132,7 @@ def play(request):
         c['time2'] = request.session['played'][4]
 
         if isinstance(c['game'][0][0], unicode):
-            new_list = []
-            import unicodedata
-            for item in c['game']:
-                sub_list = []
-                for a in item:
-                    sub_list.append(unicodedata.normalize('NFKD', a).encode('ascii','ignore'))
-                new_list.append(sub_list)
-        c['game'] = new_list
+            c['game'] = unicode_to_str(c['game'])
 
         return render(request, 'game/play.html', c)
 
@@ -154,6 +157,9 @@ def play(request):
     c['winner'] = s[2] if s[2] != '!' else 'Draw'
     c['time1'] = s[3]
     c['time2'] = s[4]
+
+    if isinstance(c['game'][0][0], unicode):
+        c['game'] = unicode_to_str(c['game'])
 
     # find out who won
     is_draw = (c['winner'] == '!')
