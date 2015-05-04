@@ -92,10 +92,10 @@ def view_user_ai(request):
     c.update(csrf(request))
     return render(request, 'game/view_user_ai.html', c)
 
-def unicode_to_str(item):
+def unicode_to_str(to_change):
     new_list = []
     import unicodedata
-    for item in c['game']:
+    for item in to_change:
         sub_list = []
         for a in item:
             sub_list.append(unicodedata.normalize('NFKD', a).encode('ascii','ignore'))
