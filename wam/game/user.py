@@ -47,6 +47,8 @@ def view_user_profile(request):
     	game_list.append((item.pk, opponent_name, opponent_ai_title, 
     					  win_loss, your_time, oppenent_time, item.game_type))
 
+    game_list = sorted(game_list)
+
 
     c['past_games'] = game_list
 
