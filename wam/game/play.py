@@ -77,12 +77,14 @@ def view_user_ai(request):
             c['error_message'] = 'Game timer must be an integer'
 
     # collect challenged users AI list
-    ais = UserAiTable.objects.all().filter(user_id=request.session['challenged_user'])
+    ais = UserAiTable.objects.all().filter(user_id=request.session['challenged_user'],
+                                          user_ai_game_name = request.session['game_type'])
     ais = [x.user_ai_title for x in ais]
     c['ai_list'] = ais
 
     # collect user logged in AI list
-    ais = UserAiTable.objects.all().filter(user_id=request.session['member_id'])
+    ais = UserAiTable.objects.all().filter(user_id=request.session['member_id'],
+                                           user_ai_game_name = request.session['game_type'])
     ais = [x.user_ai_title for x in ais]
     c['ai_list2'] = ais
 
